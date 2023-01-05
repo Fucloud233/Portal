@@ -89,11 +89,13 @@
     <QtUic Include="MainWindow.ui" />
     <QtMoc Include="MainWindow.h" />
     <ClCompile Include="Block.cpp" />
+    <ClCompile Include="BlockInfoOperator.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Block.h" />
+    <ClInclude Include="BlockInfoOperator.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Block\Empty.json" />
