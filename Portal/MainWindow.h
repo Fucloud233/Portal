@@ -3,6 +3,8 @@
 #include <QtWidgets/QMainWindow>
 #include "ui_MainWindow.h"
 
+// http://shouce.jb51.net/qt-beginning/15.html
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -13,4 +15,6 @@ public:
 
 private:
     Ui::MainWindowClass ui;
+
+    void testPaint();
 };
