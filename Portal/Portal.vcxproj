@@ -85,6 +85,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Map.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <QtRcc Include="MainWindow.qrc" />
     <QtUic Include="MainWindow.ui" />
@@ -97,6 +98,7 @@
   <ItemGroup>
     <ClInclude Include="Block.h" />
     <ClInclude Include="BlockInfoOperator.h" />
+    <ClInclude Include="Map.h" />
     <ClInclude Include="Matrix.h" />
   </ItemGroup>
   <ItemGroup>

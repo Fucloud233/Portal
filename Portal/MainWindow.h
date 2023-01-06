@@ -3,6 +3,9 @@
 #include <QtWidgets/QMainWindow>
 #include "ui_MainWindow.h"
 
+#include "Matrix.h"
+#include "Map.h"
+
 // http://shouce.jb51.net/qt-beginning/15.html
 
 class MainWindow : public QMainWindow
@@ -16,5 +19,8 @@ public:
 private:
     Ui::MainWindowClass ui;
 
+    Map map;
+
+    void paint();
     void testPaint();
 };

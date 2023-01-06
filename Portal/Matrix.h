@@ -4,6 +4,10 @@
 #define NULL 0
 #endif
 
+enum Direct {
+	TOP, BOTTOM, LEFT, RIGHT
+};
+
 template<class T>
 class Matrix {
 private:
@@ -15,9 +19,6 @@ private:
 	int maxW, maxH;
 
 public:
-	enum Direct {
-		TOP, BOTTOM, LEFT, RIGHT
-	};
 
 	Matrix(int width=0, int height=0, const T& elem = T());
 	Matrix(const Matrix& matrix);
@@ -30,6 +31,8 @@ public:
 
 	bool isFull();
 	bool checkIndex(int row, int col);
+
+	int bound(Direct direct);
 
 	T* operator[](int row);
 };
@@ -51,8 +54,8 @@ Matrix<T>::Matrix(int width, int height, const T& elem) {
 
 	// 分配动态内存
 	data = new T * [maxH];
-	for(int i=0;i<maxH;i++){
-		data = new T[maxW];
+	for (int i = 0; i < maxH; i++) {
+		data[i] = new T[maxW];
 	}
 
 	// 根据提供的元素初始化
@@ -71,7 +74,7 @@ Matrix<T>::Matrix(const Matrix& matrix) {
 	// 分配动态内存
 	data = new T * [maxH];
 	for (int i = 0; i < maxH; i++) {
-		data = new T[maxW];
+		data[i] = new T[maxW];
 	}
 	
 	int row, col;
@@ -143,4 +146,19 @@ T* Matrix<T>::operator[](int row) {
 	else
 		return NULL;
 }
+
+template<class T>
+int Matrix<T>::bound(Direct direct) {
+	switch (direct) {
+	case TOP:
+		return top;
+	case BOTTOM:
+		return bottom;
+	case LEFT:
+		return left;
+	case RIGHT:
+		return right;
+	}
+}
+
 

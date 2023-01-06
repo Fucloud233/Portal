@@ -7,12 +7,28 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui.setupUi(this);
 
-    testPaint();
+    //testPaint();
+    map.initial();
+
+    // 绘制函数
+    this->paint();
 }
 
 MainWindow::~MainWindow()
 {}
 
+void MainWindow::paint() {
+    // 创建容器
+    QGraphicsScene* scene = new QGraphicsScene();
+    scene->setBackgroundBrush(Qt::black);
+
+    const QList<QGraphicsItem*>& items = map.getItems();
+    for (QGraphicsItem* item : items) {
+        scene->addItem(item);
+    }
+
+    ui.graphicsView->setScene(scene);
+}
 
 // 测试函数 生成5x5的矩阵
 void MainWindow::testPaint() {
