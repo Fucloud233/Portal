@@ -5,21 +5,19 @@
 #include <QFile>
 #include <QByteArray>
 
-
 QString BlockInfoOperator::FilePath = "./Block/";
 QString BlockInfoOperator::FileName = "Blocks.json";
 
 BlockInfoOperator::BlockInfoOperator() {
-	test();
+	loadBlocks();
 }
 
-void BlockInfoOperator::test() {
-	Block* block1 = new Block("Temp", Block::FULL);
-	Block* block2 = new Block("Wood", Block::FLOOR);
-	data.insert(block1->BlockCode(), block1);
-	data.insert(block2->BlockCode(), block2);
+BlockInfoOperator::~BlockInfoOperator() {
 
 	saveBlocks();
+	for (auto it = data.begin()	; it != data.end(); it++) {
+		delete it.value();
+	}
 }
 
 bool BlockInfoOperator::loadBlocks() {
@@ -64,4 +62,14 @@ bool BlockInfoOperator::saveBlocks() {
 
 	saveFile.write(QJsonDocument(json).toJson());
 	return true;
+}
+
+// 测试函数
+void BlockInfoOperator::test() {
+	Block* block1 = new Block("Temp", Block::FULL);
+	Block* block2 = new Block("Wood", Block::FLOOR);
+	data.insert(block1->BlockCode(), block1);
+	data.insert(block2->BlockCode(), block2);
+
+	saveBlocks();
 }

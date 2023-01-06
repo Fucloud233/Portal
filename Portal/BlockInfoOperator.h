@@ -13,6 +13,7 @@ private:
 	void test();
 public:
 	BlockInfoOperator();
+	~BlockInfoOperator();
 
 	bool loadBlocks();
 	bool saveBlocks();

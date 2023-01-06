@@ -7,7 +7,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui.setupUi(this);
 
-    //testPaint();
+    testPaint();
 }
 
 MainWindow::~MainWindow()
