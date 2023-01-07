@@ -33,5 +33,6 @@ public:
 	static void setBaseBlockCodeCount(int code);
 
 	int BlockCode();
+	QString BlockName();
 };
 

@@ -1,6 +1,8 @@
 #include "MainWindow.h"
 
 #include <QGraphicsItem>
+#include <QStringList>
+#include <QStringListModel>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -12,10 +14,20 @@ MainWindow::MainWindow(QWidget *parent)
 
     // 绘制函数
     this->paint();
+    this->initalBlockInfoList();
 }
 
 MainWindow::~MainWindow()
 {}
+
+
+void MainWindow::initalBlockInfoList() {
+    //QStringListModel* namesModel = new QStringListModel(Operator.getNames());
+    //ui.BlockInfoListView->setModel(namesModel);
+    
+    ui.BlockInfoListView->setModel(Operator.getInfoItems());
+    ui.BlockInfoListView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+}
 
 void MainWindow::paint() {
     // 创建容器
@@ -27,7 +39,7 @@ void MainWindow::paint() {
         scene->addItem(item);
     }
 
-    ui.graphicsView->setScene(scene);
+    ui.MainGraphicsView->setScene(scene);
 }
 
 // 测试函数 生成5x5的矩阵
@@ -51,5 +63,5 @@ void MainWindow::testPaint() {
             scene->addItem(rects[i][j]);
         }
     }
-    ui.graphicsView->setScene(scene);
+    ui.MainGraphicsView->setScene(scene);
 }

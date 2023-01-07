@@ -70,3 +70,7 @@ void Block::setBaseBlockCodeCount(int code) {
 int Block::BlockCode() {
 	return block_code;
 }
+
+QString Block::BlockName() {
+	return block_name;
+}

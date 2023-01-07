@@ -1,12 +1,14 @@
 {
     "Blocks": [
         {
+            "block_code": 0,
             "block_name": "Temp",
-            "block_type": "FULL"
+            "block_type": 1
         },
         {
+            "block_code": 1,
             "block_name": "Wood",
-            "block_type": "FLOOR"
+            "block_type": 2
         }
     ]
 }

@@ -2,13 +2,20 @@
 
 #include "Block.h"
 
+#include <QStringList>
+#include <QStandardItemModel>
+
 class BlockInfoOperator
 {
 private:
-	QMap<int, Block*> data;
 
 	static QString FilePath;
 	static QString FileName;
+
+	static QMap<int, Block*> data;
+	static QStandardItemModel* InfoItems;
+
+	void initial();
 
 	void test();
 public:
@@ -17,5 +24,9 @@ public:
 
 	bool loadBlocks();
 	bool saveBlocks();
+
+	QStringList getNames();
+	// 得到包括图标信息的对象
+	QStandardItemModel* getInfoItems();
 };
 

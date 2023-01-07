@@ -3,8 +3,9 @@
 #include <QtWidgets/QMainWindow>
 #include "ui_MainWindow.h"
 
-#include "Matrix.h"
 #include "Map.h"
+#include "BlockInfoOperator.h"
+
 
 // http://shouce.jb51.net/qt-beginning/15.html
 
@@ -20,7 +21,9 @@ private:
     Ui::MainWindowClass ui;
 
     Map map;
+    BlockInfoOperator Operator;
 
+    void initalBlockInfoList();
     void paint();
     void testPaint();
 };
