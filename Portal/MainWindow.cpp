@@ -3,65 +3,62 @@
 #include <QGraphicsItem>
 #include <QStringList>
 #include <QStringListModel>
+#include <QtWidgets>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     ui.setupUi(this);
-
-    //testPaint();
-    map.initial();
-
-    // 绘制函数
-    this->paint();
-    this->initalBlockInfoList();
+    setupView();
 }
 
 MainWindow::~MainWindow()
 {}
 
+void MainWindow::setupView() {
+    // 创建布局
+    QFrame* frame = new QFrame();
+    QHBoxLayout* frameLayout = new QHBoxLayout(frame);
 
-void MainWindow::initalBlockInfoList() {
-    //QStringListModel* namesModel = new QStringListModel(Operator.getNames());
-    //ui.BlockInfoListView->setModel(namesModel);
-    
-    ui.BlockInfoListView->setModel(Operator.getInfoItems());
-    ui.BlockInfoListView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    // [Block] 将方块信息载入窗体
+    listView = new QListView();
+    listView->setModel(Operator.getInfoItems());
+
+    listView->setMaximumWidth(120);
+    listView->setDragEnabled(true);
+    listView->setAcceptDrops(true);
+    frameLayout->addWidget(listView);
+
+    // [Map] 将地图信息显示载入窗体
+    map.initial();
+    mapView = new MapGraphicsView(&map);
+
+    //QGraphicsScene* scene = new QGraphicsScene();
+    //scene->setBackgroundBrush(Qt::black);
+    //mapView->setScene(scene);
+
+    frameLayout->addWidget(mapView);
+
+    this->setCentralWidget(frame);
 }
 
-void MainWindow::paint() {
-    // 创建容器
-    QGraphicsScene* scene = new QGraphicsScene();
-    scene->setBackgroundBrush(Qt::black);
+//void MainWindow::paint() {
+//    // 创建容器
+//    QGraphicsScene* scene = new QGraphicsScene();
+//    scene->setBackgroundBrush(Qt::black);
+//
+//    const QList<QGraphicsItem*>& items = map.getItems();
+//    for (QGraphicsItem* item : items) {
+//        scene->addItem(item);
+//    }
+//    ui.MainGraphicsView->setAcceptDrops(true);
+//    ui.MainGraphicsView->setScene(scene);
+//}
 
-    const QList<QGraphicsItem*>& items = map.getItems();
-    for (QGraphicsItem* item : items) {
-        scene->addItem(item);
-    }
+//void MainWindow::dropEvent(QDropEvent* event) {
+//    qDebug() << "drop";
+//}
 
-    ui.MainGraphicsView->setScene(scene);
-}
-
-// 测试函数 生成5x5的矩阵
-void MainWindow::testPaint() {
-    // 创建容器
-    QGraphicsScene* scene = new QGraphicsScene();
-    scene->setBackgroundBrush(Qt::black);
-
-    // 创建矩阵 并添加
-    int len = 5;
-    int width = 40, height = 40;
-    QGraphicsRectItem*** rects;
-    rects = new QGraphicsRectItem * *[len];
-    for (int i = 0; i < len; i++) {
-        rects[i] = new QGraphicsRectItem * [len];
-        for (int j = 0; j < len; j++) {
-            rects[i][j] = new QGraphicsRectItem();
-            rects[i][j]->setRect(i * width, j * height, width, height);
-            rects[i][j]->setBrush(Qt::gray);
-            rects[i][j]->setFlag(QGraphicsItem::ItemIsMovable);
-            scene->addItem(rects[i][j]);
-        }
-    }
-    ui.MainGraphicsView->setScene(scene);
-}
+//void MainWindow::mousePressEvent(QMouseEvent* event) {
+//    qDebug() << "press";
+//}
