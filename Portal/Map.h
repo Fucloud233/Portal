@@ -6,12 +6,11 @@
 
 class Map {
 private:
-	static int BlockSize;
 	Matrix<Block> data;
 
 public:
 	Map();
 
 	void initial();
-	QList<QGraphicsItem*> getItems();
+	QList<QGraphicsItem*> getItems(int BlockSize = 32);
 };

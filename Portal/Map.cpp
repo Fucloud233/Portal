@@ -3,8 +3,6 @@
 #include <QBrush>
 #include <QPen>
 
-int Map::BlockSize = 32;
-
 Map::Map() {
 
 }
@@ -14,8 +12,7 @@ void Map::initial() {
 	data = Matrix<Block>(size, size, Block());
 }
 
-
-QList<QGraphicsItem*> Map::getItems() {
+QList<QGraphicsItem*> Map::getItems(int BlockSize) {
 	QList<QGraphicsItem*> items;
 	for (int i = data.bound(Direct::TOP); i != data.bound(Direct::BOTTOM); i++) {
 		for (int j = data.bound(Direct::LEFT); j != data.bound(Direct::RIGHT); j++) {
