@@ -8,15 +8,39 @@
 QString BlockInfoOperator::FilePath = "./Block/";
 QString BlockInfoOperator::FileName = "Blocks.json";
 
+QMap<int, Block*> BlockInfoOperator::data = QMap<int, Block*>();
+BlockInfoModel* BlockInfoOperator::infoModel = NULL;
+
 BlockInfoOperator::BlockInfoOperator() {
-	loadBlocks();
+	// 初始化数据成员
+	initial();
 }
 
 BlockInfoOperator::~BlockInfoOperator() {
 
 	saveBlocks();
-	for (auto it = data.begin()	; it != data.end(); it++) {
-		delete it.value();
+	// 当数据成员为static时 不需要特意删除
+	//for (auto it = data.begin()	; it != data.end(); it++) {
+	//	delete it.value();
+	//}
+}
+
+void BlockInfoOperator::initial() {
+	if (data.isEmpty()) {
+		loadBlocks();
+	}
+
+	if (infoModel == NULL) {
+
+		this->infoModel = new BlockInfoModel();
+		
+		for (Block* block : data) {
+			//QString iconPath = FilePath + block->BlockName() + ".png";
+			//QIcon icon = QIcon(iconPath);
+			//QStandardItem* item = new QStandardItem(icon, block->BlockName());
+			
+			this->infoModel->addBlockInfo(block);
+		}
 	}
 }
 
@@ -73,3 +97,28 @@ void BlockInfoOperator::test() {
 
 	saveBlocks();
 }
+
+
+Block* BlockInfoOperator::value(int blockCode) {
+	if (data.find(blockCode) != data.end()) {
+		return data[blockCode];
+	}
+	else {
+		return NULL;
+	}
+}
+
+QStringList BlockInfoOperator::getNames() {
+	QStringList names;
+	for (Block* block : data) {
+		names.append(block->BlockName());
+	}
+
+	return names;
+}
+
+
+BlockInfoModel* BlockInfoOperator::getInfoModel() {
+	return infoModel;
+}
+

@@ -1,55 +1,62 @@
 #include "MainWindow.h"
 
 #include <QGraphicsItem>
+#include <QStringList>
+#include <QStringListModel>
+#include <QtWidgets>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     ui.setupUi(this);
-
-    //testPaint();
-    map.initial();
-
-    // 绘制函数
-    this->paint();
+    setupView();
+    setWindowTitle("Map Editor");
 }
 
 MainWindow::~MainWindow()
 {}
 
-void MainWindow::paint() {
-    // 创建容器
-    QGraphicsScene* scene = new QGraphicsScene();
-    scene->setBackgroundBrush(Qt::black);
+void MainWindow::setupView() {
 
-    const QList<QGraphicsItem*>& items = map.getItems();
-    for (QGraphicsItem* item : items) {
-        scene->addItem(item);
-    }
+    // [Block] 将方块信息载入窗体
+    listView = new QListView();
+    listView->setModel(Operator.getInfoModel());
 
-    ui.graphicsView->setScene(scene);
+    listView->setMaximumWidth(120);
+    listView->setDragDropMode(QAbstractItemView::DragOnly);
+
+    // [Map] 将地图信息显示载入窗体
+    mapView = new MapGraphicsView(&map, &Operator);
+
+    //QGraphicsScene* scene = new QGraphicsScene();
+    //scene->setBackgroundBrush(Qt::black);
+    //mapView->setScene(scene);
+    
+    // 创建布局
+    QFrame* frame = new QFrame();
+    QHBoxLayout* frameLayout = new QHBoxLayout(frame);
+    frameLayout->addWidget(listView);
+    frameLayout->addWidget(mapView);
+    this->setCentralWidget(frame);
 }
 
-// 测试函数 生成5x5的矩阵
-void MainWindow::testPaint() {
-    // 创建容器
-    QGraphicsScene* scene = new QGraphicsScene();
-    scene->setBackgroundBrush(Qt::black);
+//void MainWindow::paint() {
+//    // 创建容器
+//    QGraphicsScene* scene = new QGraphicsScene();
+//    scene->setBackgroundBrush(Qt::black);
+//
+//    const QList<QGraphicsItem*>& items = map.getItems();
+//    for (QGraphicsItem* item : items) {
+//        scene->addItem(item);
+//    }
+//    ui.MainGraphicsView->setAcceptDrops(true);
+//    ui.MainGraphicsView->setScene(scene);
+//}
 
-    // 创建矩阵 并添加
-    int len = 5;
-    int width = 40, height = 40;
-    QGraphicsRectItem*** rects;
-    rects = new QGraphicsRectItem * *[len];
-    for (int i = 0; i < len; i++) {
-        rects[i] = new QGraphicsRectItem * [len];
-        for (int j = 0; j < len; j++) {
-            rects[i][j] = new QGraphicsRectItem();
-            rects[i][j]->setRect(i * width, j * height, width, height);
-            rects[i][j]->setBrush(Qt::gray);
-            rects[i][j]->setFlag(QGraphicsItem::ItemIsMovable);
-            scene->addItem(rects[i][j]);
-        }
-    }
-    ui.graphicsView->setScene(scene);
-}
+//void MainWindow::dropEvent(QDropEvent* event) {
+//    qDebug() << "drop";
+//}
+
+//void MainWindow::mousePressEvent(QMouseEvent* event) {
+//    qDebug() << "press";
+//}

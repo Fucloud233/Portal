@@ -1,4 +1,6 @@
 #pragma once
+
+#include <QPixmap>
 #include <QString>
 #include <QJsonObject>
 
@@ -17,11 +19,14 @@ protected:
 
 	QString block_name;
 	BlockType block_type;
+	QPixmap block_img;
+	QString block_img_path;
+
 	int block_code;
 
 public:
 	Block();
-	Block(const QString& name, BlockType type);
+	Block(const QString& name, BlockType type, QString imgPath = QString());
 
 	// 将对象存储为json
 	virtual void write(QJsonObject& json);
@@ -33,5 +38,7 @@ public:
 	static void setBaseBlockCodeCount(int code);
 
 	int BlockCode();
+	QString BlockName();
+	QPixmap BlockImg();
 };
-
+Q_DECLARE_METATYPE(Block)

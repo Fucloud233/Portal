@@ -3,8 +3,12 @@
 #include <QtWidgets/QMainWindow>
 #include "ui_MainWindow.h"
 
-#include "Matrix.h"
 #include "Map.h"
+#include "BlockInfoOperator.h"
+#include "MapGraphicsView.h"
+
+#include <QListView>
+
 
 // http://shouce.jb51.net/qt-beginning/15.html
 
@@ -19,8 +23,17 @@ public:
 private:
     Ui::MainWindowClass ui;
 
-    Map map;
+    MapGraphicsView* mapView;
+    QListView* listView;
 
-    void paint();
-    void testPaint();
+    Map map;
+    BlockInfoOperator Operator;
+    
+    void setupView();
+    //void paint();
+    //void testPaint();
+    
+private slots:
+    //void dropEvent(QDropEvent* event);
+    //void mousePressEvent(QMouseEvent* event);
 };
