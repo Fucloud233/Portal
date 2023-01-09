@@ -32,9 +32,11 @@ public:
 	bool isFull();
 	bool checkIndex(int row, int col) const;
 
+	//T& value(int row, int col);
 	int bound(Direct direct);
 
 	T* operator[](int row);
+	Matrix<T>& operator=(const Matrix<T>& matrix);
 };
 
 template<class T>
@@ -50,7 +52,7 @@ template<class T>
 Matrix<T>::Matrix(int width, int height, const T& elem) {
 	maxW = maxH = 50;
 
-	top = 0, bottom = height, left = 0,right = width;
+	top = 0, bottom = height, left = 0, right = width;
 
 	// 分配动态内存
 	data = new T * [maxH];
@@ -68,6 +70,8 @@ Matrix<T>::Matrix(int width, int height, const T& elem) {
 
 template<class T>
 Matrix<T>::Matrix(const Matrix& matrix) {
+	maxW = matrix.maxW, maxH = matrix.maxH;
+
 	top = matrix.top, bottom = matrix.bottom;
 	left = matrix.left, right = matrix.right;
 
@@ -80,8 +84,8 @@ Matrix<T>::Matrix(const Matrix& matrix) {
 	int row, col;
 	for (int i = top; i < bottom; i++) {
 		for (int j = left; j < right; j++) {
-			row = i > 0 ? i : i + maxW;
-			col = j > 0 ? j : j + maxH;
+			row = i >= 0 ? i : i + maxW;
+			col = j >= 0 ? j : j + maxH;
 			data[row][col] = matrix.data[row][col];
 		}
 	}
@@ -92,7 +96,6 @@ Matrix<T>::~Matrix() {
 	for (int i = 0; i < maxH; i++) {
 		delete[] data[i];
 	}
-
 	delete[] data;
 }
 
@@ -106,7 +109,7 @@ bool Matrix<T>::extend(Direct direct, const T& elem) {
 		int row = direct & 1 ? right++ : left--;
 
 		for (int i = left; i < right; i++) {
-			int index = i > 0 ? i : i + maxW;
+			int index = i >= 0 ? i : i + maxW;
 			data[row][index] = elem;
 		}
 	}
@@ -114,7 +117,7 @@ bool Matrix<T>::extend(Direct direct, const T& elem) {
 		int col = direct & 1 ? bottom++ : top--;
 
 		for (int i = top; i < bottom; i++) {
-			int index = i > 0 ? i : i + maxH;
+			int index = i >= 0 ? i : i + maxH;
 			data[index][col] = elem;
 		}
 	}
@@ -147,6 +150,11 @@ T* Matrix<T>::operator[](int row) {
 		return NULL;
 }
 
+//template<class T>
+//T& Matrix<T>::value(int row, int col) {
+//	return data[row][col];
+//}
+
 template<class T>
 int Matrix<T>::bound(Direct direct) {
 	switch (direct) {
@@ -161,4 +169,34 @@ int Matrix<T>::bound(Direct direct) {
 	}
 }
 
+template<class T>
+Matrix<T>& Matrix<T>::operator=(const Matrix<T>& matrix) {
+	if (this == &matrix) {
+		return *this;
+	}
 
+	maxW = matrix.maxW, maxH = matrix.maxH;
+
+	top = matrix.top, bottom = matrix.bottom;
+	left = matrix.left, right = matrix.right;
+	
+	this->~Matrix();
+
+	// 分配动态内存
+	data = new T * [maxH];
+	for (int i = 0; i < maxH; i++) {
+		data[i] = new T[maxW];
+	}
+
+	int row, col;
+	for (int i = top; i < bottom; i++) {
+		for (int j = left; j < right; j++) {
+			row = i >= 0 ? i : i + maxW;
+			col = j >= 0 ? j : j + maxH;
+
+			this->data[row][col] = matrix.data[row][col];
+		}
+	}
+
+	return *this;
+}
