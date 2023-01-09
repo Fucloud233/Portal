@@ -23,4 +23,5 @@ private:
 	void testPaint();
 
 	void dragMoveEvent(QDragMoveEvent* event);
+	void dropEvent(QDropEvent* event);
 };

@@ -13,6 +13,8 @@ MapGraphicsView::MapGraphicsView(Map* map, QWidget* parent)
 
     // [HighLight]
     highlight_rect = new QGraphicsRectItem();
+    highlight_rect->setBrush(Qt::blue);
+    highlight_rect->setRect(0, 0, BlockSize, BlockSize);
     highlight_rect->setVisible(false);
     scene->addItem(highlight_rect);
 
@@ -58,13 +60,21 @@ void MapGraphicsView::testPaint() {
 
 
 void MapGraphicsView::dragMoveEvent(QDragMoveEvent* event) {
-    highlight_rect->setVisible(true);
-
     QPointF p = this->mapToScene(event->pos());
-    //qDebug() << p.x()<<p.y();
-    int x = p.x() - int(p.x()) % BlockSize;
-    int y = p.y() - int(p.y()) % BlockSize;
+    int x = p.x() / BlockSize, y = p.y() / BlockSize;
 
-    highlight_rect->setRect(x, y, BlockSize, BlockSize);
-    highlight_rect->setBrush(Qt::blue);
+    if (!map->checkPos(x, y)) {
+        highlight_rect->setVisible(false);
+        return;
+    }
+
+    //qDebug() << x<<y;
+
+    highlight_rect->setPos(x * BlockSize, y * BlockSize);
+    highlight_rect->setVisible(true);
+}
+
+
+void MapGraphicsView::dropEvent(QDropEvent* event) {
+    highlight_rect->setVisible(false);
 }

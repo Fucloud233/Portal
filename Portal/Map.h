@@ -12,5 +12,8 @@ public:
 	Map();
 
 	void initial();
+
+	bool checkPos(int x, int y) const;
 	QList<QGraphicsItem*> getItems(int BlockSize = 32);
+
 };

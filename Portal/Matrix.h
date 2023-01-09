@@ -30,7 +30,7 @@ public:
 	bool extend(Direct direct, const T& elem = T());
 
 	bool isFull();
-	bool checkIndex(int row, int col);
+	bool checkIndex(int row, int col) const;
 
 	int bound(Direct direct);
 
@@ -132,9 +132,9 @@ bool Matrix<T>::isFull() {
 }
 
 template<class T>
-bool Matrix<T>::checkIndex(int row, int col) {
-	bool flag1 = top + row < bottom;
-	bool flag2 = left + col < right;
+bool Matrix<T>::checkIndex(int row, int col) const {
+	bool flag1 = top <= row && row < bottom;
+	bool flag2 = left <= col && col < right;
 	
 	return flag1 && flag2;
 }

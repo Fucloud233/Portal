@@ -27,3 +27,7 @@ QList<QGraphicsItem*> Map::getItems(int BlockSize) {
 	
 	return items;
 }
+
+bool Map::checkPos(int x, int y) const {
+	return data.checkIndex(y, x);
+}
