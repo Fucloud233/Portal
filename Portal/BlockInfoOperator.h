@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Block.h"
+#include "BlockInfoModel.h"
 
 #include <QStringList>
 #include <QStandardItemModel>
@@ -13,7 +14,7 @@ private:
 	static QString FileName;
 
 	static QMap<int, Block*> data;
-	static QStandardItemModel* InfoItems;
+	static BlockInfoModel* infoModel;
 
 	void initial();
 
@@ -25,8 +26,10 @@ public:
 	bool loadBlocks();
 	bool saveBlocks();
 
+	Block* value(int blockCode);
+
 	QStringList getNames();
 	// 得到包括图标信息的对象
-	QStandardItemModel* getInfoItems();
+	BlockInfoModel* getInfoModel();
 };
 

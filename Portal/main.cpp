@@ -19,8 +19,18 @@ void OperatorTest() {
     system("pause");
 }
 
+void MatrixTest() {
+    Matrix<int> matrix(10, 10, 0);
+    matrix.modify(1, 2, 3);
+    qDebug() << matrix[1][2];
+    system("pause");
+}
+
 int main(int argc, char *argv[])
 {
+    //MatrixTest();
+    //return 0;
+
     QApplication a(argc, argv);
     MainWindow w;
     w.show();

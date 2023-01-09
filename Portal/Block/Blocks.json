@@ -2,11 +2,13 @@
     "Blocks": [
         {
             "block_code": 0,
+            "block_img": "",
             "block_name": "Temp",
             "block_type": 1
         },
         {
             "block_code": 1,
+            "block_img": "./Block/Wood.png",
             "block_name": "Wood",
             "block_type": 2
         }

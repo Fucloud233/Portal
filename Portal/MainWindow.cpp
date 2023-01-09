@@ -20,21 +20,17 @@ void MainWindow::setupView() {
 
     // [Block] 将方块信息载入窗体
     listView = new QListView();
-    listView->setModel(Operator.getInfoItems());
+    listView->setModel(Operator.getInfoModel());
 
-    //listView->setViewMode(QListView::IconMode);
     listView->setMaximumWidth(120);
-    listView->setDragEnabled(true);
-
+    listView->setDragDropMode(QAbstractItemView::DragOnly);
 
     // [Map] 将地图信息显示载入窗体
-    map.initial();
-    mapView = new MapGraphicsView(&map);
+    mapView = new MapGraphicsView(&map, &Operator);
 
     //QGraphicsScene* scene = new QGraphicsScene();
     //scene->setBackgroundBrush(Qt::black);
     //mapView->setScene(scene);
-    
     
     // 创建布局
     QFrame* frame = new QFrame();

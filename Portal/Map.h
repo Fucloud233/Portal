@@ -6,14 +6,24 @@
 
 class Map {
 private:
-	Matrix<Block> data;
+	Matrix<Block*> data;
+	Matrix<QGraphicsItem*> items;
+	//QList<QGraphicsItem*> itemsList;
+
+	int BlockSize;
 
 public:
 	Map();
+	~Map();
 
-	void initial();
+	void initial(int BlockSize);
+	
+	bool modify(int x, int y, Block* block);
+	
+	QGraphicsItem* getItem(int x, int y);
 
 	bool checkPos(int x, int y) const;
-	QList<QGraphicsItem*> getItems(int BlockSize = 32);
+	QList<QGraphicsItem*> getItems();
 
+	
 };

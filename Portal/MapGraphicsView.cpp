@@ -2,9 +2,13 @@
 
 int MapGraphicsView::BlockSize = 32;
 
-MapGraphicsView::MapGraphicsView(Map* map, QWidget* parent)
+MapGraphicsView::MapGraphicsView(Map* map, BlockInfoOperator* Operator, QWidget* parent)
     : QGraphicsView(parent) {
+
+    this->Operator = Operator;
+
     this->map = map;
+    map->initial(BlockSize);
 
     // initial the scence
     scene = new QGraphicsScene();
@@ -12,25 +16,22 @@ MapGraphicsView::MapGraphicsView(Map* map, QWidget* parent)
     setScene(scene);
 
     // [HighLight]
-    highlight_rect = new QGraphicsRectItem();
-    highlight_rect->setBrush(Qt::blue);
-    highlight_rect->setRect(0, 0, BlockSize, BlockSize);
-    highlight_rect->setVisible(false);
-    scene->addItem(highlight_rect);
+    highlightArea = new QGraphicsPixmapItem();
+    highlightArea->setVisible(false);
+    scene->addItem(highlightArea);
 
     // [Block]
-    paint();
+    intial();
     //setAcceptDrops(true);
     //testPaint();
 }
 
-void MapGraphicsView::paint() {
+void MapGraphicsView::intial() {
+    const QList<QGraphicsItem*>& items = map->getItems();
 
-    const QList<QGraphicsItem*>& items = map->getItems(BlockSize);
     for (QGraphicsItem* item : items) {
         scene->addItem(item);
     }
-
 }
 
 // 测试函数 生成5x5的矩阵
@@ -64,17 +65,41 @@ void MapGraphicsView::dragMoveEvent(QDragMoveEvent* event) {
     int x = p.x() / BlockSize, y = p.y() / BlockSize;
 
     if (!map->checkPos(x, y)) {
-        highlight_rect->setVisible(false);
+        highlightArea->setVisible(false);
         return;
     }
 
     //qDebug() << x<<y;
+    QByteArray blockData = event->mimeData()->imageData().toByteArray();
+    QDataStream dataStream(&blockData, QIODevice::ReadOnly);
+    QPixmap img;
+    dataStream >> img;
 
-    highlight_rect->setPos(x * BlockSize, y * BlockSize);
-    highlight_rect->setVisible(true);
+
+    highlightArea->setPixmap(img);
+    highlightArea->setScale(BlockSize/img.width());
+    highlightArea->setPos(x * BlockSize, y * BlockSize);
+    highlightArea->setVisible(true);
 }
 
 
 void MapGraphicsView::dropEvent(QDropEvent* event) {
-    highlight_rect->setVisible(false);
+    //QByteArray blockData = event->mimeData()->data("image/x-block-info");
+    //QDataStream dataStream(&blockData, QIODevice::ReadOnly);
+    //   
+    //QVariant v;
+    //dataStream >> v;
+    //Block* block = v.value<Block*>();
+        
+    // 得到对应坐标
+    int blockCode = event->mimeData()->text().toInt();
+
+    QPointF p = this->mapToScene(event->pos());
+    int x = p.x() / BlockSize, y = p.y() / BlockSize;
+
+    if (map->modify(x, y, Operator->value(blockCode))) {
+        scene->addItem(map->getItem(x, y));
+    }
+
+    highlightArea->setVisible(false);
 }

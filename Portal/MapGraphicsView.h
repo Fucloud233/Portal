@@ -2,24 +2,28 @@
 
 #include "Map.h"
 
+#include "BlockInfoOperator.h"
+
 #include <QGraphicsView>
 #include <QtWidgets>
 
 class MapGraphicsView : public QGraphicsView {
 	Q_OBJECT
 public:
-	explicit MapGraphicsView(Map* map, QWidget* parent = nullptr);
+	explicit MapGraphicsView(Map* map, BlockInfoOperator* Operator, QWidget* parent = nullptr);
 
 private:
 	static int BlockSize;
 
+	BlockInfoOperator* Operator;
+
 	Map* map;
 	QGraphicsScene* scene;
 
-	QGraphicsRectItem* highlight_rect;
+	QGraphicsPixmapItem* highlightArea;
 	
 	
-	void paint();
+	void intial();
 	void testPaint();
 
 	void dragMoveEvent(QDragMoveEvent* event);

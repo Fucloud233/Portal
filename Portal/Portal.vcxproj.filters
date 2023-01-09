@@ -58,6 +58,9 @@
     <ClCompile Include="MapGraphicsView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BlockInfoModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Block.h">
@@ -77,9 +80,15 @@
     <None Include="Block\Empty.json">
       <Filter>Resource Files\Block</Filter>
     </None>
+    <None Include="Block\Blocks.json">
+      <Filter>Resource Files\Block</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="MapGraphicsView.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="BlockInfoModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
