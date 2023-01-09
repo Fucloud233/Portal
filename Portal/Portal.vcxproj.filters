@@ -24,6 +24,9 @@
     <Filter Include="Resource Files\Block">
       <UniqueIdentifier>{d847c8b0-8c71-4ea0-bbfd-00eaac18436c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\MapEditor">
+      <UniqueIdentifier>{19a7fbd0-6bde-4023-9f4c-f3aa84e1f5ad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="MainWindow.qrc">
@@ -35,31 +38,34 @@
     <QtMoc Include="MainWindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <ClCompile Include="MainWindow.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Block.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BlockInfoOperator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Matrix.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Map.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MapGraphicsView.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Block.cpp">
+      <Filter>Source Files\MapEditor</Filter>
     </ClCompile>
     <ClCompile Include="BlockInfoModel.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\MapEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="BlockInfoOperator.cpp">
+      <Filter>Source Files\MapEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="MainWindow.cpp">
+      <Filter>Source Files\MapEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Source Files\MapEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="MapGraphicsView.cpp">
+      <Filter>Source Files\MapEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsBlockItem.cpp">
+      <Filter>Source Files\MapEditor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +79,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Map.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsBlockItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

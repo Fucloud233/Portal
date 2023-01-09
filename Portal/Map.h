@@ -2,7 +2,9 @@
 
 #include "Matrix.h"
 #include "Block.h"
+
 #include <QGraphicsItem>
+
 
 class Map {
 private:
@@ -10,20 +12,25 @@ private:
 	Matrix<QGraphicsItem*> items;
 	//QList<QGraphicsItem*> itemsList;
 
-	int BlockSize;
+	int blockSize;
 
 public:
 	Map();
 	~Map();
 
-	void initial(int BlockSize);
+	void initial(int blockSize);
 	
 	bool modify(int x, int y, Block* block);
-	
-	QGraphicsItem* getItem(int x, int y);
+	bool modify(const QPoint& point, Block* block);
+
+	bool translatePos(QPoint& point) const ;
 
 	bool checkPos(int x, int y) const;
-	QList<QGraphicsItem*> getItems();
+	bool checkPos(const QPoint& point) const;
 
-	
+	int BlockSize() const ;
+
+	QGraphicsItem* getItem(int x, int y);
+	QGraphicsItem* getItem(const QPoint& point);
+	QList<QGraphicsItem*> getItems();
 };

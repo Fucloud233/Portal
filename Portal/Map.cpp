@@ -1,5 +1,7 @@
 #include "Map.h"
 
+#include "GraphicsBlockItem.h"
+
 #include <QBrush>
 #include <QPen>
 
@@ -7,8 +9,8 @@ Map::Map() {
 
 }
 
-void Map::initial(int BlockSize) {
-	this->BlockSize = BlockSize;
+void Map::initial(int blockSize) {
+	this->blockSize = blockSize;
 
 	int size = 10;
 	data = Matrix<Block* >(10, 10, NULL);
@@ -18,7 +20,7 @@ void Map::initial(int BlockSize) {
 		for (int j = data.bound(Direct::LEFT); j != data.bound(Direct::RIGHT); j++) {
 			// 创建item对象
 			QGraphicsRectItem* item = new QGraphicsRectItem();
-			item->setRect(i * BlockSize, j * BlockSize, BlockSize, BlockSize);
+			item->setRect(j * blockSize, i * blockSize, blockSize, blockSize);
 			item->setPen(QPen(Qt::white, 1.5));
 
 			//item->setBrush(Qt::gray);
@@ -34,26 +36,36 @@ Map::~Map() {
 
 }
 
+bool Map::modify(const QPoint& point, Block* block) {
+	return modify(point.x(), point.y(), block);
+}
+
 bool Map::modify(int x, int y, Block* block) {
 	if (!data.checkIndex(y, x)) {
 		return false;
-	}
-
-	data[y][x] = block;
+	}    
+	
+	// 创建对应编号
+	GraphicsBlockItem* item = new GraphicsBlockItem(QPoint(x, y), block->BlockImg(), this);
+	item->setFlag(QGraphicsItem::ItemIsMovable);
 
 	delete items[y][x];
-	QGraphicsPixmapItem* item = new QGraphicsPixmapItem();
-	item->setPos(x * BlockSize, y * BlockSize);
-	item->setPixmap(block->BlockImg());
-	item->setScale(BlockSize / block->BlockImg().width());
 	items[y][x] = item;
+	data[y][x] = block;
 
 	return true;
 }
 
+int Map::BlockSize() const {
+	return blockSize;
+}
 
 QGraphicsItem* Map::getItem(int x, int y) {
 	return items[y][x];
+}
+
+QGraphicsItem* Map::getItem(const QPoint& point) {
+	return items[point.y()][point.x()];
 }
 
 QList<QGraphicsItem*> Map::getItems() {
@@ -70,4 +82,15 @@ QList<QGraphicsItem*> Map::getItems() {
 
 bool Map::checkPos(int x, int y) const {
 	return data.checkIndex(y, x);
+}
+
+bool Map::checkPos(const QPoint& p) const {
+	return data.checkIndex(p.y(), p.x());
+}
+
+bool Map::translatePos(QPoint& point) const {
+	point.setX(point.x() / blockSize);
+	point.setY(point.y() / blockSize);
+
+	return this->checkPos(point);
 }

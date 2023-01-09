@@ -6,7 +6,6 @@ MapGraphicsView::MapGraphicsView(Map* map, BlockInfoOperator* Operator, QWidget*
     : QGraphicsView(parent) {
 
     this->Operator = Operator;
-
     this->map = map;
     map->initial(BlockSize);
 
@@ -16,7 +15,7 @@ MapGraphicsView::MapGraphicsView(Map* map, BlockInfoOperator* Operator, QWidget*
     setScene(scene);
 
     // [HighLight]
-    highlightArea = new QGraphicsPixmapItem();
+    highlightArea = new GraphicsBlockItem();
     highlightArea->setVisible(false);
     scene->addItem(highlightArea);
 
@@ -61,44 +60,39 @@ void MapGraphicsView::testPaint() {
 
 
 void MapGraphicsView::dragMoveEvent(QDragMoveEvent* event) {
-    QPointF p = this->mapToScene(event->pos());
-    int x = p.x() / BlockSize, y = p.y() / BlockSize;
-
-    if (!map->checkPos(x, y)) {
+    // 将坐标进行转换
+    QPoint p = mapToScene(event->pos()).toPoint();
+    if (!map->translatePos(p)) {
         highlightArea->setVisible(false);
         return;
     }
 
     //qDebug() << x<<y;
+
     QByteArray blockData = event->mimeData()->imageData().toByteArray();
     QDataStream dataStream(&blockData, QIODevice::ReadOnly);
     QPixmap img;
     dataStream >> img;
 
-
     highlightArea->setPixmap(img);
     highlightArea->setScale(BlockSize/img.width());
-    highlightArea->setPos(x * BlockSize, y * BlockSize);
+    highlightArea->setPos(p);
     highlightArea->setVisible(true);
 }
 
 
 void MapGraphicsView::dropEvent(QDropEvent* event) {
-    //QByteArray blockData = event->mimeData()->data("image/x-block-info");
-    //QDataStream dataStream(&blockData, QIODevice::ReadOnly);
-    //   
-    //QVariant v;
-    //dataStream >> v;
-    //Block* block = v.value<Block*>();
-        
-    // 得到对应坐标
+    // 将坐标进行转换
+    QPoint p = mapToScene(event->pos()).toPoint();
+    if (!map->translatePos(p))
+        return;
+
+    // 得到编号
     int blockCode = event->mimeData()->text().toInt();
 
-    QPointF p = this->mapToScene(event->pos());
-    int x = p.x() / BlockSize, y = p.y() / BlockSize;
-
-    if (map->modify(x, y, Operator->value(blockCode))) {
-        scene->addItem(map->getItem(x, y));
+    scene->removeItem(map->getItem(p));
+    if (map->modify(p, Operator->value(blockCode))) {
+        scene->addItem(map->getItem(p));
     }
 
     highlightArea->setVisible(false);

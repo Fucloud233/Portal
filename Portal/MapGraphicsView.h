@@ -3,6 +3,7 @@
 #include "Map.h"
 
 #include "BlockInfoOperator.h"
+#include "GraphicsBlockItem.h"
 
 #include <QGraphicsView>
 #include <QtWidgets>
@@ -19,9 +20,7 @@ private:
 
 	Map* map;
 	QGraphicsScene* scene;
-
-	QGraphicsPixmapItem* highlightArea;
-	
+	GraphicsBlockItem* highlightArea;
 	
 	void intial();
 	void testPaint();
