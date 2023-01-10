@@ -70,10 +70,8 @@ void Block::read(const QJsonObject& json) {
 	block_img = QPixmap(block_img_path);
 }
 
-
 void Block::loadInfo() {
 }
-
 
 void Block::setBaseBlockCodeCount(int code) {
 	BaseBlockCode = code;

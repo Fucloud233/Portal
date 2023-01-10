@@ -1,11 +1,14 @@
 #include "Map.h"
 
-#include "GraphicsBlockItem.h"
-
 #include <QBrush>
 #include <QPen>
+#include <QPainter>
 
 Map::Map() {
+	blockSize = 0;
+}
+
+Map::~Map() {
 
 }
 
@@ -14,26 +17,22 @@ void Map::initial(int blockSize) {
 
 	int size = 10;
 	data = Matrix<Block* >(10, 10, NULL);
-	items = Matrix<QGraphicsItem*>(10, 10, NULL);
+	items = Matrix<GraphicsBlockItem*>(10, 10, NULL);
+
+	QPixmap orignImg(32, 32);
+	orignImg.fill(Qt::transparent);
+
+	// 绘制初始化图形
+	QPainter painter(&orignImg);
+	painter.setPen(QPen(Qt::gray, 1.5));
+	painter.drawRect(0, 0, blockSize , blockSize);
 
 	for (int i = data.bound(Direct::TOP); i != data.bound(Direct::BOTTOM); i++) {
 		for (int j = data.bound(Direct::LEFT); j != data.bound(Direct::RIGHT); j++) {
 			// 创建item对象
-			QGraphicsRectItem* item = new QGraphicsRectItem();
-			item->setRect(j * blockSize, i * blockSize, blockSize, blockSize);
-			item->setPen(QPen(Qt::white, 1.5));
-
-			//item->setBrush(Qt::gray);
-			//item->setFlag(QGraphicsItem::ItemIsMovable);
-
-			// 将对象放入存储
-			items[i][j] = item;
+			items[i][j] = new GraphicsBlockItem(j, i, orignImg, this);
 		}
 	}
-}
-
-Map::~Map() {
-
 }
 
 bool Map::modify(const QPoint& point, Block* block) {
@@ -46,7 +45,7 @@ bool Map::modify(int x, int y, Block* block) {
 	}    
 	
 	// 创建对应编号
-	GraphicsBlockItem* item = new GraphicsBlockItem(QPoint(x, y), block->BlockImg(), this);
+	GraphicsBlockItem* item = new GraphicsBlockItem(x, y, block->BlockImg(), this);
 	item->setFlag(QGraphicsItem::ItemIsMovable);
 
 	delete items[y][x];
@@ -56,20 +55,45 @@ bool Map::modify(int x, int y, Block* block) {
 	return true;
 }
 
+bool Map::swap(const QPoint& source, const QPoint& target) {
+	return this->swap(source.x(), source.y(), target.x(), target.y());
+}
+
+bool Map::swap(int s_x, int s_y, int t_x, int t_y) {
+	// 判断Pos是否越界
+	if (!data.checkIndex(s_y, s_x) || !data.checkIndex(t_y, t_x)) {
+		return false;
+	}
+	
+	// 判断移动是否满足情况
+	if (data[s_y][s_x] == NULL) {
+		return false;
+	}
+
+	// 这里调用的是基类的函数
+	items[s_y][s_x]->setPos(t_x, t_y);
+	items[t_y][t_x]->setPos(s_x, s_y);
+	items.swap(s_y, s_x, t_y, t_x);
+
+	data.swap(s_y, s_x, t_y, t_x);
+
+	return true;
+}
+
 int Map::BlockSize() const {
 	return blockSize;
 }
 
-QGraphicsItem* Map::getItem(int x, int y) {
+GraphicsBlockItem* Map::getItem(int x, int y) const{
 	return items[y][x];
 }
 
-QGraphicsItem* Map::getItem(const QPoint& point) {
+GraphicsBlockItem* Map::getItem(const QPoint& point) const {
 	return items[point.y()][point.x()];
 }
 
-QList<QGraphicsItem*> Map::getItems() {
-	QList<QGraphicsItem*> itemsList;
+QList<GraphicsBlockItem*> Map::getItems() {
+	QList<GraphicsBlockItem*> itemsList;
 
 	for (int i = items.bound(Direct::TOP); i != items.bound(Direct::BOTTOM); i++) {
 		for (int j = items.bound(Direct::LEFT); j != items.bound(Direct::RIGHT); j++) {
@@ -86,6 +110,18 @@ bool Map::checkPos(int x, int y) const {
 
 bool Map::checkPos(const QPoint& p) const {
 	return data.checkIndex(p.y(), p.x());
+}
+
+bool  Map::checkX(int x) const {
+	return data.checkIndex(data.bound(Direct::TOP), x);
+}
+bool  Map::checkY(int y) const {
+	return data.checkIndex(y, data.bound(Direct::LEFT));
+}
+
+
+bool Map::isNULL(const QPoint& point) const {
+	return data[point.y()][point.x()] == NULL;
 }
 
 bool Map::translatePos(QPoint& point) const {

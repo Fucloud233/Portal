@@ -3,21 +3,26 @@
 #include <QRect>
 #include <QPixmap>
 
-GraphicsBlockItem::GraphicsBlockItem() {
-	this->blockSize = 32;
-	this->map = NULL;
+GraphicsBlockItem::GraphicsBlockItem(Map* map) :
+	QGraphicsPixmapItem(nullptr) {
+	
+	setMap(map);
 }
 
-GraphicsBlockItem::GraphicsBlockItem(const QPoint& index, const QPixmap& img, const Map* map) :
-	QGraphicsPixmapItem(img, nullptr) {
-	this->blockSize = map->BlockSize();
+GraphicsBlockItem::GraphicsBlockItem(int x, int y, const QPixmap& img, Map* map) :
+	QGraphicsPixmapItem(nullptr) {
+	
+	setMap(map);
+	setImg(img);
+	this->setPos(x, y);
+}
 
+GraphicsBlockItem::GraphicsBlockItem(const QPoint& index, const QPixmap& img, Map* map) :
+	QGraphicsPixmapItem(nullptr) {
+
+	setMap(map);
+	setImg(img);
 	this->setPos(index);
-
-	if (!img.isNull())
-		this->setScale(blockSize / img.width());
-
-	this->map = map;
 }
 
 //GraphicsBlockItem::GraphicsBlockItem(const QRect& rect, const QPixmap& img, QGraphicsItem* parent) :
@@ -31,31 +36,51 @@ GraphicsBlockItem::GraphicsBlockItem(const QPoint& index, const QPixmap& img, co
 //		this->setScale(1);
 //}
 
+
+void GraphicsBlockItem::setMap(Map* map) {
+	parentMap = map;
+	blockSize = map ? map->BlockSize() : 0;
+}
+
 void GraphicsBlockItem::setPos(int x, int y) {
-	this->QGraphicsPixmapItem::setPos(x * blockSize, y * blockSize);
+	QGraphicsPixmapItem::setPos(x * blockSize, y * blockSize);
 }
 
 void GraphicsBlockItem::setPos(const QPoint& point) {
-	this->QGraphicsPixmapItem::setPos(point.x() * blockSize, point.y() * blockSize);
+	QGraphicsPixmapItem::setPos(point.x() * blockSize, point.y() * blockSize);
+}
+
+inline void GraphicsBlockItem::setImg(const QPixmap& img) {
+	QGraphicsPixmapItem::setPixmap(img);
+	if (img.width()&&blockSize) 
+		setScale(blockSize / img.width());
 }
 
 void GraphicsBlockItem::mousePressEvent(QGraphicsSceneMouseEvent* event) {
-	QPoint point = event->scenePos().toPoint();
-	if (!map->translatePos(point)) {
+	QPoint point = event->scenePos().toPoint();	
+	if (!parentMap->translatePos(point)) {
 		return;
 	}
 	
-	m_origin_point = point;
+	m_origin_pos = point;
 
 	QGraphicsItem::mousePressEvent(event);
 }
 
-
 void GraphicsBlockItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event) {
 	QPoint point = event->scenePos().toPoint();
-	if (!map->translatePos(point)) {
-		return;
+	parentMap->translatePos(point);
+	
+	if (parentMap->checkX(point.x()))
+		m_last_pos.setX(point.x());
+	if (parentMap->checkY(point.y()))
+		m_last_pos.setY(point.y());
+
+	if (m_origin_pos != m_last_pos) {
+		parentMap->swap(m_origin_pos, m_last_pos);
+		m_origin_pos = m_last_pos;
 	}
-	this->setPos(point);
-	this->update();
 }
+
+//void GraphicsBlockItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
+//}

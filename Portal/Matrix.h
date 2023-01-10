@@ -32,10 +32,13 @@ public:
 	bool isFull();
 	bool checkIndex(int row, int col) const;
 
-	//T& value(int row, int col);
-	int bound(Direct direct);
+	T& value(int row, int col);
+	bool setValue(int row, int col, const T& elem);
+	void swap(int row1, int col1, int row2, int col2);
+	
+	int bound(Direct direct) const;
 
-	T* operator[](int row);
+	T* operator[](int row) const;
 	Matrix<T>& operator=(const Matrix<T>& matrix);
 };
 
@@ -143,20 +146,37 @@ bool Matrix<T>::checkIndex(int row, int col) const {
 }
 
 template<class T>
-T* Matrix<T>::operator[](int row) {
+T* Matrix<T>::operator[](int row) const {
 	if (checkIndex(row, 0))
 		return data[row];
 	else
 		return NULL;
 }
 
-//template<class T>
-//T& Matrix<T>::value(int row, int col) {
-//	return data[row][col];
-//}
+template<class T>
+T& Matrix<T>::value(int row, int col) {
+	return data[row][col];
+}
 
 template<class T>
-int Matrix<T>::bound(Direct direct) {
+bool Matrix<T>::setValue(int row, int col, const T& elem) {
+	if (checkIndex(row, col)) {
+		data[row][col] = elem;
+		return true;
+	}
+	else 
+		return false;
+}
+
+template<class T>
+void Matrix<T>::swap(int row1, int col1, int row2, int col2) {
+	T temp = data[row1][col1];
+	data[row1][col1] = data[row2][col2];
+	data[row2][col2] = temp;
+}
+
+template<class T>
+int Matrix<T>::bound(Direct direct) const {
 	switch (direct) {
 	case TOP:
 		return top;

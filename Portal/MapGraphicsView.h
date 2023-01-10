@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Map.h"
-
 #include "BlockInfoOperator.h"
 #include "GraphicsBlockItem.h"
 
@@ -21,6 +20,8 @@ private:
 	Map* map;
 	QGraphicsScene* scene;
 	GraphicsBlockItem* highlightArea;
+	
+	QPoint m_last_pos;
 	
 	void intial();
 	void testPaint();
