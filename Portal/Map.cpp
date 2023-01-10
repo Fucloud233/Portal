@@ -19,7 +19,7 @@ void Map::initial(int blockSize) {
 	data = Matrix<Block* >(10, 10, NULL);
 	items = Matrix<GraphicsBlockItem*>(10, 10, NULL);
 
-	QPixmap orignImg(32, 32);
+	QPixmap orignImg(blockSize, blockSize);
 	orignImg.fill(Qt::transparent);
 
 	// 绘制初始化图形
@@ -82,6 +82,14 @@ bool Map::swap(int s_x, int s_y, int t_x, int t_y) {
 
 int Map::BlockSize() const {
 	return blockSize;
+}
+
+Block Map::getBlock(const QPoint& point) const {
+	return *data[point.y()][point.x()];
+}
+
+Block Map::getBlock(int x, int y) const {
+	return *data[y][x];
 }
 
 GraphicsBlockItem* Map::getItem(int x, int y) const{

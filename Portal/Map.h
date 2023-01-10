@@ -35,9 +35,10 @@ public:
 	bool checkY(int y) const;
 	bool isNULL(const QPoint& point) const;
 
-
 	int BlockSize() const ;
 
+	Block getBlock(const QPoint& point) const ;
+	Block getBlock(int x, int y) const ;
 	GraphicsBlockItem* getItem(int x, int y) const ;
 	GraphicsBlockItem* getItem(const QPoint& point) const ;
 	QList<GraphicsBlockItem*> getItems();

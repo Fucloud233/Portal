@@ -1,6 +1,6 @@
 #include "MapGraphicsView.h"
 
-int MapGraphicsView::BlockSize = 32;
+int MapGraphicsView::BlockSize = 48;
 
 MapGraphicsView::MapGraphicsView(Map* map, BlockInfoOperator* Operator, QWidget* parent)
     : QGraphicsView(parent) {

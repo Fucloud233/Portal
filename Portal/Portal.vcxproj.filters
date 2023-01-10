@@ -92,6 +92,9 @@
     <None Include="Block\Blocks.json">
       <Filter>Resource Files\Block</Filter>
     </None>
+    <None Include="..\README.md">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="MapGraphicsView.h">

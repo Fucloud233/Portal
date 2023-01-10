@@ -108,6 +108,7 @@
     <ClInclude Include="Matrix.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\README.md" />
     <None Include="Block\Blocks.json" />
     <None Include="Block\Empty.json" />
   </ItemGroup>
