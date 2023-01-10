@@ -2,14 +2,32 @@
     "Blocks": [
         {
             "block_code": 0,
-            "block_img": "",
-            "block_name": "Temp",
+            "block_img": "./Block/Stone.png",
+            "block_name": "Stone",
             "block_type": 1
         },
         {
             "block_code": 1,
             "block_img": "./Block/Wood.png",
             "block_name": "Wood",
+            "block_type": 2
+        },
+        {
+            "block_code": 2,
+            "block_img": "./Block/Grass_Block.png",
+            "block_name": "Grass_Block",
+            "block_type": 2
+        },
+        {
+            "block_code": 3,
+            "block_img": "./Block/Trunk.png",
+            "block_name": "Trunk",
+            "block_type": 2
+        },
+        {
+            "block_code": 4,
+            "block_img": "./Block/Glass.png",
+            "block_name": "Glass",
             "block_type": 2
         }
     ]
