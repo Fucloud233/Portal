@@ -2,17 +2,21 @@
 
 #include "Matrix.h"
 #include "Block.h"
-#include "GraphicsBlockItem.h"
+#include "BlockStatus.h"
+#include "BlockGraphicsItem.h"
 
 #include <QGraphicsItem>
 
-class GraphicsBlockItem;
+class BlockGraphicsItem;
 
 class Map {
 private:
 	Matrix<Block*> data;
-	Matrix<GraphicsBlockItem*> items;
-	//QList<QGraphicsItem*> itemsList;
+	Matrix<BlockStatus> statuses;
+
+	Matrix<BlockGraphicsItem*> items;
+
+	QPoint selected_block_index;
 
 	int blockSize;
 
@@ -37,9 +41,16 @@ public:
 
 	int BlockSize() const ;
 
-	Block getBlock(const QPoint& point) const ;
-	Block getBlock(int x, int y) const ;
-	GraphicsBlockItem* getItem(int x, int y) const ;
-	GraphicsBlockItem* getItem(const QPoint& point) const ;
-	QList<GraphicsBlockItem*> getItems();
+	// 设置选中的方块类型
+	void setSelectedPos(const QPoint& point);
+	QPoint getSelectedPos() const;
+	bool hasSelected() const;
+	Block* getSelectedBlock() const;
+	BlockStatus* SelectedBlockStatus() const;
+
+	Block* getBlock(const QPoint& point) const ;
+	Block* getBlock(int x, int y) const ;
+	BlockGraphicsItem* getItem(int x, int y) const ;
+	BlockGraphicsItem* getItem(const QPoint& point) const ;
+	QList<BlockGraphicsItem*> getItems();
 };

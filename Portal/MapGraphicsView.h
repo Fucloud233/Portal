@@ -2,7 +2,7 @@
 
 #include "Map.h"
 #include "BlockInfoOperator.h"
-#include "GraphicsBlockItem.h"
+#include "BlockGraphicsItem.h"
 
 #include <QGraphicsView>
 #include <QtWidgets>
@@ -19,13 +19,17 @@ private:
 
 	Map* map;
 	QGraphicsScene* scene;
-	GraphicsBlockItem* highlightArea;
+	BlockGraphicsItem* highlightArea;
 	
 	QPoint m_last_pos;
 	
 	void intial();
 	void testPaint();
 
+	void mousePressEvent(QMouseEvent* event);
 	void dragMoveEvent(QDragMoveEvent* event);
 	void dropEvent(QDropEvent* event);
+
+signals:
+	void selectBlock();
 };

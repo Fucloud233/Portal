@@ -15,22 +15,16 @@ Map::~Map() {
 void Map::initial(int blockSize) {
 	this->blockSize = blockSize;
 
-	int size = 10;
-	data = Matrix<Block* >(10, 10, NULL);
-	items = Matrix<GraphicsBlockItem*>(10, 10, NULL);
-
-	QPixmap orignImg(blockSize, blockSize);
-	orignImg.fill(Qt::transparent);
-
-	// 绘制初始化图形
-	QPainter painter(&orignImg);
-	painter.setPen(QPen(Qt::gray, 1.5));
-	painter.drawRect(0, 0, blockSize , blockSize);
+	// 初始化变量
+	int width = 10, height = 10;
+	data = Matrix<Block* >(width, height, NULL);
+	statuses = Matrix<BlockStatus>(width, height, BlockStatus());
+	items = Matrix<BlockGraphicsItem*>(width, height, NULL);
 
 	for (int i = data.bound(Direct::TOP); i != data.bound(Direct::BOTTOM); i++) {
 		for (int j = data.bound(Direct::LEFT); j != data.bound(Direct::RIGHT); j++) {
 			// 创建item对象
-			items[i][j] = new GraphicsBlockItem(j, i, orignImg, this);
+			items[i][j] = new BlockGraphicsItem(j, i, this);
 		}
 	}
 }
@@ -45,12 +39,13 @@ bool Map::modify(int x, int y, Block* block) {
 	}    
 	
 	// 创建对应编号
-	GraphicsBlockItem* item = new GraphicsBlockItem(x, y, block->BlockImg(), this);
+	BlockGraphicsItem* item = new BlockGraphicsItem(x, y, block->BlockImg(), this);
 	item->setFlag(QGraphicsItem::ItemIsMovable);
 
 	delete items[y][x];
 	items[y][x] = item;
 	data[y][x] = block;
+	statuses[y][x].initial(*block);
 
 	return true;
 }
@@ -74,8 +69,8 @@ bool Map::swap(int s_x, int s_y, int t_x, int t_y) {
 	items[s_y][s_x]->setPos(t_x, t_y);
 	items[t_y][t_x]->setPos(s_x, s_y);
 	items.swap(s_y, s_x, t_y, t_x);
-
 	data.swap(s_y, s_x, t_y, t_x);
+	statuses.swap(s_y, s_x, t_y, t_x);
 
 	return true;
 }
@@ -84,24 +79,44 @@ int Map::BlockSize() const {
 	return blockSize;
 }
 
-Block Map::getBlock(const QPoint& point) const {
-	return *data[point.y()][point.x()];
+bool Map::hasSelected() const {
+	return !selected_block_index.isNull();
 }
 
-Block Map::getBlock(int x, int y) const {
-	return *data[y][x];
+void Map::setSelectedPos(const QPoint& point) {
+	this->selected_block_index = point;
 }
 
-GraphicsBlockItem* Map::getItem(int x, int y) const{
+QPoint Map::getSelectedPos() const {
+	return selected_block_index;
+}
+
+Block* Map::getSelectedBlock() const {
+	return getBlock(selected_block_index);
+}
+
+BlockStatus* Map::SelectedBlockStatus() const {
+	return &statuses[selected_block_index.y()][selected_block_index.x()];
+}
+
+Block* Map::getBlock(const QPoint& point) const {
+	return data[point.y()][point.x()];
+}
+
+Block* Map::getBlock(int x, int y) const {
+	return data[y][x];
+}
+
+BlockGraphicsItem* Map::getItem(int x, int y) const{
 	return items[y][x];
 }
 
-GraphicsBlockItem* Map::getItem(const QPoint& point) const {
+BlockGraphicsItem* Map::getItem(const QPoint& point) const {
 	return items[point.y()][point.x()];
 }
 
-QList<GraphicsBlockItem*> Map::getItems() {
-	QList<GraphicsBlockItem*> itemsList;
+QList<BlockGraphicsItem*> Map::getItems() {
+	QList<BlockGraphicsItem*> itemsList;
 
 	for (int i = items.bound(Direct::TOP); i != items.bound(Direct::BOTTOM); i++) {
 		for (int j = items.bound(Direct::LEFT); j != items.bound(Direct::RIGHT); j++) {
@@ -126,7 +141,6 @@ bool  Map::checkX(int x) const {
 bool  Map::checkY(int y) const {
 	return data.checkIndex(y, data.bound(Direct::LEFT));
 }
-
 
 bool Map::isNULL(const QPoint& point) const {
 	return data[point.y()][point.x()] == NULL;

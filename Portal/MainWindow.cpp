@@ -9,21 +9,27 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     ui.setupUi(this);
-    setupView();
+
+    setupGraphics();
+    setupOperator();
     setWindowTitle("Map Editor");
 }
 
 MainWindow::~MainWindow()
 {}
 
-void MainWindow::setupView() {
+void MainWindow::setupGraphics() {
+    // [Map] 将地图信息显示载入窗体
+    MapGraphicsView* mapView = new MapGraphicsView(&map, &Operator, this);
+    connect(mapView, SIGNAL(selectBlock()), this, SLOT(updateStatus()));
+    setCentralWidget(mapView);
+}
 
+void MainWindow::setupOperator() {
 
-    // [Block] 将方块信息载入窗体
-    listView = new QListView();
+    // [blockSelect] 
+    QListView* listView = new QListView();
     listView->setModel(Operator.getInfoModel());
-
-    //listView->setMinimumSize(120, height());
     listView->setDragDropMode(QAbstractItemView::DragOnly);
 
     QDockWidget* blockSelect = new QDockWidget("方块选择", this);
@@ -31,40 +37,23 @@ void MainWindow::setupView() {
     blockSelect->setBaseSize(100, height());
     blockSelect->setWidget(listView);
 
-    // [Map] 将地图信息显示载入窗体
-    mapView = new MapGraphicsView(&map, &Operator);
+    addDockWidget(Qt::LeftDockWidgetArea, blockSelect);
+
+    // [BlockStatus] 
+    statusView = new BlockStatusView;
 
     QDockWidget* blockStatus = new QDockWidget("方块状态", this);
-    blockSelect->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    blockSelect->setBaseSize(100, height());
-    //blockSelect->setWidget();
+    blockStatus->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    blockStatus->setBaseSize(100, height());
+    blockStatus->setWidget(statusView);
 
-    // 创建布局
-    QFrame* frame = new QFrame();
-    QHBoxLayout* frameLayout = new QHBoxLayout(frame);
-    frameLayout->addWidget(mapView);
-    this->setCentralWidget(frame);
-    
-    this->addDockWidget(Qt::LeftDockWidgetArea, blockSelect);
+    addDockWidget(Qt::LeftDockWidgetArea, blockStatus);
 }
 
-//void MainWindow::paint() {
-//    // 创建容器
-//    QGraphicsScene* scene = new QGraphicsScene();
-//    scene->setBackgroundBrush(Qt::black);
-//
-//    const QList<QGraphicsItem*>& items = map.getItems();
-//    for (QGraphicsItem* item : items) {
-//        scene->addItem(item);
-//    }
-//    ui.MainGraphicsView->setAcceptDrops(true);
-//    ui.MainGraphicsView->setScene(scene);
-//}
-
-//void MainWindow::dropEvent(QDropEvent* event) {
-//    qDebug() << "drop";
-//}
-
-//void MainWindow::mousePressEvent(QMouseEvent* event) {
-//    qDebug() << "press";
-//}
+void MainWindow::updateStatus() {
+    //qDebug() << map.getSelectedPos().x() << map.getSelectedPos().y();
+    if (!map.isNULL(map.getSelectedPos())) {
+        statusView->updateStatus(map.SelectedBlockStatus());
+    }
+    //qDebug() << point.x() << point.y();
+}

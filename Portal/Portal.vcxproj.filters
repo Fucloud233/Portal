@@ -27,6 +27,9 @@
     <Filter Include="Source Files\MapEditor">
       <UniqueIdentifier>{19a7fbd0-6bde-4023-9f4c-f3aa84e1f5ad}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Widget">
+      <UniqueIdentifier>{35b0cbd0-c0e0-42ba-86f1-589659f3db16}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="MainWindow.qrc">
@@ -49,23 +52,32 @@
     <ClCompile Include="Block.cpp">
       <Filter>Source Files\MapEditor</Filter>
     </ClCompile>
-    <ClCompile Include="BlockInfoModel.cpp">
-      <Filter>Source Files\MapEditor</Filter>
-    </ClCompile>
     <ClCompile Include="BlockInfoOperator.cpp">
-      <Filter>Source Files\MapEditor</Filter>
-    </ClCompile>
-    <ClCompile Include="MainWindow.cpp">
       <Filter>Source Files\MapEditor</Filter>
     </ClCompile>
     <ClCompile Include="Map.cpp">
       <Filter>Source Files\MapEditor</Filter>
     </ClCompile>
     <ClCompile Include="MapGraphicsView.cpp">
+      <Filter>Source Files\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="MainWindow.cpp">
       <Filter>Source Files\MapEditor</Filter>
     </ClCompile>
-    <ClCompile Include="GraphicsBlockItem.cpp">
+    <ClCompile Include="BlockInfoModel.cpp">
+      <Filter>Source Files\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="BlockGraphicsItem.cpp">
+      <Filter>Source Files\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="BlockStatus.cpp">
       <Filter>Source Files\MapEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="BlockStatusView.cpp">
+      <Filter>Source Files\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="ComboBoxDelegate.cpp">
+      <Filter>Source Files\Widget</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -81,7 +93,10 @@
     <ClInclude Include="Map.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicsBlockItem.h">
+    <ClInclude Include="BlockGraphicsItem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlockStatus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -101,6 +116,12 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="BlockInfoModel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="BlockStatusView.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="ComboBoxDelegate.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

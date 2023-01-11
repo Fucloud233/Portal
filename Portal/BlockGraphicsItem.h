@@ -10,16 +10,19 @@
 
 class Map;
 
-class GraphicsBlockItem: 
+class BlockGraphicsItem: 
 	public QGraphicsPixmapItem
 {
 public:
 	//GraphicsBlockItem(const QRect& rect = QRect(0, 0, 32, 32), 
 	//	const QPixmap& img = QPixmap(), QGraphicsItem* parent = nullptr);
-	GraphicsBlockItem(Map* map = NULL);
-	GraphicsBlockItem(const QPoint& index, const QPixmap& img, Map* map);
-	GraphicsBlockItem(int x, int y, const QPixmap& img, Map* map);
-
+	BlockGraphicsItem(Map* map = NULL);
+	
+	// 使用默认构造
+	BlockGraphicsItem(const QPoint& index, Map* map = NULL);
+	BlockGraphicsItem(int x, int y, Map* map = NULL);
+	BlockGraphicsItem(const QPoint& index, const QPixmap& img = QPixmap(), Map* map = NULL);
+	BlockGraphicsItem(int x, int y, const QPixmap& img = QPixmap(), Map* map = NULL);
 	QRectF boundingRect() const override;
 
 	inline void setMap(Map* map);
@@ -47,4 +50,4 @@ private:
 
 	void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
 };
-Q_DECLARE_METATYPE(GraphicsBlockItem)
+Q_DECLARE_METATYPE(BlockGraphicsItem)

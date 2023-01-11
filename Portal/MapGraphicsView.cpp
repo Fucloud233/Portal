@@ -15,21 +15,21 @@ MapGraphicsView::MapGraphicsView(Map* map, BlockInfoOperator* Operator, QWidget*
     setScene(scene);
 
     // [HighLight]
-    highlightArea = new GraphicsBlockItem(map);
-    highlightArea->setZValue(5);
+    highlightArea = new BlockGraphicsItem(map);
+    highlightArea->setZValue(6);
     highlightArea->setVisible(false);
     scene->addItem(highlightArea);
 
     // [Block]
     intial();
-    //setAcceptDrops(true);
     //testPaint();
 }
 
 void MapGraphicsView::intial() {
-    const QList<GraphicsBlockItem*>& items = map->getItems();
 
-    for (QGraphicsItem* item : items) {
+    const QList<BlockGraphicsItem*>& items = map->getItems();
+
+    for (BlockGraphicsItem* item : items) {
         scene->addItem(item);
     }
 }
@@ -62,12 +62,10 @@ void MapGraphicsView::testPaint() {
 void MapGraphicsView::dragMoveEvent(QDragMoveEvent* event) {
     // 将坐标进行转换
     QPoint p = mapToScene(event->pos()).toPoint();
-    map->translatePos(p);
-    
-    if (map->checkX(p.x()))
-        m_last_pos.setX(p.x());
-    if (map->checkY(p.y()))
-        m_last_pos.setY(p.y());
+    if (!map->translatePos(p)) {
+        highlightArea->setVisible(false);
+        return;
+    }
 
     QByteArray blockData = event->mimeData()->imageData().toByteArray();
     QDataStream dataStream(&blockData, QIODevice::ReadOnly);
@@ -75,20 +73,28 @@ void MapGraphicsView::dragMoveEvent(QDragMoveEvent* event) {
     dataStream >> img;
 
     highlightArea->setImg(img);
-    highlightArea->setPos(m_last_pos);
+    highlightArea->setPos(p);
     //qDebug() << highlightArea->pos().x() << highlightArea->pos().y();
     highlightArea->setVisible(true);
 }
 
 void MapGraphicsView::dropEvent(QDropEvent* event) {
+    // 将坐标进行转换
+    QPoint p = mapToScene(event->pos()).toPoint();
+    if (map->translatePos(p)) {
+        // 得到编号
+        int blockCode = event->mimeData()->text().toInt();
 
-    // 得到编号
-    int blockCode = event->mimeData()->text().toInt();
-
-    scene->removeItem(map->getItem(m_last_pos));
-    if (map->modify(m_last_pos, Operator->value(blockCode))) {
-        scene->addItem(map->getItem(m_last_pos));
+        scene->removeItem(map->getItem(p));
+        map->modify(p, Operator->value(blockCode));
+        scene->addItem(map->getItem(p));
     }
 
     highlightArea->setVisible(false);
+}
+
+void MapGraphicsView::mousePressEvent(QMouseEvent* event) {
+    // 注意事件和信号的传递顺序
+    QGraphicsView::mousePressEvent(event);
+    selectBlock();
 }

@@ -23,7 +23,7 @@ Block::Block() {
 	this->block_code = 0;
 }
 
-Block::Block(const QString& name, BlockType type, QString imgPath) {
+Block::Block(const QString& name, Type type, QString imgPath) {
 	this->block_name = name;
 	this->block_type = type;
 	this->block_code = BaseBlockCode++;
@@ -63,7 +63,7 @@ void Block::write(QJsonObject& json) {
 
 void Block::read(const QJsonObject& json) {
 	block_name = json["block_name"].toString();
-	block_type = (BlockType)json["block_type"].toInt();
+	block_type = (Type)json["block_type"].toInt();
 	block_code = json["block_code"].toInt();
 
 	block_img_path = json["block_img"].toString();

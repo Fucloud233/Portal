@@ -86,7 +86,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BlockInfoModel.cpp" />
-    <ClCompile Include="GraphicsBlockItem.cpp" />
+    <ClCompile Include="BlockStatus.cpp" />
+    <ClCompile Include="BlockStatusView.cpp" />
+    <ClCompile Include="BlockGraphicsItem.cpp" />
+    <ClCompile Include="ComboBoxDelegate.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapGraphicsView.cpp" />
     <ClCompile Include="Matrix.cpp" />
@@ -102,7 +105,10 @@
     <ClInclude Include="Block.h" />
     <QtMoc Include="BlockInfoModel.h" />
     <ClInclude Include="BlockInfoOperator.h" />
-    <ClInclude Include="GraphicsBlockItem.h" />
+    <ClInclude Include="BlockStatus.h" />
+    <QtMoc Include="BlockStatusView.h" />
+    <ClInclude Include="BlockGraphicsItem.h" />
+    <QtMoc Include="ComboBoxDelegate.h" />
     <ClInclude Include="Map.h" />
     <QtMoc Include="MapGraphicsView.h" />
     <ClInclude Include="Matrix.h" />

@@ -6,8 +6,10 @@
 #include "Map.h"
 #include "BlockInfoOperator.h"
 #include "MapGraphicsView.h"
+#include "BlockStatusView.h"
 
 #include <QListView>
+#include <QMouseEvent>
 
 
 // http://shouce.jb51.net/qt-beginning/15.html
@@ -22,18 +24,15 @@ public:
 
 private:
     Ui::MainWindowClass ui;
-
-    MapGraphicsView* mapView;
-    QListView* listView;
-
+    
     Map map;
     BlockInfoOperator Operator;
     
-    void setupView();
-    //void paint();
-    //void testPaint();
-    
+    BlockStatusView* statusView;
+
+    void setupGraphics();
+    void setupOperator();
+
 private slots:
-    //void dropEvent(QDropEvent* event);
-    //void mousePressEvent(QMouseEvent* event);
+    void updateStatus();
 };
