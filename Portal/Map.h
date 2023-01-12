@@ -50,7 +50,9 @@ public:
 
 	Block* getBlock(const QPoint& point) const ;
 	Block* getBlock(int x, int y) const ;
+	BlockStatus* getBlockStatus(const QPoint& point) const;
+	BlockStatus* getBlockStatus(int x, int y) const;
+	BlockGraphicsItem* getItem(const QPoint& point) const;
 	BlockGraphicsItem* getItem(int x, int y) const ;
-	BlockGraphicsItem* getItem(const QPoint& point) const ;
 	QList<BlockGraphicsItem*> getItems();
 };

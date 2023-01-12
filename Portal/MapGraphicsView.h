@@ -30,6 +30,9 @@ private:
 	void dragMoveEvent(QDragMoveEvent* event);
 	void dropEvent(QDropEvent* event);
 
+private slots:
+	void updateBlock();
+
 signals:
 	void selectBlock();
 };

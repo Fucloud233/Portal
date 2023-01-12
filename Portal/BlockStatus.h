@@ -16,17 +16,25 @@ private:
 	QStandardItemModel* statusModel;
 	
 public:
-	enum BlockStatusFiled {
+	// 用于得到对应字段名
+	enum BlockStatusField {
 		NAME, CODE, TYPE, DIRECT
 	};
 
 	BlockStatus();
 
-	void initial(const Block& block, Block::Type type = Block::FULL);
+	void initial(const Block& block);
+
+	virtual void write(QJsonObject& json);
+	virtual void read(const QJsonObject& json);
 
 	QStandardItemModel* getStatusModel();
 	QStringList getFieldList();
 	QList<QStandardItem*> getItemsList();
-	
+
 	Block getInfo();
+	QStringList getBlockTypes();
+	Block::Type getBlockType();
+	void setBlockType(QString text);
+	void setBlockType(Block::Type type);
 };

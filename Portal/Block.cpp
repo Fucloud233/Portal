@@ -3,19 +3,11 @@
 #include <QFile>
 #include <QJsonDocument>
 
+QMap<Block::Type, QString> Block::Types = {
+	{EMPTY, "EMPTY"}, {ALL, "ALL"},{FULL, "FULL"},{FLOOR, "FLOOR"},{COMPONENT, "COMPONENT"}
+};
 QString Block::FilePath = "./Block/";
 int Block::BaseBlockCode = 0;
-
-QString Block::blockTypeText() {
-	switch(block_type) {
-	case FULL:
-		return "FULL";
-	case FLOOR:
-		return "FLOOR";
-	case COMPONENT:
-		return "COMPONENT";
-	}
-}
 
 Block::Block() {
 	this->block_name = "None";
@@ -77,14 +69,46 @@ void Block::setBaseBlockCodeCount(int code) {
 	BaseBlockCode = code;
 }
 
-int Block::BlockCode() {
+int Block::BlockCode() const {
 	return block_code;
 }
 
-QString Block::BlockName() {
+QString Block::BlockCodeText() const {
+	return QVariant(block_code).toString();
+}
+
+QString Block::BlockName() const {
 	return block_name;
 }
 
-QPixmap Block::BlockImg() {
+QString Block::BlockTypeText() const {
+	return StringFromType(block_type);
+}
+
+Block::Type Block::BlockType() const {
+	return block_type;
+}
+
+QPixmap Block::BlockImg() const {
 	return block_img;
+}
+
+QString Block::StringFromType(Type type) {
+	return Types[type];
+}
+
+QStringList Block::BlockTypesText() const {
+	QStringList list;
+	if (block_type == ALL) {
+		list << StringFromType(FULL) << StringFromType(FLOOR);
+	}
+	else {
+		list << StringFromType(block_type);
+	}
+
+	return list;
+}
+
+Block::Type Block::TypeFromString(const QString& text) {
+	return Types.key(text, EMPTY);
 }

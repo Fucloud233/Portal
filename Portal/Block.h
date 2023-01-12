@@ -7,11 +7,12 @@
 class Block {
 public:
 	enum Type {
-		EMPTY, FULL, FLOOR, COMPONENT
+		EMPTY, ALL, FULL, FLOOR, COMPONENT
 	};
 
 private:
-	QString blockTypeText();
+	static QMap<Type, QString> Types;
+
 	static int BaseBlockCode;
 
 protected:
@@ -36,9 +37,15 @@ public:
 	void loadInfo();	// 加载信息
 
 	static void setBaseBlockCodeCount(int code);
+	static Type TypeFromString(const QString& text);
+	static QString StringFromType(Type type);
 
-	int BlockCode();
-	QString BlockName();
-	QPixmap BlockImg();
+	int BlockCode() const;
+	QString BlockCodeText() const;
+	QString BlockName() const;
+	Type BlockType() const;
+	QString BlockTypeText() const;
+	QStringList BlockTypesText() const;
+	QPixmap BlockImg() const;
 };
 Q_DECLARE_METATYPE(Block)

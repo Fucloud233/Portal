@@ -29,6 +29,7 @@ private:
     BlockInfoOperator Operator;
     
     BlockStatusView* statusView;
+    MapGraphicsView* mapView;
 
     void setupGraphics();
     void setupOperator();

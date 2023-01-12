@@ -16,7 +16,7 @@ MapGraphicsView::MapGraphicsView(Map* map, BlockInfoOperator* Operator, QWidget*
 
     // [HighLight]
     highlightArea = new BlockGraphicsItem(map);
-    highlightArea->setZValue(6);
+    highlightArea->setHeight(BlockGraphicsItem::TOP);
     highlightArea->setVisible(false);
     scene->addItem(highlightArea);
 
@@ -62,6 +62,7 @@ void MapGraphicsView::testPaint() {
 void MapGraphicsView::dragMoveEvent(QDragMoveEvent* event) {
     // 将坐标进行转换
     QPoint p = mapToScene(event->pos()).toPoint();
+    // 当坐标不合法 或者此处非空 才离开
     if (!map->translatePos(p)) {
         highlightArea->setVisible(false);
         return;
@@ -81,11 +82,13 @@ void MapGraphicsView::dragMoveEvent(QDragMoveEvent* event) {
 void MapGraphicsView::dropEvent(QDropEvent* event) {
     // 将坐标进行转换
     QPoint p = mapToScene(event->pos()).toPoint();
-    if (map->translatePos(p)) {
-        // 得到编号
-        int blockCode = event->mimeData()->text().toInt();
+
+    // 只有当坐标合法 且当前位置不为空时 才可以放置
+    if (map->translatePos(p)||map->isNULL(p)) {
 
         scene->removeItem(map->getItem(p));
+        // 修改方块
+        int blockCode = event->mimeData()->text().toInt();
         map->modify(p, Operator->value(blockCode));
         scene->addItem(map->getItem(p));
     }
@@ -97,4 +100,9 @@ void MapGraphicsView::mousePressEvent(QMouseEvent* event) {
     // 注意事件和信号的传递顺序
     QGraphicsView::mousePressEvent(event);
     selectBlock();
+}
+
+void MapGraphicsView::updateBlock() {
+    // 更新选中的方块
+    map->getItem(map->getSelectedPos())->update();
 }

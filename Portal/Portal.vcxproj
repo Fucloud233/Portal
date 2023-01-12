@@ -89,7 +89,7 @@
     <ClCompile Include="BlockStatus.cpp" />
     <ClCompile Include="BlockStatusView.cpp" />
     <ClCompile Include="BlockGraphicsItem.cpp" />
-    <ClCompile Include="ComboBoxDelegate.cpp" />
+    <ClCompile Include="ItemDelegate.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapGraphicsView.cpp" />
     <ClCompile Include="Matrix.cpp" />
@@ -108,7 +108,7 @@
     <ClInclude Include="BlockStatus.h" />
     <QtMoc Include="BlockStatusView.h" />
     <ClInclude Include="BlockGraphicsItem.h" />
-    <QtMoc Include="ComboBoxDelegate.h" />
+    <QtMoc Include="ItemDelegate.h" />
     <ClInclude Include="Map.h" />
     <QtMoc Include="MapGraphicsView.h" />
     <ClInclude Include="Matrix.h" />

@@ -107,6 +107,15 @@ Block* Map::getBlock(int x, int y) const {
 	return data[y][x];
 }
 
+
+BlockStatus* Map::getBlockStatus(const QPoint& point) const {
+	return &statuses[point.y()][point.x()];
+}
+
+BlockStatus* Map::getBlockStatus(int x, int y) const {
+	return &statuses[y][x];
+}
+
 BlockGraphicsItem* Map::getItem(int x, int y) const{
 	return items[y][x];
 }

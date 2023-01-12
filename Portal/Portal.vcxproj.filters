@@ -76,7 +76,7 @@
     <ClCompile Include="BlockStatusView.cpp">
       <Filter>Source Files\Widget</Filter>
     </ClCompile>
-    <ClCompile Include="ComboBoxDelegate.cpp">
+    <ClCompile Include="ItemDelegate.cpp">
       <Filter>Source Files\Widget</Filter>
     </ClCompile>
   </ItemGroup>
@@ -121,7 +121,7 @@
     <QtMoc Include="BlockStatusView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="ComboBoxDelegate.h">
+    <QtMoc Include="ItemDelegate.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

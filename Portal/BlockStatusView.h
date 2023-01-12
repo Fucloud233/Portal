@@ -19,5 +19,10 @@ private:
 	BlockStatus* status;
 
 	void setupUi();
+private slots:
+	void updateBlockType(QString text);
+
+signals:
+	void statusChanged();
 };
 

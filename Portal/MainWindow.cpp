@@ -20,7 +20,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::setupGraphics() {
     // [Map] 将地图信息显示载入窗体
-    MapGraphicsView* mapView = new MapGraphicsView(&map, &Operator, this);
+    mapView = new MapGraphicsView(&map, &Operator, this);
     connect(mapView, SIGNAL(selectBlock()), this, SLOT(updateStatus()));
     setCentralWidget(mapView);
 }
@@ -41,6 +41,8 @@ void MainWindow::setupOperator() {
 
     // [BlockStatus] 
     statusView = new BlockStatusView;
+    // 当Status changed, update mapView
+    connect(statusView, SIGNAL(statusChanged()), mapView, SLOT(updateBlock()));
 
     QDockWidget* blockStatus = new QDockWidget("方块状态", this);
     blockStatus->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
