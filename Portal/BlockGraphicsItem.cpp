@@ -1,8 +1,6 @@
 #include "BlockGraphicsItem.h"
 
 #include <QPen>
-#include <QRect>
-#include <QPixmap>
 #include <QCursor>
 
 BlockGraphicsItem::BlockGraphicsItem(Map* map) :
@@ -39,12 +37,29 @@ void BlockGraphicsItem::initial(const QPoint& index, const QPixmap& img, Map* ma
 
 	// 设置基本属性
 	setMap(map);
-	setImg(img);
-	this->setPos(index);
+
+	if (img.isNull()) {
+		QPixmap emptyImg(blockSize, blockSize);
+		emptyImg.fill(Qt::transparent);
+
+		QPainter painter(&emptyImg);
+		painter.setPen(QPen(Qt::gray, 1.5));
+		//painter.setBrush(Qt::white);
+		painter.drawRect(0, 0, blockSize, blockSize);
+		
+		setImg(emptyImg);
+		this->setHeight(DRAFT);
+	}
+	else {
+		setImg(img);
+		this->setHeight(BOTTOM);
+	}
+
+	setPos(index);
 
 	// 设置状态
-	this->setFlag(QGraphicsItem::ItemIsFocusable);
-	this->setFlag(QGraphicsItem::ItemIsSelectable);
+	setFlag(QGraphicsItem::ItemIsFocusable);
+	setFlag(QGraphicsItem::ItemIsSelectable);
 }
 
 void BlockGraphicsItem::setMap(Map* map) {
@@ -71,6 +86,15 @@ void BlockGraphicsItem::setX(int x) {
 void BlockGraphicsItem::setY(int y) {
 	QGraphicsPixmapItem::setY(y * blockSize);
 	index.setY(y);
+}
+
+void BlockGraphicsItem::setHeight(Height height) {
+	// 当没有被选择时 需要记录原始高度
+	if (height != SELECTED) {
+		origin_height = height;
+	}
+
+	setZValue(height);
 }
 
 void BlockGraphicsItem::setImg(const QPixmap& img) {
@@ -111,25 +135,28 @@ void BlockGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
 }
 
 void BlockGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
-
-	this->setZValue(1);
-
-	// 设置默认构造
-	if (pixmap().isNull()) {
-		painter->setPen(QPen(Qt::gray, 1.5));
-		//painter->setBrush(Qt::white);
-		painter->drawRect(0, 0, blockSize, blockSize);
-		return;
+	// 画图原始的图形
+	painter->drawPixmap(0, 0, pixmap());
+	
+	// 当类型为FLOOR时 为图案添加一层阴影
+	if (parentMap->getBlockStatus(index)->getBlockType() == Block::FLOOR) {
+		painter->setPen(Qt::NoPen);
+		painter->setBrush(QColor(0, 0, 0, 127));
+		painter->drawRect(QRect(QPoint(0, 0), pixmap().size()));
 	}
 
-	painter->drawPixmap(0, 0, pixmap());
-
-	if (isSelected()) {
+	// 当Block被选择时 为其绘制方框
+	if (isSelected()&&!parentMap->isNULL(index)) {
 		this->setCursor(Qt::OpenHandCursor);
 		//qDebug() << parentMap->getBlock(index).BlockName();
-		painter->setPen(QPen(Qt::blue, 1.5));
+		painter->setPen(QPen(Qt::blue, 1));
+		painter->setBrush(Qt::NoBrush);
 		painter->drawRect(QRect(QPoint(0, 0), pixmap().size()));
-		
-		this->setZValue(5);
+
+		// 注意 选择的时候 要拔高高度
+		setHeight(SELECTED);
+	}
+	else {
+		setHeight(origin_height);
 	}
 }

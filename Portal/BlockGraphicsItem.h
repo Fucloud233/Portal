@@ -14,6 +14,10 @@ class BlockGraphicsItem:
 	public QGraphicsPixmapItem
 {
 public:
+	enum Height {
+		DRAFT = 0, BOTTOM = 1, ON = 2, SELECTED = 3, TOP = 4
+	};
+
 	//GraphicsBlockItem(const QRect& rect = QRect(0, 0, 32, 32), 
 	//	const QPixmap& img = QPixmap(), QGraphicsItem* parent = nullptr);
 	BlockGraphicsItem(Map* map = NULL);
@@ -31,6 +35,7 @@ public:
 	inline void setX(int x);
 	inline void setY(int y);
 	inline void setImg(const QPixmap& img);
+	inline void setHeight(Height height);
 
 	inline QPoint getPos() const;
 
@@ -38,6 +43,7 @@ private:
 	int blockSize;
 	Map* parentMap;
 	QPoint m_origin_pos;
+	Height origin_height;
 	
 	// 存储相对坐标
 	QPoint index;
@@ -50,4 +56,3 @@ private:
 
 	void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
 };
-Q_DECLARE_METATYPE(BlockGraphicsItem)
