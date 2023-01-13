@@ -9,9 +9,11 @@ class ComboBoxDelegate : public QItemDelegate {
 	Q_OBJECT
 
 public:
-	ComboBoxDelegate(const QStringList& list);
+	ComboBoxDelegate(const QStringList& list = QStringList());
 	QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const;
 	void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const override;
+
+	void setItems(const QStringList& list);
 
 private:
 	QStringList items;

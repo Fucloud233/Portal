@@ -42,6 +42,10 @@ void ComboBoxDelegate::emitData(int index) {
 	indexChanged(data);
 }
 
+void ComboBoxDelegate::setItems(const QStringList& list) {
+	this->items = list;
+}
+
 ReadOnlyDelegate::ReadOnlyDelegate(QWidget* parent) :
 	QItemDelegate(parent) {
 }

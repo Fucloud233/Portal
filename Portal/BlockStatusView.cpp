@@ -1,6 +1,5 @@
 #include "BlockStatusView.h"
 
-#include "ItemDelegate.h"
 
 #include <QHeaderView>
 #include <QSizePolicy>
@@ -15,22 +14,15 @@ void BlockStatusView::setupUi() {
 	horizontalHeader()->setVisible(false);
 	setEditTriggers(EditTrigger::AllEditTriggers);
 	setMinimumWidth(120);
-}
-
-void BlockStatusView::updateStatus(BlockStatus* status) {
-	this->status = status;
-	if (!status) {
-		return;
-	}
-
-	setModel(status->getStatusModel());
 	setColumnWidth(0, width());
+
+	//setModel(new QStandardItemModel());
 
 	// 设置委托
 	setItemDelegateForRow(BlockStatus::NAME, new ReadOnlyDelegate());
 	setItemDelegateForRow(BlockStatus::CODE, new ReadOnlyDelegate());
 
-	ComboBoxDelegate* blockTypeDelegate = new ComboBoxDelegate(status->getBlockTypes());
+	blockTypeDelegate = new ComboBoxDelegate();
 	setItemDelegateForRow(BlockStatus::TYPE, blockTypeDelegate);
 	connect(blockTypeDelegate, SIGNAL(indexChanged(QString)), SLOT(updateBlockType(QString)));
 }
@@ -40,7 +32,17 @@ void BlockStatusView::clearStatus() {
 	setModel(NULL);
 }
 
+void BlockStatusView::updateStatus(BlockStatus* status) {
+	this->status = status;
+	if (!status) {
+		return;
+	}
+	setModel(status->getStatusModel());
+
+	this->blockTypeDelegate->setItems(status->getBlockTypes());
+}
+
 void BlockStatusView::updateBlockType(QString text) {
 	status->setBlockType(Block::TypeFromString(text));
-	statusChanged();
+	emit statusChanged();
 }

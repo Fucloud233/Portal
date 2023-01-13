@@ -2,6 +2,8 @@
 
 #include "BlockStatus.h"
 
+#include "ItemDelegate.h"
+
 #include <QLabel>
 #include <QWidget>
 #include <QFormLayout>
@@ -13,12 +15,17 @@ public:
 	BlockStatusView(QWidget* parent = nullptr);
 
 	void clearStatus();
-	void updateStatus(BlockStatus* status);
 
 private:
 	BlockStatus* status;
 
+	ComboBoxDelegate* blockTypeDelegate;
+
 	void setupUi();
+
+public slots:
+	void updateStatus(BlockStatus* status);
+
 private slots:
 	void updateBlockType(QString text);
 
