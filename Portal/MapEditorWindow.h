@@ -1,7 +1,6 @@
 #pragma once
 
 #include <QtWidgets/QMainWindow>
-#include "ui_MainWindow.h"
 
 #include "Map.h"
 #include "BlockInfoOperator.h"
@@ -16,17 +15,15 @@
 
 // http://shouce.jb51.net/qt-beginning/15.html
 
-class MainWindow : public QMainWindow
+class MapEditorWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+    MapEditorWindow(QWidget *parent = nullptr);
+    ~MapEditorWindow();
 
 private:
-    Ui::MainWindowClass ui;
-    
     BlockStatusView* statusView;
 
     QMdiArea* mdiArea;

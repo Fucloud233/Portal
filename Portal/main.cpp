@@ -1,4 +1,5 @@
-#include "MainWindow.h"
+#include "MapEditorWindow.h"
+
 #include <QtWidgets/QApplication>
 #include <QGraphicsScene>
 #include <QGraphicsItem>
@@ -32,7 +33,7 @@ int main(int argc, char *argv[])
     //return 0;
 
     QApplication a(argc, argv);
-    MainWindow w;
+    MapEditorWindow w;
     w.show();
     
     return a.exec();

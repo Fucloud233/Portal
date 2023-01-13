@@ -38,7 +38,7 @@
     <QtUic Include="MainWindow.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtMoc Include="MainWindow.h">
+    <QtMoc Include="MapEditorWindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -49,35 +49,35 @@
     <ClCompile Include="Matrix.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Block.cpp">
-      <Filter>Source Files\MapEditor</Filter>
-    </ClCompile>
-    <ClCompile Include="BlockInfoOperator.cpp">
-      <Filter>Source Files\MapEditor</Filter>
-    </ClCompile>
     <ClCompile Include="Map.cpp">
       <Filter>Source Files\MapEditor</Filter>
     </ClCompile>
     <ClCompile Include="MapGraphicsView.cpp">
       <Filter>Source Files\Widget</Filter>
     </ClCompile>
-    <ClCompile Include="MainWindow.cpp">
+    <ClCompile Include="MapEditorWindow.cpp">
       <Filter>Source Files\MapEditor</Filter>
     </ClCompile>
-    <ClCompile Include="BlockInfoModel.cpp">
-      <Filter>Source Files\Widget</Filter>
+    <ClCompile Include="Block.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BlockGraphicsItem.cpp">
-      <Filter>Source Files\Widget</Filter>
+    <ClCompile Include="BlockInfoOperator.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BlockStatus.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemDelegate.cpp">
       <Filter>Source Files\MapEditor</Filter>
     </ClCompile>
     <ClCompile Include="BlockStatusView.cpp">
-      <Filter>Source Files\Widget</Filter>
+      <Filter>Source Files\MapEditor</Filter>
     </ClCompile>
-    <ClCompile Include="ItemDelegate.cpp">
-      <Filter>Source Files\Widget</Filter>
+    <ClCompile Include="BlockGraphicsItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlockInfoModel.cpp">
+      <Filter>Source Files\MapEditor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

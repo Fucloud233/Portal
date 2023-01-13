@@ -1,25 +1,28 @@
-#include "MainWindow.h"
+#include "MapEditorWindow.h"
 
 #include <QGraphicsItem>
 #include <QStringList>
 #include <QStringListModel>
 #include <QtWidgets>
+#include <QSizePolicy>
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-{
-    ui.setupUi(this);
+MapEditorWindow::MapEditorWindow(QWidget *parent)
+    : QMainWindow(parent) {
+    // 设置基本属性
+    setWindowTitle("Map Editor");
+    setMinimumSize(1280, 720);
+    resize(minimumSize());
 
+    // 加载组件 
     setupMdiArea();
     setupOperator();
     setupMenu();
-    setWindowTitle("Map Editor");
 }
 
-MainWindow::~MainWindow()
+MapEditorWindow::~MapEditorWindow()
 {}
 
-void MainWindow::setupMdiArea() {
+void MapEditorWindow::setupMdiArea() {
     mdiArea = new QMdiArea;
     connect(mdiArea, &QMdiArea::subWindowActivated, [this](QMdiSubWindow* w) {
         currentWindow = w;
@@ -31,7 +34,7 @@ void MainWindow::setupMdiArea() {
     setCentralWidget(mdiArea);
 }
 
-void MainWindow::setupOperator() {
+void MapEditorWindow::setupOperator() {
     BlockInfoOperator::initial();
     // [BlockSelect] 
     QListView* listView = new QListView();
@@ -55,7 +58,7 @@ void MainWindow::setupOperator() {
     addDockWidget(Qt::LeftDockWidgetArea, blockStatus);
 }
 
-void MainWindow::setupMenu() {
+void MapEditorWindow::setupMenu() {
     QMenu* fileMenu = menuBar()->addMenu("文件");
     QAction* newAction = new QAction("新建");
     QAction* saveAsAction = new QAction("另存为");
@@ -71,7 +74,7 @@ void MainWindow::setupMenu() {
 }
 
 
-void MainWindow::setupGraphics(bool isNew, QString filePath) {
+void MapEditorWindow::setupGraphics(bool isNew, QString filePath) {
     // [Map] 将地图信息显示载入窗体
     QMdiSubWindow* w = new QMdiSubWindow(mdiArea);
     MapGraphicsView* mapView = new MapGraphicsView(w);
@@ -97,15 +100,15 @@ void MainWindow::setupGraphics(bool isNew, QString filePath) {
     connect(statusView, SIGNAL(statusChanged()), mapView, SLOT(updateBlock()));
 }
 
-void MainWindow::saveMap() {
+void MapEditorWindow::saveMap() {
 
 }
 
-void MainWindow::newMap() {
+void MapEditorWindow::newMap() {
     setupGraphics(true);
 }
 
-void MainWindow::saveAsMap() {
+void MapEditorWindow::saveAsMap() {
 
     MapGraphicsView* mapView = qobject_cast<MapGraphicsView*>(currentWindow->widget());
 
@@ -114,7 +117,7 @@ void MainWindow::saveAsMap() {
     mapView->saveMap(fileDialog.getSaveFileName());
 }
 
-void MainWindow::openMap() {
+void MapEditorWindow::openMap() {
     // 打开文件Dialog 获取打开地址
     QFileDialog fileDialog;
     QString filePath = fileDialog.getOpenFileName();
