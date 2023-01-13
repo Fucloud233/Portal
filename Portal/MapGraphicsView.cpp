@@ -2,36 +2,80 @@
 
 int MapGraphicsView::BlockSize = 48;
 
-MapGraphicsView::MapGraphicsView(Map* map, BlockInfoOperator* Operator, QWidget* parent)
+MapGraphicsView::MapGraphicsView(QWidget* parent)
     : QGraphicsView(parent) {
-
-    this->Operator = Operator;
-    this->map = map;
-    map->initial(BlockSize);
 
     // initial the scence
     scene = new QGraphicsScene();
     scene->setBackgroundBrush(Qt::black);
     setScene(scene);
-
-    // [HighLight]
-    highlightArea = new BlockGraphicsItem(map);
-    highlightArea->setHeight(BlockGraphicsItem::TOP);
-    highlightArea->setVisible(false);
-    scene->addItem(highlightArea);
-
-    // [Block]
-    intial();
-    //testPaint();
 }
 
-void MapGraphicsView::intial() {
+void MapGraphicsView::intialMap() {
+    map = new Map(BlockSize);
+    map->initial(10, 10);
+
+    initialScene();
+}
+
+bool MapGraphicsView::loadMap(QString filePath) {
+    map = new Map(BlockSize);
+    
+    QFile loadFile(filePath);
+    if (!loadFile.open(QIODevice::ReadOnly)) {
+        qWarning("[Error] 文件打开失败!");
+        return false;
+    }
+
+    QByteArray loadData = loadFile.readAll();
+    QJsonObject json = (QJsonDocument::fromJson(loadData)).object();
+    
+    map->read(json);
+
+    // 将元素添加到Scene中
+    initialScene();
+    return true;
+}
+
+bool MapGraphicsView::saveMap(QString filePath) {
+    QJsonObject json;
+
+    map->write(json);
+
+    // 处理文件保存
+    QString path = filePath.left(filePath.lastIndexOf('/'));
+    // 当路径不存在时 创建路径
+    if (!QFile::exists(filePath)) {
+        QDir dir(path);
+        // 路径不存在-> 创造路径-> Error
+        if (!dir.exists() && !dir.mkdir(path)) {
+            return false;
+        }
+    }
+
+    QFile saveFile(filePath);
+    if (saveFile.open(QIODevice::WriteOnly)) {
+        //qWarning("文件打开失败!");
+        saveFile.write(QJsonDocument(json).toJson());
+    }
+
+    return true;
+}
+
+
+void MapGraphicsView::initialScene() {
 
     const QList<BlockGraphicsItem*>& items = map->getItems();
 
     for (BlockGraphicsItem* item : items) {
         scene->addItem(item);
     }
+
+    // [HighLight]
+    highlightArea = new BlockGraphicsItem(map);
+    highlightArea->setHeight(BlockGraphicsItem::TOP);
+    highlightArea->setVisible(false);
+    scene->addItem(highlightArea);
 }
 
 // 测试函数 生成5x5的矩阵
@@ -89,7 +133,7 @@ void MapGraphicsView::dropEvent(QDropEvent* event) {
         scene->removeItem(map->getItem(p));
         // 修改方块
         int blockCode = event->mimeData()->text().toInt();
-        map->modify(p, Operator->value(blockCode));
+        map->modify(p, blockCode);
         scene->addItem(map->getItem(p));
     }
 
@@ -99,7 +143,9 @@ void MapGraphicsView::dropEvent(QDropEvent* event) {
 void MapGraphicsView::mousePressEvent(QMouseEvent* event) {
     // 注意事件和信号的传递顺序
     QGraphicsView::mousePressEvent(event);
-    selectBlock();
+    if (!map->SelectedBlockStatus()->isNULL()) {
+        emit selectBlock(map->SelectedBlockStatus());
+    }
 }
 
 void MapGraphicsView::updateBlock() {

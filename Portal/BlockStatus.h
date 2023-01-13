@@ -7,10 +7,11 @@
 // 存储已经存放的方块信息
 class BlockStatus {
 private:
+	const Block* block;
 	// 基础信息
-	Block block;
-	int direct;
+	int code;
 	Block::Type type;
+	int direct;
 
 	// 用于显示的信息
 	QStandardItemModel* statusModel;
@@ -21,9 +22,10 @@ public:
 		NAME, CODE, TYPE, DIRECT
 	};
 
-	BlockStatus();
+	BlockStatus(int blockCode = -1);
+	BlockStatus(const Block* block);
 
-	void initial(const Block& block);
+	void initialModel();
 
 	virtual void write(QJsonObject& json);
 	virtual void read(const QJsonObject& json);
@@ -37,4 +39,6 @@ public:
 	Block::Type getBlockType();
 	void setBlockType(QString text);
 	void setBlockType(Block::Type type);
+
+	bool isNULL() const;
 };

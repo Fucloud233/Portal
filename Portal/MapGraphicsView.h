@@ -7,15 +7,20 @@
 #include <QGraphicsView>
 #include <QtWidgets>
 
+#define Operator BlockInfoOperator 
+
 class MapGraphicsView : public QGraphicsView {
 	Q_OBJECT
 public:
-	explicit MapGraphicsView(Map* map, BlockInfoOperator* Operator, QWidget* parent = nullptr);
+	explicit MapGraphicsView(QWidget* parent = nullptr);
+
+	// 初始化地图
+	void intialMap();
+	bool saveMap(QString filePath);
+	bool loadMap(QString filePath);
 
 private:
 	static int BlockSize;
-
-	BlockInfoOperator* Operator;
 
 	Map* map;
 	QGraphicsScene* scene;
@@ -23,7 +28,8 @@ private:
 	
 	QPoint m_last_pos;
 	
-	void intial();
+	void initialScene();
+
 	void testPaint();
 
 	void mousePressEvent(QMouseEvent* event);
@@ -34,5 +40,5 @@ private slots:
 	void updateBlock();
 
 signals:
-	void selectBlock();
+	void selectBlock(BlockStatus* status);
 };

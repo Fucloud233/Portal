@@ -10,6 +10,8 @@
 
 #include <QListView>
 #include <QMouseEvent>
+#include <QMdiArea>
+#include <QMdiSubWindow>
 
 
 // http://shouce.jb51.net/qt-beginning/15.html
@@ -25,15 +27,19 @@ public:
 private:
     Ui::MainWindowClass ui;
     
-    Map map;
-    BlockInfoOperator Operator;
-    
     BlockStatusView* statusView;
-    MapGraphicsView* mapView;
 
-    void setupGraphics();
+    QMdiArea* mdiArea;
+    QMdiSubWindow* currentWindow;
+
+    void setupMdiArea();
     void setupOperator();
+    void setupMenu();
+    void setupGraphics(bool isNew, QString FilePath = QString());
 
 private slots:
-    void updateStatus();
+    void openMap();
+    void saveMap();
+    void saveAsMap();
+    void newMap();
 };
