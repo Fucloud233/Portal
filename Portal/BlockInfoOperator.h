@@ -16,20 +16,21 @@ private:
 	static QMap<int, Block*> data;
 	static BlockInfoModel* infoModel;
 
-	void initial();
 
-	void test();
+	static void test();
 public:
 	BlockInfoOperator();
 	~BlockInfoOperator();
 
-	bool loadBlocks();
-	bool saveBlocks();
+	static void initial();
 
-	Block* value(int blockCode);
+	static bool loadBlocks();
+	static bool saveBlocks();
 
-	QStringList getNames();
+	static Block* value(int blockCode);
+
+	static QStringList getNames();
 	// 得到包括图标信息的对象
-	BlockInfoModel* getInfoModel();
+	static BlockInfoModel* getInfoModel();
 };
 

@@ -13,7 +13,7 @@ BlockInfoModel* BlockInfoOperator::infoModel = NULL;
 
 BlockInfoOperator::BlockInfoOperator() {
 	// 初始化数据成员
-	initial();
+	//initial();
 }
 
 BlockInfoOperator::~BlockInfoOperator() {
@@ -32,14 +32,14 @@ void BlockInfoOperator::initial() {
 
 	if (infoModel == NULL) {
 
-		this->infoModel = new BlockInfoModel();
+		infoModel = new BlockInfoModel();
 		
 		for (Block* block : data) {
 			//QString iconPath = FilePath + block->BlockName() + ".png";
 			//QIcon icon = QIcon(iconPath);
 			//QStandardItem* item = new QStandardItem(icon, block->BlockName());
 			
-			this->infoModel->addBlockInfo(block);
+			infoModel->addBlockInfo(block);
 		}
 	}
 }
@@ -116,7 +116,6 @@ QStringList BlockInfoOperator::getNames() {
 
 	return names;
 }
-
 
 BlockInfoModel* BlockInfoOperator::getInfoModel() {
 	return infoModel;
