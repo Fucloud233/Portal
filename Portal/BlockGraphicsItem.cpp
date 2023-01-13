@@ -110,12 +110,16 @@ QPoint BlockGraphicsItem::getPos() const  {
 // 按下鼠标
 void BlockGraphicsItem::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 	QPoint point = event->scenePos().toPoint();	
-	if (parentMap->translatePos(point)) {
+
+	// 当位置合法 且不为空时 才进行移动
+	if (parentMap->translatePos(point)&&!parentMap->isNULL(point)) {
 		setFocus();
-		parentMap->setSelectedPos(point);
 		m_origin_pos = point;
 		QGraphicsItem::mousePressEvent(event);
 	}
+
+	// 设置当前选择的位置
+	parentMap->setSelectedPos(point);
 }
 
 // 鼠标移动
@@ -146,7 +150,7 @@ void BlockGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem*
 	}
 
 	// 当Block被选择时 为其绘制方框
-	if (isSelected()&&!parentMap->isNULL(index)) {
+	if (isSelected()) {
 		this->setCursor(Qt::OpenHandCursor);
 		//qDebug() << parentMap->getBlock(index).BlockName();
 		painter->setPen(QPen(Qt::blue, 1));
