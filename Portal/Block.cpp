@@ -47,18 +47,18 @@ bool Block::saveInfo() {
 }
 
 void Block::write(QJsonObject& json) {
-	json["block_name"] = block_name;
-	json["block_type"] = block_type;
-	json["block_code"] = block_code;
-	json["block_img"] = block_img_path;
+	json["name"] = block_name;
+	json["type"] = block_type;
+	json["code"] = block_code;
+	json["img"] = block_img_path;
 }
 
 void Block::read(const QJsonObject& json) {
-	block_name = json["block_name"].toString();
-	block_type = (Type)json["block_type"].toInt();
-	block_code = json["block_code"].toInt();
+	block_name = json["name"].toString();
+	block_type = (Type)json["type"].toInt();
+	block_code = json["code"].toInt();
 
-	block_img_path = json["block_img"].toString();
+	block_img_path = json["img"].toString();
 	block_img = QPixmap(block_img_path);
 }
 
