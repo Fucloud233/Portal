@@ -37,6 +37,8 @@ public:
 	void swap(int row1, int col1, int row2, int col2);
 	
 	int bound(Direct direct) const;
+	int Width() const ;
+	int Height() const ;
 
 	T* operator[](int row) const;
 	Matrix<T>& operator=(const Matrix<T>& matrix);
@@ -49,6 +51,7 @@ bool Matrix<T>::modify(int row, int col, const T& elem) {
 	}
 
 	data[row][col] = elem;
+	return true;
 }
 
 template<class T>
@@ -214,9 +217,19 @@ Matrix<T>& Matrix<T>::operator=(const Matrix<T>& matrix) {
 			row = i >= 0 ? i : i + maxW;
 			col = j >= 0 ? j : j + maxH;
 
-			this->data[row][col] = matrix.data[row][col];
+			data[row][col] = matrix.data[row][col];
 		}
 	}
 
 	return *this;
+}
+
+template<class T>
+int Matrix<T>::Width() const {
+	return right - left;
+}
+
+template<class T>
+int Matrix<T>::Height() const {
+	return bottom - top;
 }
