@@ -1,128 +1,158 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>qml;cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>qrc;rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Form Files">
-      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
-      <Extensions>ui</Extensions>
-    </Filter>
     <Filter Include="Translation Files">
       <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
       <Extensions>ts</Extensions>
     </Filter>
-    <Filter Include="Resource Files\Block">
-      <UniqueIdentifier>{d847c8b0-8c71-4ea0-bbfd-00eaac18436c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\MapEditor">
+    <Filter Include="MapEditor">
       <UniqueIdentifier>{19a7fbd0-6bde-4023-9f4c-f3aa84e1f5ad}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Widget">
-      <UniqueIdentifier>{35b0cbd0-c0e0-42ba-86f1-589659f3db16}</UniqueIdentifier>
+    <Filter Include="MapEditor\Header">
+      <UniqueIdentifier>{ae7d9227-81ee-4260-b77f-db87972ebd0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{ba87fb98-942c-4381-ad87-cf450504b61c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Header">
+      <UniqueIdentifier>{6a43d4e8-9257-472e-ae40-8559b8f91e35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource FIles">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>qrc;rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Resource FIles\Block">
+      <UniqueIdentifier>{d847c8b0-8c71-4ea0-bbfd-00eaac18436c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Others">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>qml;cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Others\Header">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Test">
+      <UniqueIdentifier>{73810bf2-6f0b-4b8a-bb14-141101375beb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="MainWindow.qrc">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource FIles</Filter>
     </QtRcc>
-    <QtUic Include="MainWindow.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtMoc Include="MapEditorWindow.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Matrix.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Others</Filter>
     </ClCompile>
-    <ClCompile Include="Map.cpp">
-      <Filter>Source Files\MapEditor</Filter>
-    </ClCompile>
-    <ClCompile Include="MapGraphicsView.cpp">
-      <Filter>Source Files\Widget</Filter>
+    <ClCompile Include="MapEdit.cpp">
+      <Filter>MapEditor</Filter>
     </ClCompile>
     <ClCompile Include="MapEditorWindow.cpp">
-      <Filter>Source Files\MapEditor</Filter>
+      <Filter>MapEditor</Filter>
     </ClCompile>
     <ClCompile Include="Block.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Others</Filter>
     </ClCompile>
     <ClCompile Include="BlockInfoOperator.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Others</Filter>
     </ClCompile>
     <ClCompile Include="BlockStatus.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Others</Filter>
     </ClCompile>
     <ClCompile Include="ItemDelegate.cpp">
-      <Filter>Source Files\MapEditor</Filter>
+      <Filter>MapEditor</Filter>
     </ClCompile>
     <ClCompile Include="BlockStatusView.cpp">
-      <Filter>Source Files\MapEditor</Filter>
+      <Filter>MapEditor</Filter>
     </ClCompile>
     <ClCompile Include="BlockGraphicsItem.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Others</Filter>
     </ClCompile>
     <ClCompile Include="BlockInfoModel.cpp">
-      <Filter>Source Files\MapEditor</Filter>
+      <Filter>MapEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="MapEditorGraphicsView.cpp">
+      <Filter>MapEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="GameWindow.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="MapGraphicsView.cpp">
+      <Filter>Others</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Others</Filter>
+    </ClCompile>
+    <ClCompile Include="BlockEditGraphicsItem.cpp">
+      <Filter>MapEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="TestWindow.cpp">
+      <Filter>Test</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Block.h">
-      <Filter>Header Files</Filter>
+      <Filter>Others\Header</Filter>
     </ClInclude>
     <ClInclude Include="BlockInfoOperator.h">
-      <Filter>Header Files</Filter>
+      <Filter>Others\Header</Filter>
     </ClInclude>
     <ClInclude Include="Matrix.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Map.h">
-      <Filter>Header Files</Filter>
+      <Filter>Others\Header</Filter>
     </ClInclude>
     <ClInclude Include="BlockGraphicsItem.h">
-      <Filter>Header Files</Filter>
+      <Filter>Others\Header</Filter>
     </ClInclude>
     <ClInclude Include="BlockStatus.h">
-      <Filter>Header Files</Filter>
+      <Filter>Others\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MapEdit.h">
+      <Filter>MapEditor\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Others\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="BlockEditGraphicsItem.h">
+      <Filter>MapEditor\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="TestWindow.h">
+      <Filter>Test</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Block\Empty.json">
-      <Filter>Resource Files\Block</Filter>
+      <Filter>Resource FIles\Block</Filter>
     </None>
     <None Include="Block\Blocks.json">
-      <Filter>Resource Files\Block</Filter>
+      <Filter>Resource FIles\Block</Filter>
     </None>
     <None Include="..\README.md">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource FIles</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="MapGraphicsView.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="BlockInfoModel.h">
-      <Filter>Header Files</Filter>
+      <Filter>MapEditor\Header</Filter>
     </QtMoc>
     <QtMoc Include="BlockStatusView.h">
-      <Filter>Header Files</Filter>
+      <Filter>MapEditor\Header</Filter>
     </QtMoc>
     <QtMoc Include="ItemDelegate.h">
-      <Filter>Header Files</Filter>
+      <Filter>MapEditor\Header</Filter>
+    </QtMoc>
+    <QtMoc Include="MapEditorGraphicsView.h">
+      <Filter>MapEditor\Header</Filter>
+    </QtMoc>
+    <QtMoc Include="MapEditorWindow.h">
+      <Filter>MapEditor\Header</Filter>
+    </QtMoc>
+    <QtMoc Include="GameWindow.h">
+      <Filter>Game\Header</Filter>
+    </QtMoc>
+    <QtMoc Include="MapGraphicsView.h">
+      <Filter>Others\Header</Filter>
     </QtMoc>
   </ItemGroup>
 </Project>

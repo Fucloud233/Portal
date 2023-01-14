@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Map.h"
+#include "MapEdit.h"
 #include "BlockInfoOperator.h"
 #include "BlockGraphicsItem.h"
 
@@ -9,36 +9,17 @@
 
 #define Operator BlockInfoOperator 
 
-class MapGraphicsView : public QGraphicsView {
+class MapGraphicsView :public QGraphicsView {
 	Q_OBJECT
 public:
-	explicit MapGraphicsView(QWidget* parent = nullptr);
+	MapGraphicsView(QWidget* parent = nullptr);
 
-	// 初始化地图
-	void intialMap();
-	bool saveMap(QString filePath);
-	bool loadMap(QString filePath);
-
-private:
+protected:
 	static int BlockSize;
 
 	Map* map;
 	QGraphicsScene* scene;
-	BlockGraphicsItem* highlightArea;
-	
-	QPoint m_last_pos;
-	
-	void initialScene();
 
-	void testPaint();
-
-	void mousePressEvent(QMouseEvent* event);
-	void dragMoveEvent(QDragMoveEvent* event);
-	void dropEvent(QDropEvent* event);
-
-private slots:
-	void updateBlock();
-
-signals:
-	void selectBlock(BlockStatus* status);
+	// 根据Map提供的接口来初始化Scene
+	virtual void initialScene();
 };

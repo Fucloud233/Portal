@@ -1,4 +1,6 @@
 #include "MapEditorWindow.h"
+#include "GameWindow.h"
+#include "TestWindow.h"
 
 #include <QtWidgets/QApplication>
 #include <QGraphicsScene>
@@ -33,8 +35,14 @@ int main(int argc, char *argv[])
     //return 0;
 
     QApplication a(argc, argv);
-    MapEditorWindow w;
-    w.show();
+    MapEditorWindow w1;
+    w1.show();
+
+    //GameWindow w;
+    //w.show();
+
+    //TestWindow w2;
+    //w2.show();
     
     return a.exec();
 

@@ -2,18 +2,15 @@
 
 #include <QtWidgets/QMainWindow>
 
-#include "Map.h"
+#include "MapEdit.h"
 #include "BlockInfoOperator.h"
-#include "MapGraphicsView.h"
+#include "MapEditorGraphicsView.h"
 #include "BlockStatusView.h"
 
 #include <QListView>
 #include <QMouseEvent>
 #include <QMdiArea>
 #include <QMdiSubWindow>
-
-
-// http://shouce.jb51.net/qt-beginning/15.html
 
 class MapEditorWindow : public QMainWindow
 {

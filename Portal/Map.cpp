@@ -1,7 +1,5 @@
 #include "Map.h"
 
-#include "BlockInfoOperator.h"
-
 #include <QPen>
 #include <QBrush>
 #include <QPainter>
@@ -13,6 +11,7 @@
 
 Map::Map(int blockSize) {
 	this->blockSize = blockSize;
+	height = width = 0;
 }
 
 Map::~Map() {
@@ -22,15 +21,16 @@ Map::~Map() {
 void Map::initial(int width, int height) {
 	// 初始化变量
 	this->width = width; this->height = height;
-	
-	//data = Matrix<Block* >(width, height, NULL);
-	statuses = Matrix<BlockStatus>(width, height, BlockStatus());
+
+	// [修改] 将statuses 修改为指针
+	statuses = Matrix<BlockStatus*>(width, height, NULL);
 	items = Matrix<BlockGraphicsItem*>(width, height, NULL);
 
 	// 每个Item 由于所在坐标不同 需要单独设置
 	for (int i = items.bound(Direct::TOP); i != items.bound(Direct::BOTTOM); i++) {
 		for (int j = items.bound(Direct::LEFT); j != items.bound(Direct::RIGHT); j++) {
 			// 创建item对象
+			statuses[i][j] = new BlockStatus();
 			items[i][j] = new BlockGraphicsItem(j, i, this);
 		}
 	}
@@ -43,80 +43,36 @@ bool Map::modify(const QPoint& point, int blockCode, BlockStatus* status) {
 bool Map::modify(int x, int y, int blockCode, BlockStatus* status) {
 	if (!statuses.checkIndex(y, x)) {
 		return false;
-	}    
-	
-	// 修改对应的Item
-	BlockGraphicsItem* item = new BlockGraphicsItem(x, y, BlockInfoOperator::value(blockCode)->BlockImg(), this);
-	item->setFlag(QGraphicsItem::ItemIsMovable);
-
-	delete items[y][x];
-	items[y][x] = item;
-	//data[y][x] = block;
-
-	if (status)
-		statuses[y][x] = *status;
-	else
-		// 当没有特定的status传入时 利用默认构造函数传递
-		statuses[y][x] = BlockStatus(blockCode);
-
-	return true;
-}
-
-bool Map::swap(const QPoint& source, const QPoint& target) {
-	return this->swap(source.x(), source.y(), target.x(), target.y());
-}
-
-bool Map::swap(int s_x, int s_y, int t_x, int t_y) {
-	// 判断Pos是否越界
-	if (!statuses.checkIndex(s_y, s_x) || !statuses.checkIndex(t_y, t_x)) {
-		return false;
 	}
-	
-	// 判断移动是否满足情况
-	//if (data[s_y][s_x] == NULL) {
-	//	return false;
-	//}
 
-	// 这里调用的是基类的函数
-	items[s_y][s_x]->setPos(t_x, t_y);
-	items[t_y][t_x]->setPos(s_x, s_y);
+	// [修改] item的修改的方式: delete + add -> set 
+	items[y][x]->setImg(BlockInfoOperator::value(blockCode)->BlockImg());
 
-	items.swap(s_y, s_x, t_y, t_x);
-	//data.swap(s_y, s_x, t_y, t_x);
-	statuses.swap(s_y, s_x, t_y, t_x);
+	// 当没有特定的status传入时 利用默认构造函数传递
+	if (status) {
+		delete statuses[y][x];
+		statuses[y][x] = status;
+	}
+	else
+		statuses[y][x]->setBlock(blockCode);
 
 	return true;
 }
+
 
 int Map::BlockSize() const {
 	return blockSize;
 }
 
-bool Map::hasSelected() const {
-	return !selected_block_index.isNull();
-}
-
-void Map::setSelectedPos(const QPoint& point) {
-	this->selected_block_index = point;
-}
-
-QPoint Map::getSelectedPos() const {
-	return selected_block_index;
-}
-
-BlockStatus* Map::SelectedBlockStatus() const {
-	return &statuses[selected_block_index.y()][selected_block_index.x()];
-}
-
 BlockStatus* Map::getBlockStatus(const QPoint& point) const {
-	return &statuses[point.y()][point.x()];
+	return statuses[point.y()][point.x()];
 }
 
 BlockStatus* Map::getBlockStatus(int x, int y) const {
-	return &statuses[y][x];
+	return statuses[y][x];
 }
 
-BlockGraphicsItem* Map::getItem(int x, int y) const{
+BlockGraphicsItem* Map::getItem(int x, int y) const {
 	return items[y][x];
 }
 
@@ -144,18 +100,18 @@ bool Map::checkPos(const QPoint& p) const {
 	return statuses.checkIndex(p.y(), p.x());
 }
 
-bool  Map::checkX(int x) const {
+bool Map::checkX(int x) const {
 	return statuses.checkIndex(statuses.bound(Direct::TOP), x);
 }
-bool  Map::checkY(int y) const {
+bool Map::checkY(int y) const {
 	return statuses.checkIndex(y, statuses.bound(Direct::LEFT));
 }
 
 bool Map::isNULL(const QPoint& point) const {
-	return statuses[point.y()][point.x()].isNULL();
+	return !statuses[point.y()][point.x()];
 }
 
-bool Map::translatePos(QPoint& point) const {
+bool Map::translatePos(QPoint& point) const{
 	point.setX(point.x() / blockSize);
 	point.setY(point.y() / blockSize);
 
@@ -169,13 +125,13 @@ void Map::write(QJsonObject& json) {
 	for (int i = statuses.bound(Direct::TOP); i != statuses.bound(Direct::BOTTOM); i++) {
 		for (int j = statuses.bound(Direct::LEFT); j != statuses.bound(Direct::RIGHT); j++) {
 			// 创建item对象
-			if (!statuses[i][j].isNULL()) {
+			if (!statuses[i][j]) {
 				// 存 the Block of Code and Status
 				QJsonObject statusJson;
 				statusJson["x"] = j;
 				statusJson["y"] = i;
-				statuses[i][j].write(statusJson);
-				
+				statuses[i][j]->write(statusJson);
+
 				jsonArray.append(statusJson);
 			}
 		}
@@ -191,8 +147,8 @@ void Map::read(QJsonObject& json) {
 	initial(json["Width"].toInt(), json["Height"].toInt());
 
 	QJsonArray jsonArray = json["Blocks"].toArray();
-	
-	for (int i = 0; i < jsonArray.size();i++) {
+
+	for (int i = 0; i < jsonArray.size(); i++) {
 		QJsonObject statusJson = jsonArray[i].toObject();
 
 		// 从Json中加载信息
@@ -201,6 +157,7 @@ void Map::read(QJsonObject& json) {
 		//Block* block = BlockInfoOperator::value(statusJson["code"].toInt());
 		BlockStatus status; status.read(statusJson);
 
+		// 根据读取内容进行修改
 		modify(x, y, code, &status);
 	}
 }

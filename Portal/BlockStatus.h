@@ -15,6 +15,8 @@ private:
 
 	// 用于显示的信息
 	QStandardItemModel* statusModel;
+
+	void setModel();
 	
 public:
 	// 用于得到对应字段名
@@ -23,9 +25,6 @@ public:
 	};
 
 	BlockStatus(int blockCode = -1);
-	BlockStatus(const Block* block);
-
-	void initialModel();
 
 	virtual void write(QJsonObject& json);
 	virtual void read(const QJsonObject& json);
@@ -34,11 +33,13 @@ public:
 	QStringList getFieldList();
 	QList<QStandardItem*> getItemsList();
 
-	Block getInfo();
+	//Block getInfo();
 	QStringList getBlockTypes();
 	Block::Type getBlockType();
 	void setBlockType(QString text);
 	void setBlockType(Block::Type type);
+
+	void setBlock(int blockCode);
 
 	bool isNULL() const;
 };

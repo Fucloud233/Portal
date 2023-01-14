@@ -19,8 +19,9 @@ MapEditorWindow::MapEditorWindow(QWidget *parent)
     setupMenu();
 }
 
-MapEditorWindow::~MapEditorWindow()
-{}
+MapEditorWindow::~MapEditorWindow(){
+    
+}
 
 void MapEditorWindow::setupMdiArea() {
     mdiArea = new QMdiArea;
@@ -65,19 +66,18 @@ void MapEditorWindow::setupMenu() {
     QAction* openAction = new QAction("打开");
 
     fileMenu->addAction(newAction);
-    fileMenu->addAction(saveAsAction);
     fileMenu->addAction(openAction);
+    //fileMenu->addAction(saveAsAction);
 
     connect(newAction, SIGNAL(triggered()), SLOT(newMap()));
-    connect(saveAsAction, SIGNAL(triggered()), SLOT(saveAsMap()));
     connect(openAction, SIGNAL(triggered()), SLOT(openMap()));
+    connect(saveAsAction, SIGNAL(triggered()), SLOT(saveAsMap()));
 }
-
 
 void MapEditorWindow::setupGraphics(bool isNew, QString filePath) {
     // [Map] 将地图信息显示载入窗体
     QMdiSubWindow* w = new QMdiSubWindow(mdiArea);
-    MapGraphicsView* mapView = new MapGraphicsView(w);
+    MapEditorGraphicsView* mapView = new MapEditorGraphicsView(w);
     w->setWidget(mapView);
     w->showMaximized();
     
@@ -110,7 +110,7 @@ void MapEditorWindow::newMap() {
 
 void MapEditorWindow::saveAsMap() {
 
-    MapGraphicsView* mapView = qobject_cast<MapGraphicsView*>(currentWindow->widget());
+    MapEditorGraphicsView* mapView = qobject_cast<MapEditorGraphicsView*>(currentWindow->widget());
 
     // 打开文件Dialog 获取保存地址
     QFileDialog fileDialog;

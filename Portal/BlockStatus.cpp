@@ -1,31 +1,24 @@
 #include "BlockStatus.h"
 #include "BlockInfoOperator.h"
 
-BlockStatus::BlockStatus(const Block* block){
-	this->block = block;
+BlockStatus::BlockStatus(int blockCode) {
+	// [注意] 指针的初始化
+	statusModel = NULL;
+	setBlock(blockCode);
+}
+
+void BlockStatus::setModel() {
+	if (statusModel) {
+		delete statusModel;
+	}
 
 	if (block) {
-		code = block->BlockCode();
-		type = block->BlockType() != Block::ALL ? block->BlockType() : Block::FULL;
-		initialModel();
+		statusModel = new QStandardItemModel();
+		statusModel->setVerticalHeaderLabels(getFieldList());
+		statusModel->insertColumn(statusModel->columnCount(), getItemsList());
 	}
-	else {
-		code = 0;
-		type = Block::EMPTY;
+	else
 		statusModel = NULL;
-	}
-
-	direct = 0;
-}
-
-BlockStatus::BlockStatus(int blockCode):
-	BlockStatus(BlockInfoOperator::value(blockCode)) {
-}
-
-void BlockStatus::initialModel() {
-	statusModel = new QStandardItemModel();
-	statusModel->setVerticalHeaderLabels(getFieldList());
-	statusModel->insertColumn(statusModel->columnCount(), getItemsList());
 }
 
 void BlockStatus::write(QJsonObject& json) {
@@ -39,7 +32,7 @@ void BlockStatus::read(const QJsonObject& json) {
 	block = BlockInfoOperator::value(code);
 
 	// 记得要初始化Model 用于存储显示的状态表
-	initialModel();
+	setModel();
 }
 
 QStandardItemModel* BlockStatus::getStatusModel() {
@@ -75,6 +68,19 @@ void BlockStatus::setBlockType(QString text) {
 
 void BlockStatus::setBlockType(Block::Type type) {
 	this->type = type;
+}
+
+void BlockStatus::setBlock(int blockCode) {
+	block = BlockInfoOperator::value(blockCode);
+	code = blockCode;
+	if (block)
+		type = block->BlockType() != Block::ALL ? block->BlockType() : Block::FULL;
+	else
+		type = Block::EMPTY;
+
+	direct = 0;
+
+	setModel();
 }
 
 bool BlockStatus::isNULL() const {
