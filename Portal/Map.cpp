@@ -108,7 +108,7 @@ bool Map::checkY(int y) const {
 }
 
 bool Map::isNULL(const QPoint& point) const {
-	return !statuses[point.y()][point.x()];
+	return statuses[point.y()][point.x()]->isNULL();
 }
 
 bool Map::translatePos(QPoint& point) const{
@@ -155,9 +155,10 @@ void Map::read(QJsonObject& json) {
 		int x = statusJson["x"].toInt(), y = statusJson["y"].toInt();
 		int code = statusJson["code"].toInt();
 		//Block* block = BlockInfoOperator::value(statusJson["code"].toInt());
-		BlockStatus status; status.read(statusJson);
+		BlockStatus* status =  new BlockStatus; 
+		status->read(statusJson);
 
 		// 根据读取内容进行修改
-		modify(x, y, code, &status);
+		modify(x, y, code, status);
 	}
 }

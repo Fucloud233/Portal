@@ -3,12 +3,13 @@
 #include <QCursor>
 #include <QPen>
 
-BlockEditGraphicsItem::BlockEditGraphicsItem(MapEdit* map):
-	BlockGraphicsItem(map) {
+BlockEditGraphicsItem::BlockEditGraphicsItem(MapEdit* map) {
+	// 调用基类的初始化函数
+	BlockGraphicsItem::initial(QPoint(0, 0), QPixmap(), map);
+	origin_height = DRAFT;
 }
 
-BlockEditGraphicsItem::BlockEditGraphicsItem(const QPoint& index, const QPixmap& img, Map* map) :
-	BlockGraphicsItem(map) {
+BlockEditGraphicsItem::BlockEditGraphicsItem(const QPoint& index, const QPixmap& img, Map* map) {
 	initial(index, img, map);
 }
 

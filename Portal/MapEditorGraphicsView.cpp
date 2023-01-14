@@ -114,13 +114,11 @@ void MapEditorGraphicsView::dragMoveEvent(QDragMoveEvent* event) {
         highlightArea->setVisible(false);
         return;
     }
+    //qDebug() << p.x() << p.y();
 
-    QByteArray blockData = event->mimeData()->imageData().toByteArray();
-    QDataStream dataStream(&blockData, QIODevice::ReadOnly);
-    QPixmap img;
-    dataStream >> img;
+    int blockCode = event->mimeData()->text().toInt();
 
-    highlightArea->setImg(img);
+    highlightArea->setImg(BlockInfoOperator::value(blockCode)->BlockImg());
     highlightArea->setPos(p);
     //qDebug() << highlightArea->pos().x() << highlightArea->pos().y();
     highlightArea->setVisible(true);
@@ -131,8 +129,7 @@ void MapEditorGraphicsView::dropEvent(QDropEvent* event) {
     QPoint p = mapToScene(event->pos()).toPoint();
 
     // 只有当坐标合法 且当前位置不为空时 才可以放置
-    if (map->translatePos(p)||map->isNULL(p)) {
-
+    if (map->translatePos(p)&&map->isNULL(p)) {
         scene->removeItem(map->getItem(p));
         // 修改方块
         int blockCode = event->mimeData()->text().toInt();
