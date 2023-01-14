@@ -13,19 +13,21 @@ class BlockGraphicsItem;
 class Map {
 protected:
 	//Matrix<Block*> data;
-	Matrix<BlockStatus*> statuses;
+	Matrix<BlockStatus*> blocks;
 	Matrix<BlockGraphicsItem*> items;
 
 	int blockSize;
 	int width, height;
+
+	virtual void initial(int width, int height, int blockSize);
+
 public:
-	Map(int blockSize = 48);
+	Map(int blockSize = 0);
+	Map(int width, int height, int blockSize);
 	~Map();
 
-	virtual void initial(int width = 10, int height = 10);
-
-	bool modify(int x, int y, int blockCode, BlockStatus* status = NULL);
-	bool modify(const QPoint& point, int blockCode, BlockStatus* status = NULL);
+	virtual bool modify(int x, int y, BlockStatus* status);
+	virtual bool modify(const QPoint& point, BlockStatus* status);
 
 	bool translatePos(QPoint& point) const;
 	
@@ -44,5 +46,5 @@ public:
 	QList<BlockGraphicsItem*> getItems();
 
 	void write(QJsonObject& json);
-	void read(QJsonObject& json);
+	void read(const QJsonObject& json);
 };

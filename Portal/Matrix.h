@@ -44,7 +44,7 @@ public:
 	Matrix<T>& operator=(const Matrix<T>& matrix);
 };
 
-template<class T>
+template<class T>	
 bool Matrix<T>::modify(int row, int col, const T& elem) {
 	if (!checkIndex(row, col)) {
 		return false;
@@ -135,7 +135,7 @@ template<class T>
 bool Matrix<T>::isFull() {
 	bool flag1 = (right - left) >= (maxW - 1);
 	bool flag2 = (bottom - top) >= (maxH - 1);
-	
+		  
 	// 只要有一个超出边界 那么都算超出边界
 	return flag1 || flag2;
 }

@@ -1,83 +1,24 @@
 #include "MapEditorGraphicsView.h"
 
-int MapEditorGraphicsView::BlockSize = 48;
-
 MapEditorGraphicsView::MapEditorGraphicsView(QWidget* parent):
     MapGraphicsView(parent) {
-
-    // 当View没有被初始化时 设置禁用
-    map = NULL;
-    setEnabled(false);
-
-    // initial the scence
-    scene = new QGraphicsScene();
-    scene->setBackgroundBrush(Qt::black);
-    setScene(scene);
 
     highlightArea = NULL;
 }
 
 void MapEditorGraphicsView::intialMap() {
-    // 将基类的Map也要初始化
-    map = new MapEdit(BlockSize);
-    map->initial(10, 10);
+    map = new MapEdit(10, 10, BlockSize);
     setEnabled(true);
-
-    initialScene();
+    addItems();
 }
 
-bool MapEditorGraphicsView::loadMap(QString filePath) {
-    map = new MapEdit(BlockSize);
-    
-    QFile loadFile(filePath);
-    if (!loadFile.open(QIODevice::ReadOnly)) {
-        qWarning("[Error] 文件打开失败!");
-        return false;
-    }
-
-    QByteArray loadData = loadFile.readAll();
-    QJsonObject json = (QJsonDocument::fromJson(loadData)).object();
-    
-    map->read(json);
-    setEnabled(true);
-
-    // 将元素添加到Scene中
-    initialScene();
-    return true;
-}
-
-bool MapEditorGraphicsView::saveMap(QString filePath) {
-    QJsonObject json;
-
-    map->write(json);
-
-    // 处理文件保存
-    QString path = filePath.left(filePath.lastIndexOf('/'));
-    // 当路径不存在时 创建路径
-    if (!QFile::exists(filePath)) {
-        QDir dir(path);
-        // 路径不存在-> 创造路径-> Error
-        if (!dir.exists() && !dir.mkdir(path)) {
-            return false;
-        }
-    }
-
-    QFile saveFile(filePath);
-    if (saveFile.open(QIODevice::WriteOnly)) {
-        //qWarning("文件打开失败!");
-        saveFile.write(QJsonDocument(json).toJson());
-    }
-
-    return true;
-}
-
-void MapEditorGraphicsView::initialScene() {
-    MapGraphicsView::initialScene();
+void MapEditorGraphicsView::addItems() {
+    MapGraphicsView::addItems();
 
     // [HighLight]
     highlightArea = new BlockEditGraphicsItem((MapEdit*) map);
     highlightArea->setHeight(BlockGraphicsItem::TOP);
-    highlightArea->setVisible(false);
+    highlightArea->setVisible(false); 
     scene->addItem(highlightArea);
 }
 
@@ -133,7 +74,7 @@ void MapEditorGraphicsView::dropEvent(QDropEvent* event) {
         scene->removeItem(map->getItem(p));
         // 修改方块
         int blockCode = event->mimeData()->text().toInt();
-        map->modify(p, blockCode);
+        map->modify(p, new BlockStatus(blockCode));
         scene->addItem(map->getItem(p));
     }
 

@@ -10,11 +10,13 @@ private:
 	QPoint selected_block_index;
 
 public:
-	MapEdit(int blockSize = 48);
+	MapEdit(int blockSize = 0);
+	MapEdit(int width, int height, int blockSize);
 	~MapEdit();
 
-	void initial(int width = 10, int height = 10);
+	void initial(int width, int height, int blockSize) override;
 	
+	bool modify(int x, int y, BlockStatus* status) override;
 	bool swap(const QPoint& source, const QPoint& target);
 	bool swap(int s_x, int s_y, int t_x, int t_y);
 

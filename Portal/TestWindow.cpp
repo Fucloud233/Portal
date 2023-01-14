@@ -9,7 +9,4 @@ TestWindow::TestWindow(QWidget* parent) :
 
 	MapEditorGraphicsView* mapView = new MapEditorGraphicsView(this);
 	setCentralWidget(mapView);
-	mapView->intialMap();
-
-
 }

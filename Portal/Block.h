@@ -12,12 +12,10 @@ public:
 
 private:
 	static QMap<Type, QString> Types;
-
 	static int BaseBlockCode;
-
-protected:
 	static QString FilePath;
 
+protected:
 	QString block_name;
 	Type block_type;
 	QPixmap block_img;
@@ -48,4 +46,3 @@ public:
 	QStringList BlockTypesText() const;
 	QPixmap BlockImg() const;
 };
-Q_DECLARE_METATYPE(Block)

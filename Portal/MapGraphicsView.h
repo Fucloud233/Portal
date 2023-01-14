@@ -1,6 +1,5 @@
 #pragma once
 
-#include "MapEdit.h"
 #include "BlockInfoOperator.h"
 #include "BlockGraphicsItem.h"
 
@@ -14,6 +13,8 @@ class MapGraphicsView :public QGraphicsView {
 public:
 	MapGraphicsView(QWidget* parent = nullptr);
 
+	virtual bool saveMap(QString filePath);
+	virtual bool loadMap(QString filePath);
 protected:
 	static int BlockSize;
 
@@ -21,5 +22,5 @@ protected:
 	QGraphicsScene* scene;
 
 	// 根据Map提供的接口来初始化Scene
-	virtual void initialScene();
+	virtual void addItems();
 };

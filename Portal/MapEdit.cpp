@@ -5,30 +5,41 @@
 MapEdit::MapEdit(int blockSize):
 	Map(blockSize) {
 
-	selected_block_index = QPoint();
+}
+
+MapEdit::MapEdit(int width, int height, int blockSize) {
+	initial(width, height, blockSize);
 }
 
 MapEdit::~MapEdit() {
 
 }
 
-void MapEdit::initial(int width, int height) {
-	qDebug() << "MapEdit initial";
-
-	// 初始化变量
-	this->width = width; this->height = height;
-	
-	statuses = Matrix<BlockStatus*>(width, height, NULL);
-	items = Matrix<BlockGraphicsItem*>(width, height, NULL);
+void MapEdit::initial(int width, int height, int blockSize) {
+	Map::initial(width, height, blockSize);
 
 	// 每个Item 由于所在坐标不同 需要单独设置
 	for (int i = items.bound(Direct::TOP); i != items.bound(Direct::BOTTOM); i++) {
 		for (int j = items.bound(Direct::LEFT); j != items.bound(Direct::RIGHT); j++) {
 			// 创建item对象
-			statuses[i][j] = new BlockStatus();
+			blocks[i][j] = new BlockStatus();
 			items[i][j] = new BlockEditGraphicsItem(j, i, this);
 		}
 	}
+}
+
+bool MapEdit::modify(int x, int y, BlockStatus* status) {
+	if (!blocks.checkIndex(y, x)) {
+		return false;
+	}
+
+	if (blocks[y][x]) delete blocks[y][x];
+	if (items[y][x]) delete items[y][x];
+
+	blocks[y][x] = status;
+	items[y][x] = new BlockEditGraphicsItem(x, y, status->BlockImg(), this);
+
+	return true;
 }
 
 bool MapEdit::swap(const QPoint& source, const QPoint& target) {
@@ -37,7 +48,7 @@ bool MapEdit::swap(const QPoint& source, const QPoint& target) {
 
 bool MapEdit::swap(int s_x, int s_y, int t_x, int t_y) {
 	// 判断Pos是否越界
-	if (!statuses.checkIndex(s_y, s_x) || !statuses.checkIndex(t_y, t_x)) {
+	if (!blocks.checkIndex(s_y, s_x) || !blocks.checkIndex(t_y, t_x)) {
 		return false;
 	}
 	
@@ -51,8 +62,7 @@ bool MapEdit::swap(int s_x, int s_y, int t_x, int t_y) {
 	items[t_y][t_x]->setPos(s_x, s_y);
 
 	items.swap(s_y, s_x, t_y, t_x);
-	//data.swap(s_y, s_x, t_y, t_x);
-	statuses.swap(s_y, s_x, t_y, t_x);
+	blocks.swap(s_y, s_x, t_y, t_x);
 
 	return true;
 }
@@ -78,5 +88,5 @@ BlockStatus* MapEdit::SelectedBlockStatus() const {
 	if (selected_block_index.isNull()) 
 		return NULL;
 	else
-		return statuses[selected_block_index.y()][selected_block_index.x()];
+		return blocks[selected_block_index.y()][selected_block_index.x()];
 }

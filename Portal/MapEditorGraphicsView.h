@@ -1,22 +1,22 @@
 #pragma once
 
 #include "MapGraphicsView.h"
+#include "BlockEditGraphicsItem.h"
+#include "MapEdit.h"
 
 class MapEditorGraphicsView : public MapGraphicsView {
 	Q_OBJECT
 public:
 	MapEditorGraphicsView(QWidget* parent = nullptr);
 
-	// 初始化地图
+	// 初始化地图 用于编辑地图
 	void intialMap();
-	bool saveMap(QString filePath);
-	bool loadMap(QString filePath);
 
 private:
 	BlockEditGraphicsItem* highlightArea;
 	QPoint m_last_pos;
 
-	void initialScene();
+	void addItems();
 
 	void testPaint();
 

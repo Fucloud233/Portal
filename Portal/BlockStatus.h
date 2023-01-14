@@ -8,15 +8,16 @@
 class BlockStatus {
 private:
 	const Block* block;
-	// 基础信息
-	int code;
+	// 记录当前的状态
 	Block::Type type;
 	int direct;
 
 	// 用于显示的信息
 	QStandardItemModel* statusModel;
 
-	void setModel();
+	void initial(int blockCode, Block::Type blockType = Block::EMPTY);
+
+	QList<QStandardItem*> getItemsList();
 	
 public:
 	// 用于得到对应字段名
@@ -29,17 +30,15 @@ public:
 	virtual void write(QJsonObject& json);
 	virtual void read(const QJsonObject& json);
 
+	// 得到状态显示类
 	QStandardItemModel* getStatusModel();
-	QStringList getFieldList();
-	QList<QStandardItem*> getItemsList();
 
-	//Block getInfo();
+	QPixmap BlockImg();
+
+	void setBlockType(QString text);
+	void setBlockType(Block::Type blockType);
 	QStringList getBlockTypes();
 	Block::Type getBlockType();
-	void setBlockType(QString text);
-	void setBlockType(Block::Type type);
-
-	void setBlock(int blockCode);
 
 	bool isNULL() const;
 };
