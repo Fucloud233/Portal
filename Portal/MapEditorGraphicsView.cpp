@@ -4,10 +4,11 @@ MapEditorGraphicsView::MapEditorGraphicsView(QWidget* parent):
     MapGraphicsView(parent) {
 
     highlightArea = NULL;
+    map = new MapEdit;
 }
 
 void MapEditorGraphicsView::intialMap() {
-    map = new MapEdit(10, 10, BlockSize);
+    map->initial(10, 10, BlockSize);
     setEnabled(true);
     addItems();
 }

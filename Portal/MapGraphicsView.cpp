@@ -16,7 +16,7 @@ MapGraphicsView::MapGraphicsView(QWidget* parent) :
 }
 
 bool MapGraphicsView::loadMap(QString filePath) {
-
+    // 1. 打开文件 解析Json
     QFile loadFile(filePath);
     if (!loadFile.open(QIODevice::ReadOnly)) {
         qWarning("[Error] 文件打开失败!");
@@ -26,10 +26,13 @@ bool MapGraphicsView::loadMap(QString filePath) {
     QByteArray loadData = loadFile.readAll();
     QJsonObject json = (QJsonDocument::fromJson(loadData)).object();
 
+    // 2. 利用Map的read函数读取
     map->read(json);
-    setEnabled(true);
 
+    // 3. 对Scene进行操作
+    setEnabled(true);
     addItems();
+
     return true;
 }
 
@@ -62,6 +65,6 @@ void MapGraphicsView::addItems() {
 	const QList<BlockGraphicsItem*>& items = map->getItems();
 
 	for (BlockGraphicsItem* item : items) {
-		scene->addItem(item);
+        scene->addItem(item);
 	}
 }

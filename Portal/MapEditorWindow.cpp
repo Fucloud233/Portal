@@ -13,6 +13,9 @@ MapEditorWindow::MapEditorWindow(QWidget *parent)
     setMinimumSize(1280, 720);
     resize(minimumSize());
 
+    // 对Block操作类的初始化
+    BlockInfoOperator::initial();
+
     // 加载组件 
     setupMdiArea();
     setupOperator();
@@ -20,7 +23,6 @@ MapEditorWindow::MapEditorWindow(QWidget *parent)
 }
 
 MapEditorWindow::~MapEditorWindow(){
-    
 }
 
 void MapEditorWindow::setupMdiArea() {
@@ -28,15 +30,11 @@ void MapEditorWindow::setupMdiArea() {
     connect(mdiArea, &QMdiArea::subWindowActivated, [this](QMdiSubWindow* w) {
         currentWindow = w;
         });
-    //mdiArea->tileSubWindows();
-    // 重新堆叠
-    //mdiArea->cascadeSubWindows();
-    //mdiArea->setDocumentMode(true);
+
     setCentralWidget(mdiArea);
 }
 
 void MapEditorWindow::setupOperator() {
-    BlockInfoOperator::initial();
     // [BlockSelect] 
     QListView* listView = new QListView();
     listView->setModel(BlockInfoOperator::getInfoModel());
@@ -121,5 +119,6 @@ void MapEditorWindow::openMap() {
     // 打开文件Dialog 获取打开地址
     QFileDialog fileDialog;
     QString filePath = fileDialog.getOpenFileName();
-    setupGraphics(false, filePath);
+    if(!filePath.isEmpty())
+        setupGraphics(false, filePath);
 }

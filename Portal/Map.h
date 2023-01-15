@@ -8,6 +8,8 @@
 
 #include <QGraphicsItem>
 
+#define ICON_SIZE 48
+
 class BlockGraphicsItem;
 
 class Map {
@@ -19,12 +21,14 @@ protected:
 	int blockSize;
 	int width, height;
 
-	virtual void initial(int width, int height, int blockSize);
-
 public:
-	Map(int blockSize = 0);
+	// 构造函数 默认
+	Map();
+	// 构造函数 初始化
 	Map(int width, int height, int blockSize);
 	~Map();
+
+	virtual void initial(int width, int height, int blockSize);
 
 	virtual bool modify(int x, int y, BlockStatus* status);
 	virtual bool modify(const QPoint& point, BlockStatus* status);

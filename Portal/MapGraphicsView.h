@@ -13,8 +13,9 @@ class MapGraphicsView :public QGraphicsView {
 public:
 	MapGraphicsView(QWidget* parent = nullptr);
 
-	virtual bool saveMap(QString filePath);
-	virtual bool loadMap(QString filePath);
+	bool saveMap(QString filePath);
+	bool loadMap(QString filePath);
+
 protected:
 	static int BlockSize;
 

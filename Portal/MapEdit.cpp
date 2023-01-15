@@ -2,9 +2,8 @@
 
 #include "BlockInfoOperator.h"
 
-MapEdit::MapEdit(int blockSize):
-	Map(blockSize) {
-
+MapEdit::MapEdit():
+	Map() {
 }
 
 MapEdit::MapEdit(int width, int height, int blockSize) {
@@ -26,6 +25,11 @@ void MapEdit::initial(int width, int height, int blockSize) {
 			items[i][j] = new BlockEditGraphicsItem(j, i, this);
 		}
 	}
+}
+
+bool MapEdit::modify(const QPoint& point, BlockStatus* status) {
+	// 派生类调用基类函数时 会优先调用派生的override函数
+	return modify(point.x(), point.y(), status);
 }
 
 bool MapEdit::modify(int x, int y, BlockStatus* status) {
