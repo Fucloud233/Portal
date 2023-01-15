@@ -7,4 +7,15 @@ GameWindow::GameWindow(QWidget* parent) :
     setWindowTitle("Map Editor");
     setMinimumSize(1280, 720);
     resize(minimumSize());
+
+    // 对Block操作类的初始化
+    BlockInfoOperator::initial();
+
+    test();
+}
+
+void GameWindow::test() {
+    mapView = new GameGraphicsView();
+    mapView->loadMap("./Map/Map.map");
+    setCentralWidget(mapView);
 }

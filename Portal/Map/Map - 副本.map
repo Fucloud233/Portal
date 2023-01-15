@@ -548,6 +548,5 @@
         }
     ],
     "Height": 10,
-    "Width": 10,
-	"BlockSize": 48
+    "Width": 10
 }

@@ -91,6 +91,12 @@
     <ClCompile Include="TestWindow.cpp">
       <Filter>Test</Filter>
     </ClCompile>
+    <ClCompile Include="GameGraphicsView.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="MapGame.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Block.h">
@@ -119,6 +125,9 @@
     </ClInclude>
     <ClInclude Include="TestWindow.h">
       <Filter>Test</Filter>
+    </ClInclude>
+    <ClInclude Include="MapGame.h">
+      <Filter>Game\Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -153,6 +162,9 @@
     </QtMoc>
     <QtMoc Include="MapGraphicsView.h">
       <Filter>Others\Header</Filter>
+    </QtMoc>
+    <QtMoc Include="GameGraphicsView.h">
+      <Filter>Game\Header</Filter>
     </QtMoc>
   </ItemGroup>
 </Project>

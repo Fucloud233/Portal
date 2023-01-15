@@ -9,8 +9,8 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 
-Map::Map(int blockSize) {
-	this->blockSize = blockSize;
+Map::Map() {
+	blockSize = 1;
 	height = width = 0;
 }
 
@@ -77,8 +77,8 @@ QList<BlockGraphicsItem*> Map::getItems() {
 
 	for (int i = items.bound(Direct::TOP); i != items.bound(Direct::BOTTOM); i++) {
 		for (int j = items.bound(Direct::LEFT); j != items.bound(Direct::RIGHT); j++) {
-			// 创建item对象
-			itemsList.append(items[i][j]);
+			// 只有当item!=NULL存在时 才添加item
+			if(items[i][j]) itemsList.append(items[i][j]);
 		}
 	}
 	return itemsList;
@@ -132,9 +132,13 @@ void Map::write(QJsonObject& json) {
 	json["Blocks"] = jsonArray;
 	json["Width"] = width;
 	json["Height"] = height;
+	json["BlockSize"] = blockSize;
 }
 
 void Map::read(const QJsonObject& json) {
+	// 对Map进行初始化 (主要是Matrix对象)
+	initial(json["Width"].toInt(), json["Height"].toInt(), json["BlockSize"].toInt());
+
 	QJsonArray jsonArray = json["Blocks"].toArray();
 
 	for (int i = 0; i < jsonArray.size(); i++) {

@@ -38,8 +38,8 @@ int main(int argc, char *argv[])
     MapEditorWindow w1;
     w1.show();
 
-    //GameWindow w;
-    //w.show();
+    GameWindow w;
+    w.show();
 
     //TestWindow w2;
     //w2.show();
