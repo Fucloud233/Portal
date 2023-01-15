@@ -14,7 +14,7 @@ public:
 	MapGraphicsView(QWidget* parent = nullptr);
 
 	bool saveMap(QString filePath);
-	bool loadMap(QString filePath);
+	virtual bool loadMap(QString filePath);
 
 protected:
 	static int BlockSize;
@@ -22,6 +22,6 @@ protected:
 	Map* map;
 	QGraphicsScene* scene;
 
-	// 根据Map提供的接口来初始化Scene
+	// 添加GraphicsItem
 	virtual void addItems();
 };

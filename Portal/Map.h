@@ -21,6 +21,9 @@ protected:
 	int blockSize;
 	int width, height;
 
+	// 记录玩家的初始点
+	QPoint spawn_pos;
+
 public:
 	// 构造函数 默认
 	Map();
@@ -43,6 +46,8 @@ public:
 
 	int BlockSize() const;
 
+	QPoint SpawnPos() const;
+
 	BlockStatus* getBlockStatus(const QPoint& point) const;
 	BlockStatus* getBlockStatus(int x, int y) const;
 	BlockGraphicsItem* getItem(const QPoint& point) const;
@@ -50,5 +55,5 @@ public:
 	QList<BlockGraphicsItem*> getItems();
 
 	void write(QJsonObject& json);
-	void read(const QJsonObject& json);
+	virtual void read(const QJsonObject& json);
 };

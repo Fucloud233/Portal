@@ -32,3 +32,10 @@ void GraphicsItem::setHeight(Height height) {
 QPoint GraphicsItem::getPos() const {
 	return index;
 }
+
+int GraphicsItem::x() const {
+	return index.x();
+}
+int GraphicsItem::y() const {
+	return index.y();
+}

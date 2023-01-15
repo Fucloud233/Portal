@@ -18,10 +18,13 @@ public:
 	virtual void setHeight(Height height);
 
 	QPoint getPos() const;
+	int x() const;
+	int y() const;
+
+	virtual bool isAccessible() const = 0;
 
 protected:
 	int blockSize;
 	// 记录相对坐标
 	QPoint index;
-
 };

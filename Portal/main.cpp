@@ -35,8 +35,8 @@ int main(int argc, char *argv[])
     //return 0;
 
     QApplication a(argc, argv);
-    MapEditorWindow w1;
-    w1.show();
+    //MapEditorWindow w1;
+    //w1.show();
 
     GameWindow w;
     w.show();

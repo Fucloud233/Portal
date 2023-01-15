@@ -92,6 +92,7 @@
     <ClCompile Include="BlockGraphicsItem.cpp" />
     <ClCompile Include="GameGraphicsView.cpp" />
     <ClCompile Include="GameWindow.cpp" />
+    <ClCompile Include="GraphicsItem.cpp" />
     <ClCompile Include="ItemDelegate.cpp" />
     <ClCompile Include="MapEdit.cpp" />
     <ClCompile Include="MapEditorGraphicsView.cpp" />
@@ -99,6 +100,7 @@
     <ClCompile Include="MapGraphicsView.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="PlayerGraphcisItem.cpp" />
     <ClCompile Include="TestWindow.cpp" />
     <QtRcc Include="MainWindow.qrc" />
     <QtMoc Include="MapEditorWindow.h" />
@@ -110,7 +112,9 @@
   <ItemGroup>
     <ClInclude Include="Block.h" />
     <QtMoc Include="GameGraphicsView.h" />
+    <ClInclude Include="GraphicsItem.h" />
     <ClInclude Include="MapGame.h" />
+    <ClInclude Include="PlayerGraphicsItem.h" />
     <ClInclude Include="TestWindow.h" />
     <QtMoc Include="BlockInfoModel.h" />
     <ClInclude Include="BlockEditGraphicsItem.h" />

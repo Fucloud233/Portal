@@ -56,6 +56,10 @@ int Map::BlockSize() const {
 	return blockSize;
 }
 
+QPoint Map::SpawnPos() const {
+	return spawn_pos;
+}
+
 BlockStatus* Map::getBlockStatus(const QPoint& point) const {
 	return blocks[point.y()][point.x()];
 }
@@ -138,6 +142,8 @@ void Map::write(QJsonObject& json) {
 void Map::read(const QJsonObject& json) {
 	// 对Map进行初始化 (主要是Matrix对象)
 	initial(json["Width"].toInt(), json["Height"].toInt(), json["BlockSize"].toInt());
+
+	spawn_pos = QPoint(json["spawn_pos_x"].toInt(), json["spawn_pos_y"].toInt());
 
 	QJsonArray jsonArray = json["Blocks"].toArray();
 

@@ -97,6 +97,12 @@
     <ClCompile Include="MapGame.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerGraphcisItem.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsItem.cpp">
+      <Filter>Others</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Block.h">
@@ -128,6 +134,12 @@
     </ClInclude>
     <ClInclude Include="MapGame.h">
       <Filter>Game\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerGraphicsItem.h">
+      <Filter>Game\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsItem.h">
+      <Filter>Others\Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

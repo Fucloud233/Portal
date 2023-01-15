@@ -30,6 +30,8 @@ public:
 
 	void setImg(const QPixmap& img);
 
+	bool isAccessible() const override;
+
 protected:
 	Map* parentMap;
 

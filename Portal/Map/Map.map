@@ -549,5 +549,7 @@
     ],
     "Height": 10,
     "Width": 10,
-	"BlockSize": 48
+	"BlockSize": 48,
+	"spawn_pos_x": 3,
+	"spawn_pos_y": 4
 }
