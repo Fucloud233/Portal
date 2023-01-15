@@ -47,4 +47,7 @@ protected:
 	QPoint index;
 
 	virtual void initial(const QPoint& index, const QPixmap& img, Map* map);
+
+	void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
+
 };

@@ -82,3 +82,15 @@ void BlockGraphicsItem::initial(const QPoint& index, const QPixmap& img, Map* ma
 	setFlag(QGraphicsItem::ItemIsFocusable);
 	setFlag(QGraphicsItem::ItemIsSelectable);
 }
+
+void BlockGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
+	// 画图原始的图形
+	painter->drawPixmap(0, 0, pixmap());
+
+	// 当类型为FLOOR时 为图案添加一层阴影
+	if (parentMap->getBlockStatus(index)->getBlockType() == Block::FLOOR) {
+		painter->setPen(Qt::NoPen);
+		painter->setBrush(QColor(0, 0, 0, 127));
+		painter->drawRect(QRect(QPoint(0, 0), pixmap().size()));
+	}
+}
