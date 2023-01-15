@@ -2,6 +2,8 @@
 	
 #include "Map.h"
 
+#include "GraphicsItem.h"
+
 #include <QRect>
 #include <QPixmap>
 #include <QPainter>
@@ -10,15 +12,11 @@
 
 class Map;
 
-class BlockGraphicsItem : public QGraphicsPixmapItem {
+class BlockGraphicsItem : public GraphicsItem {
 public:
-	enum Height {
-		DRAFT = 0, BOTTOM = 1, ON = 2, SELECTED = 3, TOP = 4
-	};
-
 	//GraphicsBlockItem(const QRect& rect = QRect(0, 0, 32, 32), 
 	//	const QPixmap& img = QPixmap(), QGraphicsItem* parent = nullptr);
-	BlockGraphicsItem(Map* map = NULL);
+	BlockGraphicsItem(int BlockSize = 1);
 	
 	// 使用默认构造
 	BlockGraphicsItem(const QPoint& index, Map* map = NULL);
@@ -29,25 +27,15 @@ public:
 	QRectF boundingRect() const override;
 
 	void setMap(Map* map);
-	void setPos(const QPoint& point);
-	void setPos(int x, int y);
-	void setX(int x);
-	void setY(int y);
-	void setImg(const QPixmap& img);
-	virtual void setHeight(Height height);
 
-	QPoint getPos() const;
+	void setImg(const QPixmap& img);
 
 protected:
-	int blockSize;
-
 	Map* parentMap;
-	
-	// 存储相对坐标
-	QPoint index;
+
+	QPixmap img;
 
 	virtual void initial(const QPoint& index, const QPixmap& img, Map* map);
 
 	void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
-
 };

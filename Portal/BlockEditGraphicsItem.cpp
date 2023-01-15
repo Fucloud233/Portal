@@ -3,25 +3,27 @@
 #include <QCursor>
 #include <QPen>
 
-BlockEditGraphicsItem::BlockEditGraphicsItem(MapEdit* map) {
-	// 调用基类的初始化函数
-	BlockGraphicsItem::initial(QPoint(0, 0), QPixmap(), map);
-	origin_height = DRAFT;
+BlockEditGraphicsItem::BlockEditGraphicsItem(int BlockSize):
+	BlockGraphicsItem(BlockSize) {
 }
 
-BlockEditGraphicsItem::BlockEditGraphicsItem(const QPoint& index, const QPixmap& img, Map* map) {
+BlockEditGraphicsItem::BlockEditGraphicsItem(MapEdit* map) {
+	initial(QPoint(0, 0), QPixmap(), map);
+}
+
+BlockEditGraphicsItem::BlockEditGraphicsItem(const QPoint& index, const QPixmap& img, MapEdit* map) {
 	initial(index, img, map);
 }
 
-BlockEditGraphicsItem::BlockEditGraphicsItem(int x, int y, const QPixmap& img, Map* map) :
+BlockEditGraphicsItem::BlockEditGraphicsItem(int x, int y, const QPixmap& img, MapEdit* map) :
 	BlockEditGraphicsItem(QPoint(x, y), img, map) {
 }
 
-BlockEditGraphicsItem::BlockEditGraphicsItem(const QPoint& index, Map* map) :
+BlockEditGraphicsItem::BlockEditGraphicsItem(const QPoint& index, MapEdit* map) :
 	BlockEditGraphicsItem(index, QPixmap(), map) {
 }
 
-BlockEditGraphicsItem::BlockEditGraphicsItem(int x, int y, Map* map) :
+BlockEditGraphicsItem::BlockEditGraphicsItem(int x, int y, MapEdit* map) :
 	BlockEditGraphicsItem(QPoint(x, y), QPixmap(), map) {
 }
 
@@ -34,7 +36,7 @@ void BlockEditGraphicsItem::setHeight(Height height) {
 	setZValue(height);
 }
 
-void BlockEditGraphicsItem::initial(const QPoint& index, const QPixmap& img, Map* map) {
+void BlockEditGraphicsItem::initial(const QPoint& index, const QPixmap& img, MapEdit* map) {
 
 	BlockGraphicsItem::initial(index, img, map);
 	
@@ -48,7 +50,7 @@ void BlockEditGraphicsItem::initial(const QPoint& index, const QPixmap& img, Map
 		//painter.setBrush(Qt::white);
 		painter.drawRect(0, 0, blockSize, blockSize);
 		
-		setPixmap(emptyImg);
+		setImg(emptyImg);
 		setHeight(DRAFT);
 	}
 }
@@ -96,7 +98,7 @@ void BlockEditGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsI
 		//qDebug() << parentMap->getBlock(index).BlockName();
 		painter->setPen(QPen(Qt::blue, 1));
 		painter->setBrush(Qt::NoBrush);
-		painter->drawRect(QRect(QPoint(0, 0), pixmap().size()));
+		painter->drawRect(QRect(QPoint(0, 0), img.size()));
 
 		// 注意 选择的时候 要拔高高度
 		setHeight(SELECTED);
