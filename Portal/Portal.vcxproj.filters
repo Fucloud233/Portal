@@ -103,6 +103,12 @@
     <ClCompile Include="GraphicsItem.cpp">
       <Filter>Others</Filter>
     </ClCompile>
+    <ClCompile Include="BulletGraphicsItem.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletThread.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Block.h">
@@ -176,6 +182,12 @@
       <Filter>Others\Header</Filter>
     </QtMoc>
     <QtMoc Include="GameGraphicsView.h">
+      <Filter>Game\Header</Filter>
+    </QtMoc>
+    <QtMoc Include="BulletGraphicsItem.h">
+      <Filter>Game\Header</Filter>
+    </QtMoc>
+    <QtMoc Include="BulletThread.h">
       <Filter>Game\Header</Filter>
     </QtMoc>
   </ItemGroup>

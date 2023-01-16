@@ -48,6 +48,9 @@ public:
 
 	QPoint SpawnPos() const;
 
+	int Width();
+	int Height();
+
 	BlockStatus* getBlockStatus(const QPoint& point) const;
 	BlockStatus* getBlockStatus(int x, int y) const;
 	BlockGraphicsItem* getItem(const QPoint& point) const;

@@ -90,6 +90,9 @@
     <ClCompile Include="BlockStatus.cpp" />
     <ClCompile Include="BlockStatusView.cpp" />
     <ClCompile Include="BlockGraphicsItem.cpp" />
+    <ClCompile Include="BulletGraphicsItem.cpp" />
+    <QtMoc Include="BulletGraphicsItem.h" />
+    <ClCompile Include="BulletThread.cpp" />
     <ClCompile Include="GameGraphicsView.cpp" />
     <ClCompile Include="GameWindow.cpp" />
     <ClCompile Include="GraphicsItem.cpp" />
@@ -112,6 +115,7 @@
   <ItemGroup>
     <ClInclude Include="Block.h" />
     <QtMoc Include="GameGraphicsView.h" />
+    <QtMoc Include="BulletThread.h" />
     <ClInclude Include="GraphicsItem.h" />
     <ClInclude Include="MapGame.h" />
     <ClInclude Include="PlayerGraphicsItem.h" />

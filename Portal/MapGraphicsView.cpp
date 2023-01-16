@@ -13,6 +13,9 @@ MapGraphicsView::MapGraphicsView(QWidget* parent) :
     scene = new QGraphicsScene();
     scene->setBackgroundBrush(Qt::black);
     setScene(scene);
+
+    // 设置不产生拖影    
+    setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
 }
 
 bool MapGraphicsView::loadMap(QString filePath) {
@@ -67,4 +70,7 @@ void MapGraphicsView::addItems() {
 	for (BlockGraphicsItem* item : items) {
         scene->addItem(item);
 	}
+
+    // 设置边界大小
+    scene->setSceneRect(QRectF(0, 0, map->Width()*BlockSize, map->Height() * BlockSize));
 }

@@ -60,6 +60,14 @@ QPoint Map::SpawnPos() const {
 	return spawn_pos;
 }
 
+int Map::Width() {
+	return width;
+}
+
+int Map::Height() {
+	return height;
+}
+
 BlockStatus* Map::getBlockStatus(const QPoint& point) const {
 	return blocks[point.y()][point.x()];
 }
