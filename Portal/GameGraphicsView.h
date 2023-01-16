@@ -2,6 +2,7 @@
 
 #include "MapGame.h"
 #include "PlayerGraphicsItem.h"
+#include "BulletGraphicsItem.h"
 
 #include <QEvent>
 
@@ -13,14 +14,22 @@ public:
 	bool loadMap(QString filePath) override;
 
 private:
-	// 用于存储连续暗
+	// 用于存储连续按下的键
 	QList<int> keys;
 	QTimer* keyRespondTimer;
 
 	PlayerGraphicsItem* player;
 	float step;
 
+	// 记录鼠标位置
+	QPointF mousePos;
+
+	void updateDirect();
+
 	void addItems() override;
+
+	void mousePressEvent(QMouseEvent* event) override;
+	void mouseMoveEvent(QMouseEvent* event) override;
 
 	void keyPressEvent(QKeyEvent* event) override;
 	void keyReleaseEvent(QKeyEvent* event) override;
