@@ -26,21 +26,6 @@ QRectF BlockGraphicsItem::boundingRect() const {
 	return QRectF(0, 0, blockSize/scale(), blockSize / scale());
 }
 
-void BlockGraphicsItem::setMap(Map* map) {
-	parentMap = map;
-	blockSize = map ? map->BlockSize() : 0;
-}
-
-void BlockGraphicsItem::setImg(const QPixmap& img) {
-	this->img = img;
-	if (img.width() && blockSize)
-		setScale(blockSize / img.width());
-}
-
-bool BlockGraphicsItem::isAccessible() const {
-	return parentMap->getBlockStatus(index)->getBlockType() == Block::FLOOR;
-}
-
 void BlockGraphicsItem::initial(const QPoint& index, const QPixmap& img, Map* map) {
 	setAcceptedMouseButtons(Qt::LeftButton);
 
@@ -53,6 +38,54 @@ void BlockGraphicsItem::initial(const QPoint& index, const QPixmap& img, Map* ma
 	// 设置状态
 	setFlag(QGraphicsItem::ItemIsFocusable);
 	setFlag(QGraphicsItem::ItemIsSelectable);
+}
+
+int BlockGraphicsItem::type() const {
+	if (parentMap->getBlockStatus(index)->getBlockType() == Block::FLOOR) 
+		return ElemType::PASSABLE;
+	else 
+		return ElemType::UNPASSABLE;
+}
+
+void BlockGraphicsItem::setMap(Map* map) {
+	parentMap = map;
+	blockSize = map ? map->BlockSize() : 0;
+}
+
+void BlockGraphicsItem::setImg(const QPixmap& img) {
+	this->img = img;
+	if (img.width() && blockSize)
+		setScale(blockSize / img.width());
+}
+
+void BlockGraphicsItem::setPos(int x, int y) {
+	GraphicsItem::setPos(QPoint(x, y));
+}
+
+void BlockGraphicsItem::setPos(const QPoint& point) {
+	QGraphicsItem::setPos(point.x() * blockSize, point.y() * blockSize);
+	index = point;
+}
+
+void BlockGraphicsItem::setX(int x) {
+	QGraphicsItem::setX(x * blockSize);
+	index.setX(x);
+}
+
+void BlockGraphicsItem::setY(int y) {
+	QGraphicsItem::setY(y * blockSize);
+	index.setY(y);
+}
+
+QPoint BlockGraphicsItem::getPos() const {
+	return index;
+}
+
+int BlockGraphicsItem::x() const {
+	return index.x();
+}
+int BlockGraphicsItem::y() const {
+	return index.y();
 }
 
 void BlockGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {

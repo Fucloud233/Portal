@@ -12,14 +12,16 @@ public:
 	PlayerGraphicsItem(const QPoint& pos = QPoint(0, 0), int BlockSize = 48);
 
 	QPainterPath shape() const;
+	int type() const override;
 
 	void moveX(float step);
 	void moveY(float step);
-
-	bool isAccessible() const override;
+	void setDirect(qreal direct);
+	qreal Direct() const;
 
 private:
 	int R;
+	qreal angle;
 
 	bool checkcolliding();
 

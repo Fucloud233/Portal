@@ -8,23 +8,20 @@ public:
 		DRAFT = 0, BOTTOM = 1, ON = 2, SELECTED = 3, TOP = 4
 	};
 
-	GraphicsItem(int blockSize = 1);
+	enum ElemType {
+		PLAYER = UserType + 1,
+		BULLET = UserType + 2,
+		UNPASSABLE = UserType + 3,
+		PASSABLE = UserType + 4,
+	};
 
-	void setPos(const QPoint& point);
-	void setPos(int x, int y);
-	void setX(int x);
-	void setY(int y);
+	GraphicsItem(int blockSize = 1);
 
 	virtual void setHeight(Height height);
 
-	QPoint getPos() const;
-	int x() const;
-	int y() const;
-
-	virtual bool isAccessible() const = 0;
+	//virtual bool isAccessible() const = 0;
+	virtual int type() const = 0;
 
 protected:
 	int blockSize;
-	// 记录相对坐标
-	QPoint index;
 };

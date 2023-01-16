@@ -9,6 +9,7 @@
 #include <QPainter>
 #include <QGraphicsItem>
 #include <QGraphicsSceneEvent>
+#include <QtMath>
 
 class Map;
 
@@ -24,18 +25,27 @@ public:
 	BlockGraphicsItem(const QPoint& index, const QPixmap& img = QPixmap(), Map* map = NULL);
 	BlockGraphicsItem(int x, int y, const QPixmap& img = QPixmap(), Map* map = NULL);
 	
+	void setPos(const QPoint& point);
+	void setPos(int x, int y);
+	void setX(int x);
+	void setY(int y);
+
+	QPoint getPos() const;
+	int x() const;
+	int y() const;
+
 	QRectF boundingRect() const override;
+	int type() const override;
 
 	void setMap(Map* map);
-
 	void setImg(const QPixmap& img);
 
-	bool isAccessible() const override;
-
 protected:
-	Map* parentMap;
-
+	// 记录相对坐标
+	QPoint index;
 	QPixmap img;
+
+	Map* parentMap;
 
 	virtual void initial(const QPoint& index, const QPixmap& img, Map* map);
 
