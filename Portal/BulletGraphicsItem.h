@@ -14,7 +14,7 @@
 class BulletGraphicsItem : public QObject, public QGraphicsItem {
 	Q_OBJECT
 public:
-	BulletGraphicsItem(Qt::GlobalColor color, qreal angle = 0, int speed = 1, const QPointF& pos = QPointF(0, 0));
+	BulletGraphicsItem(Qt::GlobalColor color, qreal angle = 0, const QPointF& pos = QPointF(0, 0));
 
 	QPainterPath shape() const override;
 	QRectF boundingRect() const override;
@@ -31,8 +31,10 @@ private:
 
 	void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
 
+signals:
+	void collideWall(QPoint pos, BlockGraphicsItem::Side side, bool isRed);
+
 private slots:
 	void fly();
-
 };
 
