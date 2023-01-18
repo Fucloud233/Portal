@@ -1,10 +1,12 @@
 #include "BulletGraphicsItem.h"
 
-BulletGraphicsItem::BulletGraphicsItem(Qt::GlobalColor color, qreal angle, int speed, const QPointF& pos) {
+
+BulletGraphicsItem::BulletGraphicsItem(Qt::GlobalColor color, qreal angle, const QPointF& pos) {
+	// 设置基本属性
 	setPos(pos);
 	this->angle = angle;
-	this->speed = speed;
 	this->color = color;
+	speed = 10;
 	R = 8;
 
 	// 多线程处理
@@ -24,25 +26,44 @@ void BulletGraphicsItem::fly() {
 	else {
 		setPos(originPos);
 		thread->end();
-		
 	}
 }
 
 bool BulletGraphicsItem::checkcolliding() {
+	int flag = true;
 
 	QList<QGraphicsItem*> items = collidingItems(Qt::IntersectsItemShape);
 	for (int i = 0; i < items.size(); i++) {
 		BlockGraphicsItem* item = qgraphicsitem_cast<BlockGraphicsItem*>(items[i]);
 		if (item->type() == GraphicsItem::UNPASSABLE) {
 
-			// 处理碰撞
-			// 1.计算位置
+			// 计算所在侧面
+			BlockGraphicsItem::Side side;
+			// 记录两点的差值
+			QPointF diff = this->scenePos() - item->scenePos();
+			// 计算这个差值与BlockSize的差值
+			QPointF sizeDiff(qAbs(diff.x())-24, qAbs(diff.y())-24);
 
-			return false;
+			if (sizeDiff.x() > 0) {
+				if (diff.x() > 0)
+					side = BlockGraphicsItem::RIGHT;
+				else
+					side = BlockGraphicsItem::LEFT;
+			}
+			else {
+				if (diff.y() > 0)
+					side = BlockGraphicsItem::DOWN;
+				else
+					side = BlockGraphicsItem::UP;
+			}
+
+			emit collideWall(item->getPos(), side, color==Qt::red);
+
+			flag = false;
 		}
 	}
 
-	return true;
+	return flag	;
 }
 
 QPainterPath BulletGraphicsItem::shape() const {

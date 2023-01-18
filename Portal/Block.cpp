@@ -13,12 +13,17 @@ Block::Block() {
 	this->block_name = "None";
 	this->block_type = EMPTY;
 	this->block_code = 0;
+	this->can_open = false;
 }
 
-Block::Block(const QString& name, Type type, QString imgPath) {
+Block::Block(const QString& name, Type type, QString imgPath, bool canOpen) {
 	this->block_name = name;
 	this->block_type = type;
 	this->block_code = BaseBlockCode++;
+	if (type != ALL && type != FULL) 
+		this->can_open = false;
+	else
+		this->can_open = canOpen;
 	
 	block_img = QPixmap(imgPath);
 	block_img_path = FilePath + block_name + ".png";
@@ -51,6 +56,7 @@ void Block::write(QJsonObject& json) {
 	json["type"] = block_type;
 	json["code"] = block_code;
 	json["img"] = block_img_path;
+	json["canOpen"] = can_open;
 }
 
 void Block::read(const QJsonObject& json) {
@@ -60,6 +66,8 @@ void Block::read(const QJsonObject& json) {
 
 	block_img_path = json["img"].toString();
 	block_img = QPixmap(block_img_path);
+
+	can_open = json["canOpen"].toBool();
 }
 
 void Block::loadInfo() {
@@ -111,4 +119,8 @@ QStringList Block::BlockTypesText() const {
 
 Block::Type Block::TypeFromString(const QString& text) {
 	return Types.key(text, EMPTY);
+}
+
+bool Block::canOpen() const {
+	return can_open;
 }

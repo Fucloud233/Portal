@@ -9,7 +9,7 @@
 
 class PlayerGraphicsItem : public GraphicsItem {
 public:
-	PlayerGraphicsItem(const QPoint& pos = QPoint(0, 0), int BlockSize = 48);
+	PlayerGraphicsItem(const QPoint& pos = QPoint(0, 0), MapGame* map = NULL);
 
 	QPainterPath shape() const;
 	int type() const override;
@@ -20,6 +20,8 @@ public:
 	qreal Direct() const;
 
 private:
+	MapGame* parentMap;
+
 	int R;
 	qreal angle;
 

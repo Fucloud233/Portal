@@ -20,12 +20,14 @@ protected:
 	Type block_type;
 	QPixmap block_img;
 	QString block_img_path;
+	// 设置是否能开门
+	bool can_open;
 
 	int block_code;
 
 public:
 	Block();
-	Block(const QString& name, Type type, QString imgPath = QString());
+	Block(const QString& name, Type type, QString imgPath = QString(), bool canOpen = false);
 
 	// 将对象存储为json
 	virtual void write(QJsonObject& json);
@@ -45,4 +47,5 @@ public:
 	QString BlockTypeText() const;
 	QStringList BlockTypesText() const;
 	QPixmap BlockImg() const;
+	bool canOpen() const;
 };

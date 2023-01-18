@@ -10,8 +10,13 @@ GameWindow::GameWindow(QWidget* parent) :
 
     // 对Block操作类的初始化
     BlockInfoOperator::initial();
+    GraphicsItem::setBlockSize(48);
 
     test();
+}
+
+GameWindow::~GameWindow() {
+    BlockInfoOperator::saveBlocks();
 }
 
 void GameWindow::test() {

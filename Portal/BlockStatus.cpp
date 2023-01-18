@@ -69,10 +69,13 @@ Block::Type BlockStatus::getBlockType() {
 	return type;
 }
 
+bool BlockStatus::canOpen() const {
+	return block->canOpen();
+}
+
 bool BlockStatus::isNULL() const {
 	return !block;
 }
-
 
 QPixmap BlockStatus::BlockImg() {
 	return block->BlockImg();

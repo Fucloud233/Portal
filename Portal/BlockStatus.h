@@ -39,6 +39,8 @@ public:
 	void setBlockType(Block::Type blockType);
 	QStringList getBlockTypes();
 	Block::Type getBlockType();
+	
+	bool canOpen() const ;
 
 	bool isNULL() const;
 };

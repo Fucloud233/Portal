@@ -8,6 +8,7 @@ class GameWindow :public QMainWindow{
 	Q_OBJECT
 public:
 	GameWindow(QWidget* parent = nullptr);
+	~GameWindow();
 
 private:
 	GameGraphicsView* mapView;

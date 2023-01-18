@@ -11,14 +11,15 @@ GameGraphicsView::GameGraphicsView(QWidget* parent) :
 void GameGraphicsView::addItems() {
 	MapGraphicsView::addItems();
 
-	player = new PlayerGraphicsItem(map->SpawnPos(), map->BlockSize());
+	player = new PlayerGraphicsItem(map->SpawnPos(), (MapGame*)map);
 	player->setZValue(10);
 	scene->addItem(player);
 }
 
 bool GameGraphicsView::loadMap(QString filePath) {
 	if (MapGraphicsView::loadMap(filePath)) {
-		step = BlockSize / 48;
+		// 设置Player的移动速度
+		step = BlockSize / 36;
 
 		keyRespondTimer = new QTimer(this);
 		connect(keyRespondTimer, &QTimer::timeout, this, &GameGraphicsView::movePlayer);
@@ -35,14 +36,16 @@ void GameGraphicsView::updateDirect() {
 	player->update();
 }
 
+void GameGraphicsView::enterDoor() {
+
+}
+
 void GameGraphicsView::mousePressEvent(QMouseEvent* event) {
-	if (event->button() == Qt::LeftButton) {
-		BulletGraphicsItem* bullet = new BulletGraphicsItem(Qt::red, player->Direct(), 10, player->scenePos());
-		bullet->setZValue(8);
-		scene->addItem(bullet);
-		
-	}else if(event->button() == Qt::RightButton){
-		BulletGraphicsItem* bullet = new BulletGraphicsItem(Qt::blue, player->Direct(), 10, player->scenePos());
+	if (event->button() == Qt::LeftButton|| event->button() == Qt::RightButton) {
+		Qt::GlobalColor color = event->button() == Qt::LeftButton ? Qt::red : Qt::blue;
+
+		BulletGraphicsItem* bullet = new BulletGraphicsItem(color, player->Direct(), player->scenePos());
+		connect(bullet, &BulletGraphicsItem::collideWall, (MapGame*) map, &MapGame::openDoor);
 		bullet->setZValue(8);
 		scene->addItem(bullet);
 	}

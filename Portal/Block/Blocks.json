@@ -1,28 +1,32 @@
 {
-  "Blocks": [
-    {
-      "code": 0,
-      "img": "./Block/Wood.png",
-      "name": "Wood",
-      "type": 1
-    },
-    {
-      "code": 1,
-      "img": "./Block/Stone.png",
-      "name": "Stone",
-      "type": 1
-    },
-    {
-      "code": 2,
-      "img": "./Block/Trunk.png",
-      "name": "Trunk",
-      "type": 1
-    },
-    {
-      "code": 3,
-      "img": "./Block/Grass.png",
-      "name": "Grass",
-      "type": 1
-    }
-  ]
+    "Blocks": [
+        {
+            "canOpen": false,
+            "code": 0,
+            "img": "./Block/Wood.png",
+            "name": "Wood",
+            "type": 1
+        },
+        {
+            "canOpen": true,
+            "code": 1,
+            "img": "./Block/Stone.png",
+            "name": "Stone",
+            "type": 1
+        },
+        {
+            "canOpen": false,
+            "code": 2,
+            "img": "./Block/Trunk.png",
+            "name": "Trunk",
+            "type": 1
+        },
+        {
+            "canOpen": true,
+            "code": 3,
+            "img": "./Block/Grass.png",
+            "name": "Grass",
+            "type": 1
+        }
+    ]
 }

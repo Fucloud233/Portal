@@ -3,8 +3,8 @@
 #include <QPainter>
 #include <QBrush>
 
-PlayerGraphicsItem::PlayerGraphicsItem(const QPoint& pos, int BlockSize):
-	GraphicsItem(BlockSize) {
+PlayerGraphicsItem::PlayerGraphicsItem(const QPoint& pos, MapGame* map) {
+	parentMap = map;
 	setPos(pos * blockSize);
 	R = blockSize / 3;
 }
@@ -35,7 +35,7 @@ bool PlayerGraphicsItem::checkcolliding() {
 }
 
 QRectF PlayerGraphicsItem::boundingRect() const {
-	return QRectF(-R, -R, 2*R, 2 * R);
+	return QRectF(-R, -R, 2 * R, 2 * R);
 }
 
 QPainterPath PlayerGraphicsItem::shape() const {

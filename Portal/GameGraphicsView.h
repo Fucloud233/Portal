@@ -25,6 +25,7 @@ private:
 	QPointF mousePos;
 
 	void updateDirect();
+	void enterDoor();
 
 	void addItems() override;
 
