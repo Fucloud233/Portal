@@ -68,11 +68,11 @@ int Map::Height() {
 	return height;
 }
 
-BlockStatus* Map::getBlockStatus(const QPoint& point) const {
+BlockStatus* Map::Status(const QPoint& point) const {
 	return blocks[point.y()][point.x()];
 }
 
-BlockStatus* Map::getBlockStatus(int x, int y) const {
+BlockStatus* Map::Status(int x, int y) const {
 	return blocks[y][x];
 }
 

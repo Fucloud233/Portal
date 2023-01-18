@@ -7,14 +7,15 @@
 #include "BlockInfoOperator.h"
 
 #include <QGraphicsItem>
+#include <QObject>
 
 #define ICON_SIZE 48
 
 class BlockGraphicsItem;
 
-class Map {
+class Map : public QObject{
+	Q_OBJECT
 protected:
-	//Matrix<Block*> data;
 	Matrix<BlockStatus*> blocks;
 	Matrix<BlockGraphicsItem*> items;
 
@@ -51,8 +52,8 @@ public:
 	int Width();
 	int Height();
 
-	BlockStatus* getBlockStatus(const QPoint& point) const;
-	BlockStatus* getBlockStatus(int x, int y) const;
+	BlockStatus* Status(const QPoint& point) const;
+	BlockStatus* Status(int x, int y) const;
 	BlockGraphicsItem* getItem(const QPoint& point) const;
 	BlockGraphicsItem* getItem(int x, int y) const;
 	QList<BlockGraphicsItem*> getItems();

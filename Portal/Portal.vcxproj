@@ -86,6 +86,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BlockEditGraphicsItem.cpp" />
+    <ClCompile Include="BlockGameGraphicsItem.cpp" />
     <ClCompile Include="BlockInfoModel.cpp" />
     <ClCompile Include="BlockStatus.cpp" />
     <ClCompile Include="BlockStatusView.cpp" />
@@ -116,6 +117,7 @@
     <ClInclude Include="Block.h" />
     <QtMoc Include="GameGraphicsView.h" />
     <QtMoc Include="BulletThread.h" />
+    <ClInclude Include="BlockGameGraphicsItem.h" />
     <ClInclude Include="GraphicsItem.h" />
     <ClInclude Include="MapGame.h" />
     <ClInclude Include="PlayerGraphicsItem.h" />
@@ -128,7 +130,7 @@
     <ClInclude Include="BlockGraphicsItem.h" />
     <QtMoc Include="ItemDelegate.h" />
     <QtMoc Include="GameWindow.h" />
-    <ClInclude Include="Map.h" />
+    <QtMoc Include="Map.h" />
     <ClInclude Include="MapEdit.h" />
     <QtMoc Include="MapEditorGraphicsView.h" />
     <QtMoc Include="MapGraphicsView.h" />
