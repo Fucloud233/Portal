@@ -15,13 +15,14 @@ public:
 		PASSABLE = UserType + 4,
 	};
 
-	GraphicsItem(int blockSize = 1);
+	GraphicsItem();
 
 	virtual void setHeight(Height height);
 
-	//virtual bool isAccessible() const = 0;
 	virtual int type() const = 0;
 
+	static void setBlockSize(int blockSize);
+
 protected:
-	int blockSize;
+	static int blockSize;
 };

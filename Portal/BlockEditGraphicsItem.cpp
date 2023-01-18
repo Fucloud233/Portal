@@ -3,12 +3,8 @@
 #include <QCursor>
 #include <QPen>
 
-BlockEditGraphicsItem::BlockEditGraphicsItem(int BlockSize):
-	BlockGraphicsItem(BlockSize) {
-}
-
-BlockEditGraphicsItem::BlockEditGraphicsItem(MapEdit* map) {
-	initial(QPoint(0, 0), QPixmap(), map);
+BlockEditGraphicsItem::BlockEditGraphicsItem(MapEdit* map):
+	BlockGraphicsItem(map) {
 }
 
 BlockEditGraphicsItem::BlockEditGraphicsItem(const QPoint& index, const QPixmap& img, MapEdit* map) {
@@ -25,15 +21,6 @@ BlockEditGraphicsItem::BlockEditGraphicsItem(const QPoint& index, MapEdit* map) 
 
 BlockEditGraphicsItem::BlockEditGraphicsItem(int x, int y, MapEdit* map) :
 	BlockEditGraphicsItem(QPoint(x, y), QPixmap(), map) {
-}
-
-void BlockEditGraphicsItem::setHeight(Height height) {
-	// 当没有被选择时 需要记录原始高度
-	if (height != SELECTED) {
-		origin_height = height;
-	}
-
-	setZValue(height);
 }
 
 void BlockEditGraphicsItem::initial(const QPoint& index, const QPixmap& img, MapEdit* map) {
