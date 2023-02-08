@@ -15,9 +15,6 @@ class Map;
 
 class BlockGraphicsItem : public GraphicsItem {
 public:
-	enum Side {
-		UP, DOWN, LEFT, RIGHT
-	};
 
 	//GraphicsBlockItem(const QRect& rect = QRect(0, 0, 32, 32), 
 	//	const QPixmap& img = QPixmap(), QGraphicsItem* parent = nullptr);
@@ -34,7 +31,7 @@ public:
 	void setX(int x);
 	void setY(int y);
 
-	QPoint getPos() const;
+	QPoint Index() const;
 	int x() const;
 	int y() const;
 
@@ -44,6 +41,9 @@ public:
 
 	void setImg(const QPixmap& img);
 	void setHeight(Height height) override;
+
+	Block::Side SideAbout(QGraphicsItem* item);
+	QPoint SidePos(Block::Side side);
 
 protected:
 	Map* parentMap;

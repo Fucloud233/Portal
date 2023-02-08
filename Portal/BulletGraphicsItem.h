@@ -2,7 +2,7 @@
 
 #include "BulletThread.h"
 #include "GraphicsItem.h"
-#include "BlockGraphicsItem.h"
+#include "BlockGameGraphicsItem.h"
 
 #include <QObject>
 #include <QGraphicsItem>
@@ -32,7 +32,7 @@ private:
 	void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
 
 signals:
-	void collideWall(QPoint pos, BlockGraphicsItem::Side side, bool isRed);
+	void collideWall(QPoint pos, Block::Side side, bool isRed);
 
 private slots:
 	void fly();

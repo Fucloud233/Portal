@@ -19,6 +19,44 @@ BlockGraphicsItem::BlockGraphicsItem(int x, int y, Map* map) :
 	BlockGraphicsItem(QPoint(x, y), QPixmap(), map) {
 }
 
+Block::Side BlockGraphicsItem::SideAbout(QGraphicsItem* item) {
+	QPoint point = item->scenePos().toPoint() / blockSize ;
+	QPoint diff = point - index;
+
+	int distance = (qAbs(diff.x()) + qAbs(diff.y()));
+
+	if (distance == 1) {
+		if (diff.x() > 0)
+			return Block::RIGHT;
+		else if (diff.x() < 0)
+			return Block::LEFT;
+		else if (diff.y() > 0)
+			return Block::DOWN;
+		else if (diff.y() < 0)
+			return Block::UP;
+	}
+	else if (distance == 0) {
+		return Block::CENTER;
+	}
+	else
+		return Block::INVALID;
+}
+
+QPoint BlockGraphicsItem::SidePos(Block::Side side) {
+	switch (side) {
+	case Block::UP:
+		return index + QPoint(0, -1);
+	case Block::DOWN:
+		return index + QPoint(0, 1);
+	case Block::LEFT:
+		return index + QPoint(-1, 0);
+	case Block::RIGHT:
+		return index + QPoint(1, 0);
+	default:
+		return index;
+	}
+}
+
 void BlockGraphicsItem::initial(const QPoint& index, const QPixmap& img, Map* map) {
 	// 设置基本属性
 	parentMap = map;
@@ -64,7 +102,7 @@ void BlockGraphicsItem::setY(int y) {
 	index.setY(y);
 }
 
-QPoint BlockGraphicsItem::getPos() const {
+QPoint BlockGraphicsItem::Index() const {
 	return index;
 }
 

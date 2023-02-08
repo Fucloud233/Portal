@@ -64,8 +64,8 @@ void BlockEditGraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event) {
 
 	if (point != m_origin_pos) {
 		setPos(point);
-		((MapEdit* )parentMap)->swap(m_origin_pos, getPos());
-		m_origin_pos = getPos();
+		((MapEdit* )parentMap)->swap(m_origin_pos, Index());
+		m_origin_pos = Index();
 	}
 
 	// 设置当前选择的位置

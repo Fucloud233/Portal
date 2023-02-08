@@ -10,6 +10,10 @@ public:
 		EMPTY, ALL, FULL, FLOOR, COMPONENT
 	};
 
+	enum Side {
+		 UP, RIGHT, DOWN, LEFT, CENTER, INVALID
+	};
+
 private:
 	static QMap<Type, QString> Types;
 	static int BaseBlockCode;

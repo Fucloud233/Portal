@@ -22,6 +22,15 @@ BlockGameGraphicsItem::BlockGameGraphicsItem(int x, int y, Map* map) :
 	BlockGameGraphicsItem(QPoint(x, y), QPixmap(), map) {
 }
 
+int BlockGameGraphicsItem::type() const {
+	if (index == ((MapGame*)parentMap)->RedDoorPos())
+		return RED_DOOR;
+	else if(index == ((MapGame*)parentMap)->BlueDoorPos())
+		return BLUE_DOOR;
+	else
+		return BlockGraphicsItem::type();
+}
+
 void BlockGameGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
 
 	BlockGraphicsItem::paint(painter, option, widget);
@@ -50,24 +59,24 @@ void BlockGameGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsI
 	}
 }
 
-void BlockGameGraphicsItem::paintDoor(QPainter* painter, BlockGraphicsItem::Side side) {
+void BlockGameGraphicsItem::paintDoor(QPainter* painter, Block::Side side) {
 	QPointF start_point, end_point;
 	int doorR = blockSize / 2 / 1.2;
 
 	switch (side) {
-	case BlockGraphicsItem::UP:
+	case Block::UP:
 		start_point = QPointF(-doorR, -blockSize/2);
 		end_point = QPointF(doorR, -blockSize/2);
 		break;
-	case BlockGraphicsItem::DOWN:
+	case Block::DOWN:
 		start_point = QPointF(-doorR, +blockSize / 2);
 		end_point = QPointF(doorR, +blockSize / 2);
 		break;
-	case BlockGraphicsItem::LEFT:
+	case Block::LEFT:
 		start_point = QPointF(-blockSize / 2, -doorR);
 		end_point = QPointF(-blockSize / 2, doorR);
 		break;
-	case BlockGraphicsItem::RIGHT:
+	case Block::RIGHT:
 		start_point = QPointF(+blockSize / 2, -doorR);
 		end_point = QPointF(+blockSize / 2, doorR);
 		break;
