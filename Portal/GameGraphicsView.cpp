@@ -12,8 +12,8 @@ void GameGraphicsView::addItems() {
 	MapGraphicsView::addItems();
 
 	player = new PlayerGraphicsItem(map->SpawnPos(), (MapGame*)map);
-	player->setZValue(10);
 	scene->addItem(player);
+	scene->addItem(player->Copy());
 }
 
 bool GameGraphicsView::loadMap(QString filePath) {
@@ -46,7 +46,7 @@ void GameGraphicsView::mousePressEvent(QMouseEvent* event) {
 
 		BulletGraphicsItem* bullet = new BulletGraphicsItem(color, player->Direct(), player->scenePos());
 		connect(bullet, &BulletGraphicsItem::collideWall, (MapGame*) map, &MapGame::openDoor);
-		bullet->setZValue(8);
+		bullet->setZValue(GraphicsItem::BOTTOM);
 		scene->addItem(bullet);
 	}
 }

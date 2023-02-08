@@ -14,30 +14,30 @@ bool MapGame::checkPoint(const QPoint& pos) const {
 	return pos != QPoint(-1, -1);
 }
 
-void MapGame::openDoor(QPoint pos, BlockGraphicsItem::Side side, bool isRed) {
-	if (!checkPos(pos) || !blocks[pos.y()][pos.x()]->canOpen()) {
+void MapGame::openDoor(QPoint pos, Block::Side side, bool isRed) {
+	if (!checkPos(pos) || side ==Block::INVALID || !blocks[pos.y()][pos.x()]->canOpen()) {
 		return;
 	}
 
 	// 判断所朝面是否为空
-	QPoint nearPos = pos;
-	switch (side) {
-	case BlockGraphicsItem::UP:
-		nearPos += QPoint(0, -1);
-		break;
-	case BlockGraphicsItem::DOWN:
-		nearPos += QPoint(0, 1);
-		break;
-	case BlockGraphicsItem::LEFT:
-		nearPos += QPoint(-1, 0);
-		break;
-	case BlockGraphicsItem::RIGHT:
-		nearPos += QPoint(1, 0);
-		break;
-	}
+	//QPoint nearPos = pos;
+	//switch (side) {
+	//case Block::UP:
+	//	nearPos += QPoint(0, -1);
+	//	break;
+	//case Block::DOWN:
+	//	nearPos += QPoint(0, 1);
+	//	break;
+	//case Block::LEFT:
+	//	nearPos += QPoint(-1, 0);
+	//	break;
+	//case Block::RIGHT:
+	//	nearPos += QPoint(1, 0);
+	//	break;
+	//}
 
-	if (Status(nearPos)->getBlockType() != Block::FLOOR)
-		return;
+	//if (Status(nearPos)->getBlockType() != Block::FLOOR)
+	//	return;
 	
 	// 当发生覆盖的时候要进行处理
 	if (isRed && pos == blue_pos && side == blue_side) 
@@ -47,7 +47,7 @@ void MapGame::openDoor(QPoint pos, BlockGraphicsItem::Side side, bool isRed) {
 
 	// 根据颜色判断要修改的坐标
 	QPoint& blockPos = isRed ? red_pos : blue_pos;
-	BlockGraphicsItem::Side& blockSide = isRed ? red_side : blue_side;
+	Block::Side& blockSide = isRed ? red_side : blue_side;
 
 	// 坐标有效+能够开门->开门
 	blockPos = pos;
@@ -58,6 +58,14 @@ bool MapGame::canTeleport() {
 	return checkPoint(red_pos)&&checkPoint(blue_pos);
 }
 
+bool MapGame::canEnter(const QPoint& pos, Block::Side side, bool isRed) {
+	if (isRed) {
+		return pos == RedDoorPos() && (side == RedDoorSide() || side == Block::CENTER);
+	}
+	else
+		return pos == BlueDoorPos() && (side == BlueDoorSide() || side == Block::CENTER);
+}
+
 QPoint MapGame::RedDoorPos() const {
 	return red_pos;
 }
@@ -66,11 +74,11 @@ QPoint MapGame::BlueDoorPos() const {
 	return blue_pos;
 }
 
-BlockGraphicsItem::Side MapGame::RedDoorSide() const {
+Block::Side MapGame::RedDoorSide() const {
 	return red_side;
 }
 
-BlockGraphicsItem::Side MapGame::BlueDoorSide() const {
+Block::Side MapGame::BlueDoorSide() const {
 	return blue_side;
 }
 

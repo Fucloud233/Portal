@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GraphicsItem.h"
+#include "BlockGameGraphicsItem.h"
 #include "MapGame.h"
 
 #include <QRectF>
@@ -9,7 +10,8 @@
 
 class PlayerGraphicsItem : public GraphicsItem {
 public:
-	PlayerGraphicsItem(const QPoint& pos = QPoint(0, 0), MapGame* map = NULL);
+	PlayerGraphicsItem();
+	PlayerGraphicsItem(const QPoint& pos, MapGame* map);
 
 	QPainterPath shape() const;
 	int type() const override;
@@ -19,11 +21,19 @@ public:
 	void setDirect(qreal direct);
 	qreal Direct() const;
 
+	PlayerGraphicsItem* Copy();
+	
 private:
 	MapGame* parentMap;
+	
+	PlayerGraphicsItem* copy_player;
+	bool enter_flag;
 
 	int R;
 	qreal angle;
+
+	void translatePos(QPoint& pos, Block::Side s_side, Block::Side t_side);
+	void drawCopyPlayer(const QPoint& pos, bool isRed);
 
 	bool checkcolliding();
 

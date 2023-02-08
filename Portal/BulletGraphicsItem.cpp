@@ -6,7 +6,7 @@ BulletGraphicsItem::BulletGraphicsItem(Qt::GlobalColor color, qreal angle, const
 	setPos(pos);
 	this->angle = angle;
 	this->color = color;
-	speed = 10;
+	speed = 5;
 	R = 8;
 
 	// 多线程处理
@@ -35,29 +35,31 @@ bool BulletGraphicsItem::checkcolliding() {
 	QList<QGraphicsItem*> items = collidingItems(Qt::IntersectsItemShape);
 	for (int i = 0; i < items.size(); i++) {
 		BlockGraphicsItem* item = qgraphicsitem_cast<BlockGraphicsItem*>(items[i]);
-		if (item->type() == GraphicsItem::UNPASSABLE) {
+		if (item->type() == GraphicsItem::UNPASSABLE || item->type() == BlockGameGraphicsItem::RED_DOOR || item->type() == BlockGameGraphicsItem::BLUE_DOOR) {
 
-			// 计算所在侧面
-			BlockGraphicsItem::Side side;
-			// 记录两点的差值
-			QPointF diff = this->scenePos() - item->scenePos();
-			// 计算这个差值与BlockSize的差值
-			QPointF sizeDiff(qAbs(diff.x())-24, qAbs(diff.y())-24);
+			Block::Side side = item->SideAbout(this);
 
-			if (sizeDiff.x() > 0) {
-				if (diff.x() > 0)
-					side = BlockGraphicsItem::RIGHT;
-				else
-					side = BlockGraphicsItem::LEFT;
-			}
-			else {
-				if (diff.y() > 0)
-					side = BlockGraphicsItem::DOWN;
-				else
-					side = BlockGraphicsItem::UP;
-			}
+			//// 计算所在侧面
+			//Block::Side side;
+			//// 记录两点的差值
+			//QPointF diff = this->scenePos() - item->scenePos();
+			//// 计算这个差值与BlockSize的差值
+			//QPointF sizeDiff(qAbs(diff.x())-24, qAbs(diff.y())-24);
 
-			emit collideWall(item->getPos(), side, color==Qt::red);
+			//if (sizeDiff.x() > 0) {
+			//	if (diff.x() > 0)
+			//		side = Block::RIGHT;
+			//	else
+			//		side = Block::LEFT;
+			//}
+			//else {
+			//	if (diff.y() > 0)
+			//		side = Block::DOWN;
+			//	else
+			//		side = Block::UP;
+			//}
+
+			emit collideWall(item->Index(), side, color==Qt::red);
 
 			flag = false;
 		}
